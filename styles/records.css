@@ -1,0 +1,41 @@
+@import url('./root.css');
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 70em;
+  background: lightgray;
+  margin: 0 auto;
+  height: 100vh;
+  background-image: url(./../images/1.jpg);
+  color: lightblue;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  padding-top: 5em;
+}
+
+.tableRecords {
+  width: 60%;
+  margin: 0 auto;
+  border: 1px solid lightblue;
+  font-size: 1.5em;
+}
+
+td {
+  border: 1px solid lightblue;
+}
+
+.button-back {
+  text-decoration: none;
+  color: lightgray;
+  box-sizing: border-box;
+  padding: 0.5em;
+  border: 1px solid lightblue;
+  border-radius: 0.2em;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  /*transform: translateX(1em);*/
+  /*transform: translateY(1em);*/
+}

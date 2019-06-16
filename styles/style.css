@@ -1,0 +1,50 @@
+@import url('./root.css');
+.container {
+  width: 100%;
+  max-width: 70em;
+  background: lightgray;
+  margin: 0 auto;
+  height: 100vh;
+  background-image: url(./../images/1.jpg);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.gameName {
+  height: 5em;
+  width: 100%;
+  line-height: 5em;
+  text-align: center;
+  font: 3em Verdana, san-serif;
+  box-sizing: border-box;
+  padding-top: 2em;
+  color: darkgray;
+}
+
+.menu-list {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style-type: none;
+  box-sizing: border-box;
+}
+
+.menu-item {
+  padding-bottom: 1em;
+  margin: 0;
+}
+
+.pages {
+  box-sizing: border-box;
+  padding: 0.5em;
+  text-decoration: none;
+  color: lightgray;
+}
+
+.pages:hover {
+  border: 1px solid lightblue;
+}

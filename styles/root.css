@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', Helvetica sans-serif;
+}
+
+/*.container {*/
+  /*width: 100%;*/
+  /*max-width: 70em;*/
+  /*background: lightgray;*/
+  /*margin: 0 auto;*/
+  /*height: 100vh;*/
+  /*background-image: url(./../images/1.jpg);*/
+/*}*/
