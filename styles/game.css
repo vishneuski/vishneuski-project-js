@@ -1,10 +1,10 @@
 @import url('./root.css');
 .container {
-  width: 100%;
+  width: 512px;
   max-width: 70em;
   background: lightgray;
   margin: 0 auto;
-  height: 100vh;
+  height: 480px;
   background-image: url(./../images/background.jpg);
   position: relative;
   background-position: center bottom;
@@ -14,7 +14,8 @@
 
 .button-back {
   text-decoration: none;
-  color: lightgray;
+  color: whitesmoke;
+  background: lightslategray;
   box-sizing: border-box;
   padding: 0.5em;
   border: 1px solid lightblue;
@@ -26,13 +27,15 @@
   /*transform: translateY(1em);*/
 }
 
-.rules {
-  width: 100%;
-  max-width: 70em;
-  height: 100vh;
-  color: lightgray;
-  text-align: center;
-  box-sizing: border-box;
-  padding: 10em;
-  line-height: 2em;
+#startGame {
+  top: 5em;
+  left: 1em;
+}
+
+#canvas {
+  background: tan;
+  margin: 0 auto;
+  width: 512px;
+  height: 480px;
+  padding: 0;
 }
