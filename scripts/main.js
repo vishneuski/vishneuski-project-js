@@ -12,7 +12,7 @@ window.onload = function () {
   var ENEMYHEIGHT = 5;
   var ENEMYSPEED = 7;
 
-  var BULLETSPEED = 15;
+  var BULLETSPEED = 3;
 
 // ***************Сущности, обьекты**********************
   var player = {
@@ -33,6 +33,8 @@ window.onload = function () {
 
   var bullet = {
     speed: BULLETSPEED,
+    posX: 0,
+    posY: 0,
   };
 
   var coin = {
@@ -51,8 +53,8 @@ window.onload = function () {
   var hero = new Image();
   field.onload = drawCanvas;
   hero.onload = drawCanvas;
-  field.src = 'images/field.png';
-  hero.src = 'images/hero.gif';
+  field.src = '../images/field.png';
+  hero.src = '../images/hero.gif';
 
 //******************отрисовка CANVAS *********************
 
@@ -97,8 +99,7 @@ window.onload = function () {
 
     //SHOT
     if (32 in keyStorage) {
-      player.speed += 0.01;
-      console.log(player.speed);
+      bullet.posX += bullet.speed;
     }
 
     player.posX + PLAYERWIDTH > CANVASWIDTH ? player.posX = CANVASWIDTH - PLAYERWIDTH : ((player.posX) < 0 ? player.posX = 0 : 1);
@@ -115,8 +116,8 @@ window.onload = function () {
       window.mozRequestAnimationFrame ||
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
-      function (game) {
-        window.setTimeout(game, 1000 / 60);
+      function (callback){
+        window.setTimeout(callback, 1000 / 60);
       };
 
   function render() {
