@@ -53,7 +53,6 @@ window.onload = function () {
 
   var bullets = [];
 
-
 // ***************Сущности, обьекты**********************
   var player = {
     width: PLAYERWIDTH,
@@ -62,12 +61,7 @@ window.onload = function () {
     posX: 0,
     posY: 0,
     currentDirection: 0,
-    direction: {
-      left: 0,
-      right: 1,
-      up: 2,
-      down: 3
-    },
+    position: 37,
 
     draw: function () {
       ctx.drawImage(hero, player.posX, player.posY, PLAYERWIDTH, PLAYERHEIGHT);
@@ -75,23 +69,23 @@ window.onload = function () {
 
     update: function () {
       if (keyStorage[KEY_CODE.up]) {
-        this.currentDirection = this.direction.up;
         this.posY -= this.speed;
+        this.position = 38;
       }
 
       if (keyStorage[KEY_CODE.down]) {
-        this.currentDirection = this.direction.down;
         this.posY += this.speed;
+        this.position = 40;
       }
 
       if (keyStorage[KEY_CODE.left]) {
-        this.currentDirection = this.direction.left;
         this.posX -= this.speed;
+        this.position = 37;
       }
 
       if (keyStorage[KEY_CODE.right]) {
-        this.currentDirection = this.direction.right;
         this.posX += this.speed;
+        this.position = 39;
       }
 
       if (keyStorage[KEY_CODE.shot]) {
@@ -112,6 +106,44 @@ window.onload = function () {
     }
   };
 
+  function Bullet(bullet) {
+    var self = this;
+    self.bulletNumber = 1;
+    self.speed = bullet.speed;
+    self.width = BULLETWIDTH;
+    self.height = BULLETHEIGHT;
+    self.posX = bullet.posX;
+    self.posY = bullet.posY;
+    self.position = player.position;
+
+    self.update = function () {
+      if (self.position === 37) {
+        self.posX -= self.speed;
+      }
+      if (self.position === 39) {
+        self.posX += self.speed;
+      }
+      if (self.position === 38) {
+        self.posY -= self.speed;
+      }
+      if (self.position === 40) {
+        self.posY += self.speed;
+      }
+    };
+
+    self.draw = function () {
+      ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
+    }
+// todo function for outside canvas bullets delete
+    self.disable = function () {
+      if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
+        return false;
+      }
+    };
+  }
+
+//***************** Враги ********************
+
   // var enemy = {
   //   width: ENEMYWIDTH,
   //   height: ENEMYHEIGHT,
@@ -123,33 +155,7 @@ window.onload = function () {
   //   // }
   // };
 
-  function Bullet(bullet) {
-    var self = this;
-    self.speed = bullet.speed;
-    self.width = BULLETWIDTH;
-    self.height = BULLETHEIGHT;
-    self.posX = bullet.posX;
-    self.posY = bullet.posY;
-
-    self.update = function () {
-      if (player.currentDirection === 0) {
-        self.posX -= self.speed;
-      }
-      if (player.currentDirection === 1) {
-        self.posX += self.speed;
-      }
-      if (player.currentDirection === 2) {
-        self.posY -= self.speed;
-      }
-      if (player.currentDirection === 3) {
-        self.posY += self.speed;
-      }
-    };
-
-    self.draw = function () {
-      ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
-    };
-  }
+//****************** Монеты *****************
 
   // var coin = {
   //   width: COINWIDTH,
