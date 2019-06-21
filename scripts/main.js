@@ -2,111 +2,194 @@ window.onload = function () {
 
 // *******************Константы***********************
 
+  var CANVASWIDTH = 512;
+  var CANVASHEIGHT = 512;
+
   var PLAYERWIDTH = 32;
   var PLAYERHEIGHT = 32;
   var PLAYERSPEED = 2;
-  var CANVASWIDTH = 512;
-  var CANVASHEIGHT = 480;
 
   var ENEMYWIDTH = 5;
   var ENEMYHEIGHT = 5;
   var ENEMYSPEED = 7;
 
-  var BULLETSPEED = 3;
+  var BULLETSPEED = 1;
+  var BULLETWIDTH = 10;
+  var BULLETHEIGHT = 10;
 
-// ***************Сущности, обьекты**********************
-  var player = {
-    speed: PLAYERSPEED,
-    posX: 0,
-    posY: 0,
-    update: function () {
-      this.posX += this.speed;
-      this.posY += this.speed;
-    }
-  };
+  var COINWIDTH;
+  var COINHEIGHT;
 
-  var enemy = {
-    speed: ENEMYSPEED,
-    posX: 0,
-    posY: 0,
-  };
 
-  var bullet = {
-    speed: BULLETSPEED,
-    posX: 0,
-    posY: 0,
-  };
-
-  var coin = {
-    posX: 0,
-    posY: 0,
-  };
-
-//***************************Канвас**************************
+  //***************************Канвас**************************
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
   canvas.width = 512;
-  canvas.height = 480;
+  canvas.height = 512;
 
+
+  // рефакторинг - ф-ию
   var field = new Image();
   var hero = new Image();
+  var fireball = new Image();
   field.onload = drawCanvas;
   hero.onload = drawCanvas;
+  fireball.onload = drawCanvas;
   field.src = '../images/field.png';
   hero.src = '../images/hero.gif';
+  fireball.src = '../images/fireball.png';
+
+
+  // Хранилище нажатых клавиш
+  var keyStorage = {};
+  var KEY_CODE = {
+    up: 38,
+    down: 40,
+    left: 37,
+    right: 39,
+    shot: 32
+  };
+
+  var bullets = [];
+
+
+// ***************Сущности, обьекты**********************
+  var player = {
+    width: PLAYERWIDTH,
+    height: PLAYERHEIGHT,
+    speed: PLAYERSPEED,
+    posX: 0,
+    posY: 0,
+    currentDirection: 0,
+    direction: {
+      left: 0,
+      right: 1,
+      up: 2,
+      down: 3
+    },
+
+    draw: function () {
+      ctx.drawImage(hero, player.posX, player.posY, PLAYERWIDTH, PLAYERHEIGHT);
+    },
+
+    update: function () {
+      if (keyStorage[KEY_CODE.up]) {
+        this.currentDirection = this.direction.up;
+        this.posY -= this.speed;
+      }
+
+      if (keyStorage[KEY_CODE.down]) {
+        this.currentDirection = this.direction.down;
+        this.posY += this.speed;
+      }
+
+      if (keyStorage[KEY_CODE.left]) {
+        this.currentDirection = this.direction.left;
+        this.posX -= this.speed;
+      }
+
+      if (keyStorage[KEY_CODE.right]) {
+        this.currentDirection = this.direction.right;
+        this.posX += this.speed;
+      }
+
+      if (keyStorage[KEY_CODE.shot]) {
+        player.shot();
+      }
+
+      this.posX + this.width > CANVASWIDTH ? this.posX = CANVASWIDTH - this.width : ((this.posX) < 0 ? this.posX = 0 : 1);
+
+      this.posY + this.height > CANVASHEIGHT ? this.posY = CANVASHEIGHT - this.height : ((this.posY) < 0 ? this.posY = 0 : 1);
+    },
+
+    shot: function () {
+      bullets.push(new Bullet({
+        speed: this.speed,
+        posX: this.posX,
+        posY: this.posY
+      }));
+    }
+  };
+
+  // var enemy = {
+  //   width: ENEMYWIDTH,
+  //   height: ENEMYHEIGHT,
+  //   speed: ENEMYSPEED,
+  //   posX: 0,
+  //   posY: 0
+  //   // move: function() {
+  //   //
+  //   // }
+  // };
+
+  function Bullet(bullet) {
+    var self = this;
+    self.speed = bullet.speed;
+    self.width = BULLETWIDTH;
+    self.height = BULLETHEIGHT;
+    self.posX = bullet.posX;
+    self.posY = bullet.posY;
+
+    self.update = function () {
+      if (player.currentDirection === 0) {
+        self.posX -= self.speed;
+      }
+      if (player.currentDirection === 1) {
+        self.posX += self.speed;
+      }
+      if (player.currentDirection === 2) {
+        self.posY -= self.speed;
+      }
+      if (player.currentDirection === 3) {
+        self.posY += self.speed;
+      }
+    };
+
+    self.draw = function () {
+      ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
+    };
+  }
+
+  // var coin = {
+  //   width: COINWIDTH,
+  //   height: COINHEIGHT,
+  //   posX: 0,
+  //   posY: 0
+  // };
+
 
 //******************отрисовка CANVAS *********************
 
 
   function drawCanvas() {
     ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
-    ctx.drawImage(hero, player.posX, player.posY, PLAYERWIDTH, PLAYERHEIGHT);
+    player.draw();
+    bullets.forEach(function (bullet) {
+      bullet.draw();
+    });
   }
 
+  // drawCanvas();
 //******************** слушаем события клавиатуры*********************
 
-  var keyStorage = {};
 
-  window.addEventListener("keydown", function (e) {
-    e = e || window.event;
+  window.addEventListener("keydown", keyDown, false);
+
+  window.addEventListener("keyup", keyUp, false);
+
+  function keyDown(e) {
+    var e = e || window.event;
+    e.preventDefault();
     keyStorage[e.keyCode] = true;
-  }, false);
-
-  window.addEventListener("keyup", function (e) {
-    e = e || window.event;
-    delete keyStorage[e.keyCode];
-  }, false);
-
-  function update() {
-
-    //Up
-    if (38 in keyStorage) {
-      player.posY -= player.speed;
-    }
-    //DOWN
-    if (40 in keyStorage) {
-      player.posY += player.speed;
-    }
-    //LEFT
-    if (37 in keyStorage) {
-      player.posX -= player.speed;
-    }
-    //RIGHT
-    if (39 in keyStorage) {
-      player.posX += player.speed;
-    }
-
-    //SHOT
-    if (32 in keyStorage) {
-      bullet.posX += bullet.speed;
-    }
-
-    player.posX + PLAYERWIDTH > CANVASWIDTH ? player.posX = CANVASWIDTH - PLAYERWIDTH : ((player.posX) < 0 ? player.posX = 0 : 1);
-
-    player.posY + PLAYERHEIGHT > CANVASHEIGHT ? player.posY = CANVASHEIGHT - PLAYERHEIGHT : ((player.posY) < 0 ? player.posY = 0 : 1);
-
   }
+
+  function keyUp(e) {
+    var e = e || window.event;
+    e.preventDefault();
+    delete keyStorage[e.keyCode];
+  }
+
 
 //************* RequestAnimationFrame ***********************
 
@@ -116,7 +199,7 @@ window.onload = function () {
       window.mozRequestAnimationFrame ||
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
-      function (callback){
+      function (callback) {
         window.setTimeout(callback, 1000 / 60);
       };
 
@@ -127,7 +210,10 @@ window.onload = function () {
   RequestAnimationFrame(game);
 
   function game() {
-    update();
+    player.update();
+    bullets.forEach(function (bullet) {
+      bullet.update();
+    });
     render();
     RequestAnimationFrame(game);
   }
