@@ -94,6 +94,10 @@ window.onload = function () {
       this.posX + this.width > CANVASWIDTH ? this.posX = CANVASWIDTH - this.width : ((this.posX) < 0 ? this.posX = 0 : 1);
 
       this.posY + this.height > CANVASHEIGHT ? this.posY = CANVASHEIGHT - this.height : ((this.posY) < 0 ? this.posY = 0 : 1);
+
+      if(((this.posX < coin.posX + coin.width && this.posX > coin.posX) || (this.posX + this.width > coin.posX && this.posX < coin.posX)) && ((this.posY < coin.posY + coin.height && this.posY > coin.posY) || (this.posY + this.height > coin.posY && this.posY < coin.posY))) {
+        console.log('touch!');
+      }
     },
 
     shot: function () {
@@ -152,8 +156,15 @@ window.onload = function () {
       ctx.beginPath();
       ctx.fillStyle = 'yellow';
       // ctx.arc(self.posX, self.posY, self.width / 2, 0, Math.PI * 2, false);
+      ctx.fillRect(self.posX, self.posY, self.width, self.height);
       ctx.fill();
     };
+  }
+
+  function collision(obj1, obj2){
+    if (obj.posX) {
+
+    }
   }
 
   var coin = new Coin({posX: 50, posY: 50});
