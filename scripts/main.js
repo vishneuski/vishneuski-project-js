@@ -51,7 +51,7 @@ window.onload = function () {
   };
 
   var bullets = []; // массив выстрелов
-  var coins = [];
+  var coins = []; //то же и с монетами
 
 // ***************Сущности, обьекты**********************
   var player = {
@@ -110,7 +110,7 @@ window.onload = function () {
 
   function Bullet(bullet) {
     var self = this;
-    self.bulletNumber = 1;
+    self.status = true;
     self.speed = BULLETSPEED;
     self.width = BULLETWIDTH;
     self.height = BULLETHEIGHT;
@@ -131,6 +131,7 @@ window.onload = function () {
       if (self.direction === 40) {
         self.posY += self.speed;
       }
+      self.goOut();
     };
 
     self.draw = function () {
@@ -138,9 +139,11 @@ window.onload = function () {
     };
 
 // todo function for outside canvas bullets delete
-    self.disable = function () {
+    self.goOut = function () {
       if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
-        return false;
+        console.log('Out of canvas!');
+
+        self.status = false;
       }
     };
   }
@@ -181,16 +184,6 @@ window.onload = function () {
   //   //
   //   // }
   // };
-
-//****************** Монеты *****************
-
-  // var coin = {
-  //   width: COINWIDTH,
-  //   height: COINHEIGHT,
-  //   posX: 0,
-  //   posY: 0
-  // };
-
 
 //******************отрисовка CANVAS *********************
 
