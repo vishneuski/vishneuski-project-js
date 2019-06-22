@@ -9,8 +9,8 @@ window.onload = function () {
   var PLAYERHEIGHT = 32;
   var PLAYERSPEED = 2;
 
-  var ENEMYWIDTH = 5;
-  var ENEMYHEIGHT = 5;
+  var ENEMYWIDTH = 32;
+  var ENEMYHEIGHT = 32;
   var ENEMYSPEED = 7;
 
   var BULLETSPEED = 3;
@@ -80,6 +80,11 @@ window.onload = function () {
     collision(self, coin);
   };
 
+  Player.prototype.enemyCollision = function () {
+    var self = this;
+    collision(self, enemy);
+  };
+
   Player.prototype.update = function () {
     var self = this;
     if (keyStorage[KEY_CODE.up]) {
@@ -110,6 +115,7 @@ window.onload = function () {
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
     self.coinCollision();
+    self.enemyCollision();
   };
 
   Player.prototype.shot = function () {
@@ -137,49 +143,26 @@ window.onload = function () {
     ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
   };
 
-  Enemy.prototype.coinCollision = function () {
-    var self = this;
-    collision(self, coin);
-  };
+  // Enemy.prototype.bulletCollision = function () {
+  //   var self = this;
+  //   collision(self, bullets);
+  // };
 
   Enemy.prototype.update = function () {
     var self = this;
-    if (keyStorage[KEY_CODE.up]) {
-      self.posY -= self.speed;
-      self.direction = 38;
-    }
-
-    if (keyStorage[KEY_CODE.down]) {
-      self.posY += self.speed;
-      self.direction = 40;
-    }
-
-    if (keyStorage[KEY_CODE.left]) {
-      self.posX -= self.speed;
-      self.direction = 37;
-    }
-
-    if (keyStorage[KEY_CODE.right]) {
-      self.posX += self.speed;
-      self.direction = 39;
-    }
-
-    if (keyStorage[KEY_CODE.shot]) {
-      self.shot();
-    }
 
     self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
-    self.coinCollision();
+    // self.bulletCollision();
   };
 
-  Enemy.prototype.shot = function () {
-    bullets.push(new Bullet({
-      posX: this.posX,
-      posY: this.posY
-    }));
-  };
+  // Enemy.prototype.shot = function () {
+  //   bullets.push(new Bullet({
+  //     posX: this.posX,
+  //     posY: this.posY
+  //   }));
+  // };
 
   var enemy = new Enemy({posX: 400, posY: 400});
 
@@ -199,6 +182,10 @@ window.onload = function () {
     var self = this;
     collision(self, coin);
   };
+  Bullet.prototype.enemyCollision = function () {
+    var self = this;
+    collision(self, enemy);
+  };
 
   Bullet.prototype.update = function () {
     var self = this;
@@ -215,6 +202,7 @@ window.onload = function () {
       self.posY += self.speed;
     }
     self.coinCollision();
+    self.enemyCollision();
     self.goOut();
   };
 
