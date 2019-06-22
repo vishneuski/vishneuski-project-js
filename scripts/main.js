@@ -51,7 +51,7 @@ window.onload = function () {
   };
 
   var bullets = []; // массив выстрелов
-  var coins =[];
+  var coins = [];
 
 // ***************Сущности, обьекты**********************
   var player = {
@@ -95,9 +95,9 @@ window.onload = function () {
 
       this.posY + this.height > CANVASHEIGHT ? this.posY = CANVASHEIGHT - this.height : ((this.posY) < 0 ? this.posY = 0 : 1);
 
-      if(((this.posX < coin.posX + coin.width && this.posX > coin.posX) || (this.posX + this.width > coin.posX && this.posX < coin.posX)) && ((this.posY < coin.posY + coin.height && this.posY > coin.posY) || (this.posY + this.height > coin.posY && this.posY < coin.posY))) {
-        console.log('touch!');
-      }
+
+      collision(this, coin);
+
     },
 
     shot: function () {
@@ -152,7 +152,7 @@ window.onload = function () {
     self.posX = coin.posX;
     self.posY = coin.posY;
 
-    self.draw = function() {
+    self.draw = function () {
       ctx.beginPath();
       ctx.fillStyle = 'yellow';
       // ctx.arc(self.posX, self.posY, self.width / 2, 0, Math.PI * 2, false);
@@ -161,9 +161,10 @@ window.onload = function () {
     };
   }
 
-  function collision(obj1, obj2){
-    if (obj.posX) {
+  function collision(obj1, obj2) {
+    if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
 
+      console.log('collision!');
     }
   }
 

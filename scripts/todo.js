@@ -12,3 +12,5 @@ function Coin(coin) {
   }
 }
 
+//todo remove collisioned with the player coins
+
