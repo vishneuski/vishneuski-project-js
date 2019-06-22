@@ -27,7 +27,6 @@ window.onload = function () {
   canvas.width = 512;
   canvas.height = 512;
 
-
   // рефакторинг - ф-ию
   var field = new Image();
   var hero = new Image();
@@ -54,60 +53,64 @@ window.onload = function () {
   var coins = []; //то же и с монетами
 
 // ***************Сущности, обьекты**********************
-  var player = {
-    width: PLAYERWIDTH,
-    height: PLAYERHEIGHT,
-    speed: PLAYERSPEED,
-    posX: 0,
-    posY: 0,
-    direction: 37,
 
-    draw: function () {
-      ctx.drawImage(hero, player.posX, player.posY, PLAYERWIDTH, PLAYERHEIGHT);
-    },
+//*******************    Player FC ****************
 
-    update: function () {
+  function Player(player) {
+    var self = this;
+    self.width = PLAYERWIDTH;
+    self.height = PLAYERHEIGHT;
+    self.speed = PLAYERSPEED;
+    self.posX = player.posX;
+    self.posY = player.posY;
+    self.direction = 37;
+
+    self.draw = function () {
+      ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
+    };
+
+    self.update = function () {
       if (keyStorage[KEY_CODE.up]) {
-        this.posY -= this.speed;
-        this.direction = 38;
+        self.posY -= self.speed;
+        self.direction = 38;
       }
 
       if (keyStorage[KEY_CODE.down]) {
-        this.posY += this.speed;
-        this.direction = 40;
+        self.posY += self.speed;
+        self.direction = 40;
       }
 
       if (keyStorage[KEY_CODE.left]) {
-        this.posX -= this.speed;
-        this.direction = 37;
+        self.posX -= self.speed;
+        self.direction = 37;
       }
 
       if (keyStorage[KEY_CODE.right]) {
-        this.posX += this.speed;
-        this.direction = 39;
+        self.posX += self.speed;
+        self.direction = 39;
       }
 
       if (keyStorage[KEY_CODE.shot]) {
-        player.shot();
+        self.shot();
       }
 
-      this.posX + this.width > CANVASWIDTH ? this.posX = CANVASWIDTH - this.width : ((this.posX) < 0 ? this.posX = 0 : 1);
+      self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
+      self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
-      this.posY + this.height > CANVASHEIGHT ? this.posY = CANVASHEIGHT - this.height : ((this.posY) < 0 ? this.posY = 0 : 1);
+      collision(self, coin);
+    };
 
-
-      collision(this, coin);
-
-    },
-
-    shot: function () {
+    self.shot = function () {
       bullets.push(new Bullet({
         posX: this.posX,
         posY: this.posY
       }));
     }
-  };
+  }
 
+  var player = new Player({posX: 0, posY: 0});
+
+  //************      Bullet FC    ****************
   function Bullet(bullet) {
     var self = this;
     self.status = true;
@@ -152,6 +155,8 @@ window.onload = function () {
     };
   }
 
+
+  //****************  Coin f-c  *****************
   function Coin(coin) {
     var self = this;
     self.width = COINSIZE;
@@ -168,6 +173,8 @@ window.onload = function () {
     };
   }
 
+
+  // ************ collision function *************
   function collision(obj1, obj2) {
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
 
@@ -176,6 +183,8 @@ window.onload = function () {
   }
 
   var coin = new Coin({posX: 50, posY: 50});
+
+
 //***************** Враги ********************
 
   // var enemy = {
@@ -206,7 +215,6 @@ window.onload = function () {
 
 
   window.addEventListener("keydown", keyDown, false);
-
   window.addEventListener("keyup", keyUp, false);
 
   function keyDown(e) {
