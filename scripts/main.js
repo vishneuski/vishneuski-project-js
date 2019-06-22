@@ -132,6 +132,7 @@ window.onload = function () {
         self.posY += self.speed;
       }
       self.goOut();
+      self.collision();
     };
 
     self.draw = function () {
@@ -141,10 +142,13 @@ window.onload = function () {
 // todo function for outside canvas bullets delete
     self.goOut = function () {
       if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
-        console.log('Out of canvas!');
-
+        // console.log('Out of canvas!');
         self.status = false;
       }
+    };
+
+    self.collision = function () {
+      collision(self, coin);
     };
   }
 
@@ -167,7 +171,7 @@ window.onload = function () {
   function collision(obj1, obj2) {
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
 
-      console.log('collision!');
+      console.log(obj1 + 'collision!' + obj2);
     }
   }
 
