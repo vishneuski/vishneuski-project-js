@@ -31,12 +31,15 @@ window.onload = function () {
   var field = new Image();
   var hero = new Image();
   var fireball = new Image();
+  var allien = new Image();
   field.onload = drawCanvas;
   hero.onload = drawCanvas;
   fireball.onload = drawCanvas;
+  allien.onload = drawCanvas;
   field.src = '../images/field.png';
   hero.src = '../images/hero.gif';
   fireball.src = '../images/fireball.png';
+  allien.src = '../images/allien.gif';
 
 
   // Хранилище нажатых клавиш
@@ -51,8 +54,9 @@ window.onload = function () {
 
   var bullets = []; // массив выстрелов
   var coins = []; //то же и с монетами
+  var enemies = []; // и враги конечно
 
-// ***************Сущности, обьекты**********************
+// ***************Функции-конструкторы сущностей**********************
 
 //*******************    Player FC ****************
 
@@ -64,51 +68,120 @@ window.onload = function () {
     self.posX = player.posX;
     self.posY = player.posY;
     self.direction = 37;
-
-    self.draw = function () {
-      ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
-    };
-
-    self.update = function () {
-      if (keyStorage[KEY_CODE.up]) {
-        self.posY -= self.speed;
-        self.direction = 38;
-      }
-
-      if (keyStorage[KEY_CODE.down]) {
-        self.posY += self.speed;
-        self.direction = 40;
-      }
-
-      if (keyStorage[KEY_CODE.left]) {
-        self.posX -= self.speed;
-        self.direction = 37;
-      }
-
-      if (keyStorage[KEY_CODE.right]) {
-        self.posX += self.speed;
-        self.direction = 39;
-      }
-
-      if (keyStorage[KEY_CODE.shot]) {
-        self.shot();
-      }
-
-      self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
-      self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
-
-      collision(self, coin);
-    };
-
-    self.shot = function () {
-      bullets.push(new Bullet({
-        posX: this.posX,
-        posY: this.posY
-      }));
-    }
   }
 
+  Player.prototype.draw = function () {
+    var self = this;
+    ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
+  };
+
+  Player.prototype.coinCollision = function () {
+    var self = this;
+    collision(self, coin);
+  };
+
+  Player.prototype.update = function () {
+    var self = this;
+    if (keyStorage[KEY_CODE.up]) {
+      self.posY -= self.speed;
+      self.direction = 38;
+    }
+
+    if (keyStorage[KEY_CODE.down]) {
+      self.posY += self.speed;
+      self.direction = 40;
+    }
+
+    if (keyStorage[KEY_CODE.left]) {
+      self.posX -= self.speed;
+      self.direction = 37;
+    }
+
+    if (keyStorage[KEY_CODE.right]) {
+      self.posX += self.speed;
+      self.direction = 39;
+    }
+
+    if (keyStorage[KEY_CODE.shot]) {
+      self.shot();
+    }
+
+    self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
+    self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
+
+    self.coinCollision();
+  };
+
+  Player.prototype.shot = function () {
+    bullets.push(new Bullet({
+      posX: this.posX,
+      posY: this.posY
+    }));
+  };
+
   var player = new Player({posX: 0, posY: 0});
+
+
+  //*********************** Enemy function-constructor *************
+  function Enemy(enemy) {
+    var self = this;
+    self.width = ENEMYWIDTH;
+    self.height = ENEMYHEIGHT;
+    self.speed = ENEMYSPEED;
+    self.posX = enemy.posX;
+    self.posY = enemy.posY;
+  }
+
+  Enemy.prototype.draw = function () {
+    var self = this;
+    ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
+  };
+
+  Enemy.prototype.coinCollision = function () {
+    var self = this;
+    collision(self, coin);
+  };
+
+  Enemy.prototype.update = function () {
+    var self = this;
+    if (keyStorage[KEY_CODE.up]) {
+      self.posY -= self.speed;
+      self.direction = 38;
+    }
+
+    if (keyStorage[KEY_CODE.down]) {
+      self.posY += self.speed;
+      self.direction = 40;
+    }
+
+    if (keyStorage[KEY_CODE.left]) {
+      self.posX -= self.speed;
+      self.direction = 37;
+    }
+
+    if (keyStorage[KEY_CODE.right]) {
+      self.posX += self.speed;
+      self.direction = 39;
+    }
+
+    if (keyStorage[KEY_CODE.shot]) {
+      self.shot();
+    }
+
+    self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
+    self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
+
+    self.coinCollision();
+  };
+
+  Enemy.prototype.shot = function () {
+    bullets.push(new Bullet({
+      posX: this.posX,
+      posY: this.posY
+    }));
+  };
+
+  var enemy = new Enemy({posX: 400, posY: 400});
 
   //************      Bullet FC    ****************
   function Bullet(bullet) {
@@ -120,41 +193,44 @@ window.onload = function () {
     self.posX = bullet.posX;
     self.posY = bullet.posY;
     self.direction = player.direction;
-
-    self.update = function () {
-      if (self.direction === 37) {
-        self.posX -= self.speed;
-      }
-      if (self.direction === 39) {
-        self.posX += self.speed;
-      }
-      if (self.direction === 38) {
-        self.posY -= self.speed;
-      }
-      if (self.direction === 40) {
-        self.posY += self.speed;
-      }
-      self.goOut();
-      self.collision();
-    };
-
-    self.draw = function () {
-      ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
-    };
-
-// todo function for outside canvas bullets delete
-    self.goOut = function () {
-      if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
-        // console.log('Out of canvas!');
-        self.status = false;
-      }
-    };
-
-    self.collision = function () {
-      collision(self, coin);
-    };
   }
 
+  Bullet.prototype.coinCollision = function () {
+    var self = this;
+    collision(self, coin);
+  };
+
+  Bullet.prototype.update = function () {
+    var self = this;
+    if (self.direction === 37) {
+      self.posX -= self.speed;
+    }
+    if (self.direction === 39) {
+      self.posX += self.speed;
+    }
+    if (self.direction === 38) {
+      self.posY -= self.speed;
+    }
+    if (self.direction === 40) {
+      self.posY += self.speed;
+    }
+    self.coinCollision();
+    self.goOut();
+  };
+
+  Bullet.prototype.draw = function () {
+    var self = this;
+    ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
+  };
+
+// todo function for outside canvas bullets delete
+  Bullet.prototype.goOut = function () {
+    var self = this;
+    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
+      // console.log('Out of canvas!');
+      self.status = false;
+    }
+  };
 
   //****************  Coin f-c  *****************
   function Coin(coin) {
@@ -163,26 +239,27 @@ window.onload = function () {
     self.height = COINSIZE;
     self.posX = coin.posX;
     self.posY = coin.posY;
-
-    self.draw = function () {
-      ctx.beginPath();
-      ctx.fillStyle = 'yellow';
-      // ctx.arc(self.posX, self.posY, self.width / 2, 0, Math.PI * 2, false);
-      ctx.fillRect(self.posX, self.posY, self.width, self.height);
-      ctx.fill();
-    };
   }
+
+  Coin.prototype.draw = function () {
+    var self = this;
+    ctx.beginPath();
+    ctx.fillStyle = 'yellow';
+    // ctx.arc(self.posX, self.posY, self.width / 2, 0, Math.PI * 2, false);
+    ctx.fillRect(self.posX, self.posY, self.width, self.height);
+    ctx.fill();
+  };
+
+  var coin = new Coin({posX: 50, posY: 50});
 
 
   // ************ collision function *************
   function collision(obj1, obj2) {
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
 
-      console.log(obj1 + 'collision!' + obj2);
+      console.log('collision!' + obj1);
     }
   }
-
-  var coin = new Coin({posX: 50, posY: 50});
 
 
 //***************** Враги ********************
@@ -199,8 +276,6 @@ window.onload = function () {
   // };
 
 //******************отрисовка CANVAS *********************
-
-
   function drawCanvas() {
     ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
@@ -208,12 +283,10 @@ window.onload = function () {
       bullet.draw();
     });
     coin.draw();
+    enemy.draw();
   }
 
-  // drawCanvas();
 //******************** слушаем события клавиатуры*********************
-
-
   window.addEventListener("keydown", keyDown, false);
   window.addEventListener("keyup", keyUp, false);
 
@@ -228,7 +301,6 @@ window.onload = function () {
     e.preventDefault();
     delete keyStorage[e.keyCode];
   }
-
 
 //************* RequestAnimationFrame ***********************
 
@@ -253,7 +325,6 @@ window.onload = function () {
     bullets.forEach(function (bullet) {
       bullet.update();
     });
-
     render();
     RequestAnimationFrame(game);
   }
