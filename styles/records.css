@@ -2,13 +2,14 @@
 .container {
   position: relative;
   width: 100%;
-  max-width: 70em;
+  max-width: 85em;
   background: lightgray;
   margin: 0 auto;
   height: 100vh;
   background-image: url(./../images/background.jpg);
   color: lightblue;
-  background-position: center bottom;
+  background-position: top center;
+  background-attachment: scroll;
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;

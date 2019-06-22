@@ -1,7 +1,7 @@
 @import url('./root.css');
 .container {
   width: 100%;
-  max-width: 70em;
+  max-width: 85em;
   background: lightgray;
   margin: 0 auto;
   height: 100vh;
@@ -28,10 +28,10 @@
 
 .rules {
   width: 100%;
-  max-width: 70em;
+  max-width: 85em;
   height: 100vh;
   color: lightgray;
-  text-align: center;
+  text-align: left;
   box-sizing: border-box;
   padding: 10em;
   line-height: 2em;
