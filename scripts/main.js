@@ -24,8 +24,8 @@ window.onload = function () {
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = CANVASWIDTH;
+  canvas.height = CANVASHEIGHT;
 
   // рефакторинг - ф-ию
   var field = new Image();
@@ -52,9 +52,10 @@ window.onload = function () {
     shot: 32
   };
 
+  var player = new Player({posX: 0, posY: 0});
+  var enemies = []; // и враги конечно
   var bullets = []; // массив выстрелов
   var coins = []; //то же и с монетами
-  var enemies = []; // и враги конечно
 
 // ***************Функции-конструкторы сущностей**********************
 
@@ -68,6 +69,9 @@ window.onload = function () {
     self.posX = player.posX;
     self.posY = player.posY;
     self.direction = 37;
+    self.isCollise = false;
+    self.coinCounter = 0;
+    self.enemyCounter =0;
   }
 
   Player.prototype.draw = function () {
@@ -77,12 +81,22 @@ window.onload = function () {
 
   Player.prototype.coinCollision = function () {
     var self = this;
+    var isColl = collision(self, coin);
     collision(self, coin);
+    if (isColl) {
+      self.coinCounter += 1;
+      console.log('I catch coin!!!!' + self.coinCounter);
+    }
   };
 
   Player.prototype.enemyCollision = function () {
     var self = this;
+    var isColl = collision(self, enemy);
     collision(self, enemy);
+    if (isColl) {
+      self.enemyCounter +=1;
+      console.log('I catch enemy!!!!' + self.enemyCounter);
+    }
   };
 
   Player.prototype.update = function () {
@@ -115,7 +129,17 @@ window.onload = function () {
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
     self.coinCollision();
+
+    if(self.coinCounter > 100) {
+      alert('You are win!!!');
+    }
+
     self.enemyCollision();
+
+    if(self.enemyCounter = 1) {
+      alert('Yoy are die!!!!');
+      // startGame(); todo start game again
+    }
   };
 
   Player.prototype.shot = function () {
@@ -124,8 +148,6 @@ window.onload = function () {
       posY: this.posY
     }));
   };
-
-  var player = new Player({posX: 0, posY: 0});
 
 
   //*********************** Enemy function-constructor *************
@@ -169,6 +191,7 @@ window.onload = function () {
   //************      Bullet FC    ****************
   function Bullet(bullet) {
     var self = this;
+    self.numOfBullet = 0;
     self.speed = BULLETSPEED;
     self.width = BULLETWIDTH;
     self.height = BULLETHEIGHT;
@@ -229,6 +252,7 @@ window.onload = function () {
   //****************  Coin f-c  *****************
   function Coin(coin) {
     var self = this;
+    self.visible = true;
     self.width = COINSIZE;
     self.height = COINSIZE;
     self.posX = coin.posX;
@@ -249,10 +273,14 @@ window.onload = function () {
 
   // ************ collision function *************
   function collision(obj1, obj2) {
+    var isCollisioned = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
-
-      console.log('collision!' + obj1);
+      console.log(obj1 + ' collision! ' + obj2);
+      isCollisioned = true;
+    } else {
+      isCollisioned = false;
     }
+    return isCollisioned;
   }
 
 //******************отрисовка CANVAS *********************
