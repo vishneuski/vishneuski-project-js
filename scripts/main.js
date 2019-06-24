@@ -69,9 +69,8 @@ window.onload = function () {
     self.posX = player.posX;
     self.posY = player.posY;
     self.direction = 37;
-    self.isCollise = false;
     self.coinCounter = 0;
-    self.enemyCounter =0;
+    self.enemyCounter = 0;
   }
 
   Player.prototype.draw = function () {
@@ -81,11 +80,12 @@ window.onload = function () {
 
   Player.prototype.coinCollision = function () {
     var self = this;
-    var isColl = collision(self, coin);
     collision(self, coin);
-    if (isColl) {
-      self.coinCounter += 1;
+    var isColl = collision(self, coin);
+    if (isColl === true) {
       console.log('I catch coin!!!!' + self.coinCounter);
+      //logic for coin catch
+      self.coinCounter += 1;
     }
   };
 
@@ -93,9 +93,10 @@ window.onload = function () {
     var self = this;
     var isColl = collision(self, enemy);
     collision(self, enemy);
-    if (isColl) {
-      self.enemyCounter +=1;
+    if (isColl === true) {
       console.log('I catch enemy!!!!' + self.enemyCounter);
+      //logic for enemy catch - the end of game)
+      self.enemyCounter += 1;
     }
   };
 
@@ -130,13 +131,13 @@ window.onload = function () {
 
     self.coinCollision();
 
-    if(self.coinCounter > 100) {
+    if (self.coinCounter === 100) {
       alert('You are win!!!');
     }
 
     self.enemyCollision();
 
-    if(self.enemyCounter = 1) {
+    if (self.enemyCounter === 1) {
       alert('Yoy are die!!!!');
       // startGame(); todo start game again
     }
