@@ -169,23 +169,43 @@ window.onload = function () {
   //************      Bullet FC    ****************
   function Bullet(bullet) {
     var self = this;
-    self.status = true;
     self.speed = BULLETSPEED;
     self.width = BULLETWIDTH;
     self.height = BULLETHEIGHT;
     self.posX = bullet.posX;
     self.posY = bullet.posY;
     self.direction = player.direction;
+    self.isOut = false; // нахождение пули в рамках Канвас
   }
 
-  Bullet.prototype.coinCollision = function () {
+  Bullet.prototype.draw = function () {
     var self = this;
-    collision(self, coin);
+    ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
   };
+
   Bullet.prototype.enemyCollision = function () {
     var self = this;
     collision(self, enemy);
   };
+
+  Bullet.prototype.playerCollision = function () {
+    var self = this;
+    collision(self, player);
+  };
+
+  // todo function for outside canvas bullets delete - maby bullets.filter???
+  Bullet.prototype.goOut = function () {
+    var self = this;
+    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
+      self.isOut = true;
+      console.log(self.isOut);
+
+      bullets = bullets.filter(function (bullet) {
+        return !bullet.isOut;
+      });
+    }
+  };
+
 
   Bullet.prototype.update = function () {
     var self = this;
@@ -201,23 +221,9 @@ window.onload = function () {
     if (self.direction === 40) {
       self.posY += self.speed;
     }
-    self.coinCollision();
     self.enemyCollision();
+    self.playerCollision();
     self.goOut();
-  };
-
-  Bullet.prototype.draw = function () {
-    var self = this;
-    ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
-  };
-
-// todo function for outside canvas bullets delete
-  Bullet.prototype.goOut = function () {
-    var self = this;
-    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
-      // console.log('Out of canvas!');
-      self.status = false;
-    }
   };
 
   //****************  Coin f-c  *****************
@@ -248,20 +254,6 @@ window.onload = function () {
       console.log('collision!' + obj1);
     }
   }
-
-
-//***************** Враги ********************
-
-  // var enemy = {
-  //   width: ENEMYWIDTH,
-  //   height: ENEMYHEIGHT,
-  //   speed: ENEMYSPEED,
-  //   posX: 0,
-  //   posY: 0
-  //   // move: function() {
-  //   //
-  //   // }
-  // };
 
 //******************отрисовка CANVAS *********************
   function drawCanvas() {
