@@ -165,6 +165,7 @@ window.onload = function () {
     };
     self.bulletTouch = false; // collision with the bullet
     self.health = 100; // health quantity
+    self.die = false;
   }
 
   Enemy.prototype.draw = function () {
@@ -180,10 +181,11 @@ window.onload = function () {
       if (isColl === true) {
         self.bulletTouch = true;
         self.health -= 10;
-        console.log(self.health);
+        console.log(self + self.health);
         if (self.health === 0) {
+          self.die = true;
           enemies = enemies.filter(function (enemy) {
-            return !enemy.bulletTouch;
+            return !enemy.die && !enemy.bulletTouch;
           });
         }
       }
@@ -271,8 +273,7 @@ window.onload = function () {
     var self = this;
     if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
       self.isOut = true;
-      console.log(self.isOut);
-
+      console.log(self);
       bullets = bullets.filter(function (bullet) {
         return !bullet.isOut;
       });
@@ -335,7 +336,7 @@ window.onload = function () {
     self.playerCollision();
 
     if (coins.length === 0) {
-      console.log('Full ViCTORY!!!');
+      console.log('Full Victory!!!');
       //todo victory game logic
     }
   };
@@ -346,7 +347,7 @@ window.onload = function () {
 
 // *********************** Common functions ****************************
   /**
-   * Фунция для определения столкновений
+   * Функция для определения столкновений
    * @param {object} obj1 Первый объект
    * @param {object} obj2 Второй объект
    * @returns {boolean} Состояние столкновения.
@@ -363,7 +364,7 @@ window.onload = function () {
   }
 
   /**
-   * Фунция для добавления обьектов в массив
+   * Функция для добавления обьектов в массив
    * @param {function} FC Функция-констуктор
    * @param {string} name Имя объекта
    * @param {object} obj Объект аргументов
@@ -417,16 +418,9 @@ window.onload = function () {
         window.setTimeout(callback, 1000 / 60);
       };
 
-  function render() {
-    drawCanvas();
-  }
-
   RequestAnimationFrame(game);
 
   function game() {
-    coins.forEach(function (coin) {
-      coin.update();
-    });
     player.update();
     bullets.forEach(function (bullet) {
       bullet.update();
@@ -434,7 +428,10 @@ window.onload = function () {
     enemies.forEach(function (enemie) {
       enemie.update();
     });
-    render();
+    coins.forEach(function (coin) {
+      coin.update();
+    });
+    drawCanvas();
     RequestAnimationFrame(game);
   }
 };
