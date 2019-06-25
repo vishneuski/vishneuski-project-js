@@ -10,3 +10,6 @@
 // initCanvasImg('hero');
 // initCanvasImg('fireball');
 // initCanvasImg('allien');
+
+// todo different behavior of the enemy - reaction to the player?
+//

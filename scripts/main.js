@@ -56,7 +56,7 @@ window.onload = function () {
   var bullets = []; // массив выстрелов
   var coins = []; // то же и с монетами
 
-  // ***************Функции-конструкторы сущностей**********************
+  // ***************Функции-конструкторы**********************
   //* ******************    Player FC ****************
 
   function Player(player) {
@@ -69,6 +69,7 @@ window.onload = function () {
     self.direction = 37;
     self.coinCounter = 0;
     self.enemyCounter = 0;
+    self.coinTouch = false;
   }
 
   Player.prototype.draw = function () {
@@ -82,9 +83,10 @@ window.onload = function () {
       collision(self, coins[i]);
       var isColl = collision(self, coins[i]);
       if (isColl === true) {
-        console.log('I catch coin!!!!' + self.coinCounter);
+
         // logic for coin catch
         self.coinCounter += 1;
+        console.log('I catch coin!!!! ' + self.coinCounter);
       }
     }
   };
@@ -168,6 +170,10 @@ window.onload = function () {
       up: 3,
       down: 4
     };
+    self.status = {
+      alive: 1,
+      dead: 2
+    };
   }
 
   Enemy.prototype.draw = function () {
@@ -180,6 +186,7 @@ window.onload = function () {
 
     if (self.direction === self.directionEnemy.right) {
       self.posX += self.speed;
+      self.posY -= self.speed;
       if ((self.posX + self.width > CANVASWIDTH) || (self.posX < 0)) {
         self.speed = -self.speed;
       }
@@ -205,10 +212,9 @@ window.onload = function () {
   };
 
   addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
-  addEntity(Enemy, 'enemy2', {posX: 200, posY: 50, direction: 3}, enemies);
+  addEntity(Enemy, 'enemy2', {posX: 300, posY: 50, direction: 3}, enemies);
   addEntity(Enemy, 'enemy3', {posX: 200, posY: 100, direction: 2}, enemies);
   addEntity(Enemy, 'enemy2', {posX: 200, posY: 150, direction: 4}, enemies);
-
 
 
   //* ***********      Bullet FC    ****************
@@ -222,6 +228,7 @@ window.onload = function () {
     self.posY = bullet.posY;
     self.direction = player.direction;
     self.isOut = false; // нахождение пули в рамках Канвас
+    self.getEnemyTarget = false; // попадание пули во врага
   }
 
   Bullet.prototype.draw = function () {
@@ -232,7 +239,14 @@ window.onload = function () {
   Bullet.prototype.enemyCollision = function () {
     var self = this;
     for (var i = 0; i < enemies.length; i++) {
+      var isColl = collision(self, enemies[i]);
       collision(self, enemies[i]);
+      if (isColl === true) {
+        self.getEnemyTarget = true;
+        bullets = bullets.filter(function (bullet) {
+          return !bullet.getEnemyTarget;
+        });
+      }
     }
   };
 
@@ -241,7 +255,7 @@ window.onload = function () {
     collision(self, player);
   };
 
-  // todo function for outside canvas bullets delete - maby bullets.filter???
+// todo function for outside canvas bullets delete - maby bullets.filter???
   Bullet.prototype.goOut = function () {
     var self = this;
     if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
@@ -273,14 +287,16 @@ window.onload = function () {
     self.goOut();
   };
 
-  //* ***************  Coin f-c  *****************
+//* ***************  Coin f-c  *****************
   function Coin(coin) {
+
     var self = this;
-    self.visible = true;
+    self.quantity = 3;
     self.width = COINSIZE;
     self.height = COINSIZE;
     self.posX = coin.posX;
     self.posY = coin.posY;
+    self.playerTouch = false;
   }
 
   Coin.prototype.draw = function () {
@@ -291,11 +307,33 @@ window.onload = function () {
     ctx.fill();
   };
 
+  Coin.prototype.playerCollision = function () {
+    var self = this;
+    var isColl = collision(self, player);
+    collision(self, player);
+    if (isColl === true) {
+      self.playerTouch = true;
+      coins = coins.filter(function (coin) {
+        return !coin.playerTouch;
+      });
+    }
+  };
+
+  Coin.prototype.update = function () {
+    var self = this;
+    self.playerCollision();
+
+    if (coins.length === 0) {
+      console.log('Full ViCTORY!!!');
+      //todo victory game logic
+    }
+  };
+
   addEntity(Coin, 'coin1', {posX: 300, posY: 10}, coins);
   addEntity(Coin, 'coin2', {posX: 300, posY: 50}, coins);
   addEntity(Coin, 'coin3', {posX: 300, posY: 100}, coins);
 
-  // *********************** Common functions ****************************
+// *********************** Common functions ****************************
   /**
    * Фунция для определения столкновений
    * @param {object} obj1 Первый объект
@@ -305,7 +343,7 @@ window.onload = function () {
   function collision(obj1, obj2) {
     var isCollisioned = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
-      console.log(obj1 + ' collision! ' + obj2);
+      // console.log(obj1 + ' collision! ' + obj2);
       isCollisioned = true;
     } else {
       isCollisioned = false;
@@ -325,7 +363,7 @@ window.onload = function () {
     objArr.push(name);
   }
 
-  //* *****************отрисовка CANVAS *********************
+//* *****************отрисовка CANVAS *********************
   function drawCanvas() {
     ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
@@ -340,7 +378,7 @@ window.onload = function () {
     });
   }
 
-  //* ******************* слушаем события клавиатуры*********************
+//* ******************* слушаем события клавиатуры*********************
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
 
@@ -356,7 +394,7 @@ window.onload = function () {
     delete keyStorage[e.keyCode];
   }
 
-  //* ************ RequestAnimationFrame ***********************
+//* ************ RequestAnimationFrame ***********************
 
   var RequestAnimationFrame =
       window.requestAnimationFrame ||
@@ -375,6 +413,9 @@ window.onload = function () {
   RequestAnimationFrame(game);
 
   function game() {
+    coins.forEach(function (coin) {
+      coin.update();
+    });
     player.update();
     bullets.forEach(function (bullet) {
       bullet.update();
@@ -385,4 +426,5 @@ window.onload = function () {
     render();
     RequestAnimationFrame(game);
   }
-};
+}
+;
