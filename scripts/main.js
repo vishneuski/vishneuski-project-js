@@ -1,5 +1,4 @@
 window.onload = function () {
-
 // *******************Константы***********************
 
   var CANVASWIDTH = 512;
@@ -11,7 +10,7 @@ window.onload = function () {
 
   var ENEMYWIDTH = 32;
   var ENEMYHEIGHT = 32;
-  var ENEMYSPEED = 7;
+  var ENEMYSPEED = 0;
 
   var BULLETSPEED = 3;
   var BULLETWIDTH = 10;
@@ -20,7 +19,7 @@ window.onload = function () {
   var COINSIZE = 20;
 
 
-  //***************************Канвас**************************
+  //* **************************Канвас**************************
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
@@ -55,10 +54,10 @@ window.onload = function () {
   var player = new Player({posX: 0, posY: 0});
   var enemies = []; // и враги конечно
   var bullets = []; // массив выстрелов
-  var coins = []; //то же и с монетами
+  var coins = []; // то же и с монетами
 
-// ***************Функции-конструкторы сущностей**********************
-//*******************    Player FC ****************
+  // ***************Функции-конструкторы сущностей**********************
+  //* ******************    Player FC ****************
 
   function Player(player) {
     var self = this;
@@ -84,7 +83,7 @@ window.onload = function () {
       var isColl = collision(self, coins[i]);
       if (isColl === true) {
         console.log('I catch coin!!!!' + self.coinCounter);
-        //logic for coin catch
+        // logic for coin catch
         self.coinCounter += 1;
       }
     }
@@ -97,7 +96,7 @@ window.onload = function () {
       collision(self, enemies[i]);
       if (isColl === true) {
         console.log('collision with enemy!!!!' + self.enemyCounter);
-        //logic for enemy catch - the end of game)
+        // logic for enemy catch - the end of game)
         self.enemyCounter += 1;
       }
     }
@@ -154,7 +153,7 @@ window.onload = function () {
   };
 
 
-  //*********************** Enemy function-constructor *************
+  //* ********************** Enemy function-constructor *************
   function Enemy(enemy) {
     var self = this;
     self.width = ENEMYWIDTH;
@@ -162,6 +161,7 @@ window.onload = function () {
     self.speed = ENEMYSPEED;
     self.posX = enemy.posX;
     self.posY = enemy.posY;
+    self.direction = 1;
   }
 
   Enemy.prototype.draw = function () {
@@ -169,37 +169,22 @@ window.onload = function () {
     ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
   };
 
-  // Enemy.prototype.bulletCollision = function () {
-  //   var self = this;
-  //   collision(self, bullets);
-  // };
-
   Enemy.prototype.update = function () {
     var self = this;
 
+    if(self.direction === 1) {
+      self.posX += self.speed;
+    }
+
     self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
-
-    // self.bulletCollision();
   };
 
-  // Enemy.prototype.shot = function () {
-  //   bullets.push(new Bullet({
-  //     posX: this.posX,
-  //     posY: this.posY
-  //   }));
-  // };
+  addEntity(Enemy, 'enemy1', {posX: 200, posY: 10}, enemies);
+  addEntity(Enemy, 'enemy2', {posX: 200, posY: 50}, enemies);
+  addEntity(Enemy, 'enemy3', {posX: 200, posY: 100}, enemies);
 
-  function addEnemy(name, enemy) {
-    var name = new Enemy(enemy);
-    enemies.push(name);
-  }
-
-  addEnemy('enemy1', {posX: 10, posY: 10});
-  addEnemy('enemy2', {posX: 50, posY: 50});
-  addEnemy('enemy3', {posX: 100, posY: 100});
-
-  //************      Bullet FC    ****************
+  //* ***********      Bullet FC    ****************
   function Bullet(bullet) {
     var self = this;
     self.numOfBullet = 0;
@@ -219,7 +204,9 @@ window.onload = function () {
 
   Bullet.prototype.enemyCollision = function () {
     var self = this;
-    collision(self, enemy);
+    for (var i = 0; i < enemies.length; i++) {
+      collision(self, enemies[i]);
+    }
   };
 
   Bullet.prototype.playerCollision = function () {
@@ -240,7 +227,6 @@ window.onload = function () {
     }
   };
 
-
   Bullet.prototype.update = function () {
     var self = this;
     if (self.direction === 37) {
@@ -260,7 +246,7 @@ window.onload = function () {
     self.goOut();
   };
 
-  //****************  Coin f-c  *****************
+  //* ***************  Coin f-c  *****************
   function Coin(coin) {
     var self = this;
     self.visible = true;
@@ -274,21 +260,21 @@ window.onload = function () {
     var self = this;
     ctx.beginPath();
     ctx.fillStyle = 'yellow';
-    // ctx.arc(self.posX, self.posY, self.width / 2, 0, Math.PI * 2, false);
     ctx.fillRect(self.posX, self.posY, self.width, self.height);
     ctx.fill();
   };
 
-  function addCoins(name, coin) {
-    var name = new Coin(coin);
-    coins.push(name);
-  }
+  addEntity(Coin, 'coin1', {posX: 300, posY: 10}, coins);
+  addEntity(Coin, 'coin2', {posX: 300, posY: 50}, coins);
+  addEntity(Coin, 'coin3', {posX: 300, posY: 100}, coins);
 
-  addCoins('coin1', {posX: 300, posY: 10});
-  addCoins('coin2', {posX: 300, posY: 50});
-  addCoins('coin3', {posX: 300, posY: 100});
-
-  // ************ collision function *************
+  // *********************** Common functions ****************************
+  /**
+   * Фунция для определения столкновений
+   * @param {object} obj1 Первый объект
+   * @param {object} obj2 Второй объект
+   * @returns {boolean} Состояние столкновения.
+   */
   function collision(obj1, obj2) {
     var isCollisioned = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
@@ -300,7 +286,19 @@ window.onload = function () {
     return isCollisioned;
   }
 
-//******************отрисовка CANVAS *********************
+  /**
+   * Фунция для добавления обьектов в массив
+   * @param {function} FC Функция-констуктор
+   * @param {string} name Имя объекта
+   * @param {object} obj Объект аргументов
+   * @param {array} objArr Массив, содержащий объекты
+   */
+  function addEntity(FC, name, obj, objArr) {
+    var name = new FC(obj);
+    objArr.push(name);
+  }
+
+  //* *****************отрисовка CANVAS *********************
   function drawCanvas() {
     ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
@@ -315,9 +313,9 @@ window.onload = function () {
     });
   }
 
-//******************** слушаем события клавиатуры*********************
-  window.addEventListener("keydown", keyDown, false);
-  window.addEventListener("keyup", keyUp, false);
+  //* ******************* слушаем события клавиатуры*********************
+  window.addEventListener('keydown', keyDown, false);
+  window.addEventListener('keyup', keyUp, false);
 
   function keyDown(e) {
     var e = e || window.event;
@@ -331,7 +329,7 @@ window.onload = function () {
     delete keyStorage[e.keyCode];
   }
 
-//************* RequestAnimationFrame ***********************
+  //* ************ RequestAnimationFrame ***********************
 
   var RequestAnimationFrame =
       window.requestAnimationFrame ||
@@ -353,6 +351,9 @@ window.onload = function () {
     player.update();
     bullets.forEach(function (bullet) {
       bullet.update();
+    });
+    enemies.forEach(function (enemie) {
+      enemie.update();
     });
     render();
     RequestAnimationFrame(game);

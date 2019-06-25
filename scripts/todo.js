@@ -8,6 +8,3 @@
 // function drawCanvas(img, imgPosX, imgPosY, imgWidth, imgHeight) {
 //   ctx.drawImage(img, imgPosX, imgPosY, imgWidth, imgHeight);
 // }
-
-//todo collision type detect function
-
