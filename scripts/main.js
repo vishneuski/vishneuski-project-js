@@ -27,7 +27,7 @@ window.onload = function () {
   canvas.width = CANVASWIDTH;
   canvas.height = CANVASHEIGHT;
 
-  // рефакторинг - ф-ию
+  // todo рефакторинг - ф-ию
   var field = new Image();
   var hero = new Image();
   var fireball = new Image();
@@ -58,7 +58,6 @@ window.onload = function () {
   var coins = []; //то же и с монетами
 
 // ***************Функции-конструкторы сущностей**********************
-
 //*******************    Player FC ****************
 
   function Player(player) {
@@ -80,23 +79,27 @@ window.onload = function () {
 
   Player.prototype.coinCollision = function () {
     var self = this;
-    collision(self, coin);
-    var isColl = collision(self, coin);
-    if (isColl === true) {
-      console.log('I catch coin!!!!' + self.coinCounter);
-      //logic for coin catch
-      self.coinCounter += 1;
+    for (var i = 0; i < coins.length; i++) {
+      collision(self, coins[i]);
+      var isColl = collision(self, coins[i]);
+      if (isColl === true) {
+        console.log('I catch coin!!!!' + self.coinCounter);
+        //logic for coin catch
+        self.coinCounter += 1;
+      }
     }
   };
 
   Player.prototype.enemyCollision = function () {
     var self = this;
-    var isColl = collision(self, enemy);
-    collision(self, enemy);
-    if (isColl === true) {
-      console.log('I catch enemy!!!!' + self.enemyCounter);
-      //logic for enemy catch - the end of game)
-      self.enemyCounter += 1;
+    for (var i = 0; i < enemies.length; i++) {
+      var isColl = collision(self, enemies[i]);
+      collision(self, enemies[i]);
+      if (isColl === true) {
+        console.log('collision with enemy!!!!' + self.enemyCounter);
+        //logic for enemy catch - the end of game)
+        self.enemyCounter += 1;
+      }
     }
   };
 
@@ -187,7 +190,14 @@ window.onload = function () {
   //   }));
   // };
 
-  var enemy = new Enemy({posX: 400, posY: 400});
+  function addEnemy(name, enemy) {
+    var name = new Enemy(enemy);
+    enemies.push(name);
+  }
+
+  addEnemy('enemy1', {posX: 10, posY: 10});
+  addEnemy('enemy2', {posX: 50, posY: 50});
+  addEnemy('enemy3', {posX: 100, posY: 100});
 
   //************      Bullet FC    ****************
   function Bullet(bullet) {
@@ -269,8 +279,14 @@ window.onload = function () {
     ctx.fill();
   };
 
-  var coin = new Coin({posX: 50, posY: 50});
+  function addCoins(name, coin) {
+    var name = new Coin(coin);
+    coins.push(name);
+  }
 
+  addCoins('coin1', {posX: 300, posY: 10});
+  addCoins('coin2', {posX: 300, posY: 50});
+  addCoins('coin3', {posX: 300, posY: 100});
 
   // ************ collision function *************
   function collision(obj1, obj2) {
@@ -291,8 +307,12 @@ window.onload = function () {
     bullets.forEach(function (bullet) {
       bullet.draw();
     });
-    coin.draw();
-    enemy.draw();
+    coins.forEach(function (coin) {
+      coin.draw();
+    });
+    enemies.forEach(function (enemie) {
+      enemie.draw();
+    });
   }
 
 //******************** слушаем события клавиатуры*********************
