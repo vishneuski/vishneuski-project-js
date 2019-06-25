@@ -18,7 +18,6 @@ window.onload = function () {
 
   var COINSIZE = 20;
 
-
   //* **************************Канвас**************************
 
   var canvas = document.getElementById('canvas');
@@ -83,7 +82,6 @@ window.onload = function () {
       collision(self, coins[i]);
       var isColl = collision(self, coins[i]);
       if (isColl === true) {
-
         // logic for coin catch
         self.coinCounter += 1;
         console.log('I catch coin!!!! ' + self.coinCounter);
@@ -134,11 +132,6 @@ window.onload = function () {
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
     self.coinCollision();
-
-    if (self.coinCounter === 100) {
-      alert('You are win!!!');
-    }
-
     self.enemyCollision();
 
     if (self.enemyCounter === 1) {
@@ -170,15 +163,31 @@ window.onload = function () {
       up: 3,
       down: 4
     };
-    self.status = {
-      alive: 1,
-      dead: 2
-    };
+    self.bulletTouch = false; // collision with the bullet
+    self.health = 100; // health quantity
   }
 
   Enemy.prototype.draw = function () {
     var self = this;
     ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
+  };
+
+  Enemy.prototype.bulletCollision = function () {
+    var self = this;
+    for (var i = 0; i < bullets.length; i++) {
+      var isColl = collision(self, bullets[i]);
+      collision(self, bullets[i]);
+      if (isColl === true) {
+        self.bulletTouch = true;
+        self.health -= 10;
+        console.log(self.health);
+        if (self.health === 0) {
+          enemies = enemies.filter(function (enemy) {
+            return !enemy.bulletTouch;
+          });
+        }
+      }
+    }
   };
 
   Enemy.prototype.update = function () {
@@ -209,6 +218,8 @@ window.onload = function () {
 
     self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
+
+    self.bulletCollision();
   };
 
   addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
@@ -426,5 +437,4 @@ window.onload = function () {
     render();
     RequestAnimationFrame(game);
   }
-}
-;
+};

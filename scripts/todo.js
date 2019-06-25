@@ -12,4 +12,4 @@
 // initCanvasImg('allien');
 
 // todo different behavior of the enemy - reaction to the player?
-//
+// todo refactor collisions methods in prototypes
