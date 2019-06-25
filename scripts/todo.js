@@ -1,10 +1,12 @@
 // todo refactoring
 // function initCanvasImg(name) {
-//   name = new Image();
+//   var name = new Image();
 //   name.onload = drawCanvas(name);
 //   name.src = '../images/' + name + '.png';
+//
 // }
 //
-// function drawCanvas(img, imgPosX, imgPosY, imgWidth, imgHeight) {
-//   ctx.drawImage(img, imgPosX, imgPosY, imgWidth, imgHeight);
-// }
+// initCanvasImg('field');
+// initCanvasImg('hero');
+// initCanvasImg('fireball');
+// initCanvasImg('allien');

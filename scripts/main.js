@@ -10,7 +10,7 @@ window.onload = function () {
 
   var ENEMYWIDTH = 32;
   var ENEMYHEIGHT = 32;
-  var ENEMYSPEED = 0;
+  var ENEMYSPEED = 1;
 
   var BULLETSPEED = 3;
   var BULLETWIDTH = 10;
@@ -161,7 +161,13 @@ window.onload = function () {
     self.speed = ENEMYSPEED;
     self.posX = enemy.posX;
     self.posY = enemy.posY;
-    self.direction = 1;
+    self.direction = enemy.direction;
+    self.directionEnemy = {
+      left: 1,
+      right: 2,
+      up: 3,
+      down: 4
+    };
   }
 
   Enemy.prototype.draw = function () {
@@ -172,17 +178,38 @@ window.onload = function () {
   Enemy.prototype.update = function () {
     var self = this;
 
-    if(self.direction === 1) {
+    if (self.direction === self.directionEnemy.right) {
       self.posX += self.speed;
+      if ((self.posX + self.width > CANVASWIDTH) || (self.posX < 0)) {
+        self.speed = -self.speed;
+      }
+    } else if (self.direction === self.directionEnemy.left) {
+      self.posX -= self.speed;
+      if ((self.posX + self.width > CANVASWIDTH) || (self.posX < 0)) {
+        self.speed = -self.speed;
+      }
+    } else if (self.direction === self.directionEnemy.down) {
+      self.posY += self.speed;
+      if ((self.posY + self.height > CANVASHEIGHT) || (self.posY < 0)) {
+        self.speed = -self.speed;
+      }
+    } else if (self.direction === self.directionEnemy.up) {
+      self.posY -= self.speed;
+      if ((self.posY + self.height > CANVASHEIGHT) || (self.posY < 0)) {
+        self.speed = -self.speed;
+      }
     }
 
     self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
   };
 
-  addEntity(Enemy, 'enemy1', {posX: 200, posY: 10}, enemies);
-  addEntity(Enemy, 'enemy2', {posX: 200, posY: 50}, enemies);
-  addEntity(Enemy, 'enemy3', {posX: 200, posY: 100}, enemies);
+  addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
+  addEntity(Enemy, 'enemy2', {posX: 200, posY: 50, direction: 3}, enemies);
+  addEntity(Enemy, 'enemy3', {posX: 200, posY: 100, direction: 2}, enemies);
+  addEntity(Enemy, 'enemy2', {posX: 200, posY: 150, direction: 4}, enemies);
+
+
 
   //* ***********      Bullet FC    ****************
   function Bullet(bullet) {
