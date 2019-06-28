@@ -26,18 +26,19 @@ window.onload = function () {
   canvas.height = CANVASHEIGHT;
 
   // todo рефакторинг - ф-ию
-  var field = new Image();
-  var hero = new Image();
-  var fireball = new Image();
-  var allien = new Image();
-  field.onload = drawCanvas;
-  hero.onload = drawCanvas;
-  fireball.onload = drawCanvas;
-  allien.onload = drawCanvas;
-  field.src = '../images/field.png';
-  hero.src = '../images/hero.gif';
-  fireball.src = '../images/fireball.png';
-  allien.src = '../images/allien.gif';
+  // var field = new Image();
+  // var hero = new Image();
+  // var fireball = new Image();
+  // var allien = new Image();
+  // field.src = '../images/field.png';
+  // hero.src = '../images/hero.gif';
+  // fireball.src = '../images/fireball.png';
+  // allien.src = '../images/allien.gif';
+  // field.onload = drawCanvas;
+  // hero.onload = drawCanvas;
+  // fireball.onload = drawCanvas;
+  // allien.onload = drawCanvas;
+
 
 
   // Хранилище нажатых клавиш
@@ -73,7 +74,11 @@ window.onload = function () {
 
   Player.prototype.draw = function () {
     var self = this;
-    ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
+    ctx.beginPath();
+    ctx.fillStyle = 'green';
+    ctx.fillRect(self.posX, self.posY, self.width, self.height);
+    ctx.fill();
+    // ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
   };
 
   Player.prototype.coinCollision = function () {
@@ -170,7 +175,12 @@ window.onload = function () {
 
   Enemy.prototype.draw = function () {
     var self = this;
-    ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
+    ctx.beginPath();
+    ctx.fillStyle = 'red';
+    ctx.fillRect(self.posX, self.posY, self.width, self.height);
+    ctx.fill();
+    // var self = this;
+    // ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
   };
 
   Enemy.prototype.bulletCollision = function () {
@@ -246,7 +256,11 @@ window.onload = function () {
 
   Bullet.prototype.draw = function () {
     var self = this;
-    ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
+    ctx.beginPath();
+    ctx.fillStyle = 'green';
+    ctx.fillRect(self.posX, self.posY, self.width, self.height);
+    ctx.fill();
+    // ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
   };
 
   Bullet.prototype.enemyCollision = function () {
@@ -377,8 +391,10 @@ window.onload = function () {
 
 //* *****************отрисовка CANVAS *********************
   function drawCanvas() {
-    ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
+    ctx.clearRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
+    // ctx.imageSmoothingEnabled = false;
+    // ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     bullets.forEach(function (bullet) {
       bullet.draw();
     });
