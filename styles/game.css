@@ -1,7 +1,8 @@
 @import url('./root.css');
+
 .container {
   width: 512px;
-  max-width: 70em;
+  max-width: 86em;
   background: lightgray;
   margin: 0 auto;
   height: 480px;
@@ -12,30 +13,26 @@
   background-size: cover;
 }
 
-.button-back {
-  text-decoration: none;
-  color: whitesmoke;
-  background: lightslategray;
-  box-sizing: border-box;
-  padding: 0.5em;
-  border: 1px solid lightblue;
-  border-radius: 0.2em;
-  position: absolute;
-  top: 1em;
-  left: 1em;
-  /*transform: translateX(1em);*/
-  /*transform: translateY(1em);*/
-}
-
-#startGame {
-  top: 5em;
-  left: 1em;
-}
-
 #canvas {
   background: tan;
   margin: 0 auto;
   width: 512px;
   height: 512px;
   padding: 0;
+}
+
+.buttons-canvas {
+  left: 0;
+  top: 0;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+  border: none;
+  color: black;
+  background-color: lightcyan;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.5s;
 }

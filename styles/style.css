@@ -5,7 +5,7 @@
   background: lightgray;
   margin: 0 auto;
   height: 100vh;
-  background-image: url(./../images/background.jpg);
+  /*background-image: url(./../images/background.jpg);*/
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: cover;
@@ -52,3 +52,6 @@
 /*.pages:hover {*/
   /*border: 1px solid lightblue;*/
 /*}*/
+#page {
+  color: whitesmoke;
+}

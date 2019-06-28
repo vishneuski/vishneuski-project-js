@@ -31,8 +31,8 @@ function renderNewState() {
       break;
 
     case 'game':
-      page += '<input type="button" class="button-back" onclick="switchToStart()">';
       page += '<div class="container">';
+      page += '<input type="button" class="buttons-canvas" value="bact to main menu" onclick="switchToStart()">';
       page += '<canvas id="canvas">';
       page += '</canvas>';
       page += '</div>';
@@ -40,7 +40,7 @@ function renderNewState() {
 
     case 'rules':
       page += '<div class="container">';
-      page += '<input type="button" class="button-back" onclick="switchToStart()">';
+      page += '<input type="button" class="buttons" value="bact to main menu" onclick="switchToStart()">';
       page += ' <div class="rules">Перед Вами игра Bugs Killer. Цель игры - собрать все монеты, не попадя в лапы коварных врагов.</br> Они те еще\n' +
           '        упыри! Но и Вы, уверен, не промах! Дерзайте!!!</br> Управляйте игроком с помощью клавиш ВВЕРХ &#8593;, ВНИЗ\n' +
           '        &#8595; , ВПРАВО &#8594; и ВЛЕВО &#8592;.<br/>Выстрел производится с помощью клавиши пробел. Избегайте\n' +
@@ -52,7 +52,7 @@ function renderNewState() {
 
     case 'records':
       page += '<div class="container">';
-      page += '<input type="button" class="button-back" onclick="switchToStart()">';
+      page += '<input type="button" class="buttons" value="bact to main menu" onclick="switchToStart()">';
       page += '<table class="tableRecords">';
       page += '</table>';
       page += '</div>';
