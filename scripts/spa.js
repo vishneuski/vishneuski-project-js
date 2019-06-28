@@ -1,4 +1,5 @@
 window.onhashchange = renderNewState;
+
 function renderNewState() {
   var hash = window.location.hash;
   var state = decodeURIComponent(hash.substr(1));
@@ -32,7 +33,8 @@ function renderNewState() {
     case 'game':
       page += '<input type="button" class="button-back" onclick="switchToStart()">';
       page += '<div class="container">';
-      page += '<canvas id="canvas"></canvas>';
+      page += '<canvas id="canvas">';
+      page += '</canvas>';
       page += '</div>';
       break;
 
