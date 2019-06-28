@@ -1,11 +1,11 @@
 @import url('./root.css');
 .container {
   width: 100%;
-  max-width: 85em;
+  max-width: 86em;
   background: lightgray;
   margin: 0 auto;
   height: 100vh;
-  /*background-image: url(./../images/background.jpg);*/
+  background-image: url(./../images/background.jpg);
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: cover;
@@ -52,6 +52,62 @@
 /*.pages:hover {*/
   /*border: 1px solid lightblue;*/
 /*}*/
-#page {
-  color: whitesmoke;
+
+.rules {
+  width: 100%;
+  max-width: 85em;
+  height: 80vh;
+  color: lightgray;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 10em;
+  line-height: 2em;
+}
+
+#canvas {
+  background: tan;
+  padding: 0;
+  margin: 0 auto;
+  width: 75vw;
+  height: 65vh;
+}
+
+.buttons-canvas {
+  left: 0;
+  top: 0;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+  border: none;
+  color: black;
+  background-color: lightcyan;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.container-canvas {
+  width: 512px;
+  max-width: 86em;
+  background: lightgray;
+  margin: 0 auto;
+  height: 480px;
+  background-image: url(./../images/background.jpg);
+  position: relative;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tableRecords {
+  width: 60%;
+  margin: 0 auto;
+  border: 1px solid lightblue;
+  font-size: 1.5em;
+}
+
+td {
+  border: 1px solid lightblue;
 }
