@@ -1,4 +1,5 @@
 @import url('./root.css');
+
 .container {
   width: 100vw;
   max-width: 86em;
@@ -51,9 +52,8 @@
   position: relative;
 }
 
-
 /*.pages:hover {*/
-  /*border: 1px solid lightblue;*/
+/*border: 1px solid lightblue;*/
 /*}*/
 
 .rules {
@@ -70,9 +70,9 @@
 #canvas {
   background: tan;
   padding: 0;
-  margin: 0 auto;
-  width: 95vw;
-  height: 95vh;
+  margin: auto auto;
+  width: 55vw;
+  height: 90vh;
 }
 
 .buttons-canvas {
@@ -92,16 +92,18 @@
 }
 
 .container-canvas {
-  width: 512px;
+  width: 100vw;
   max-width: 86em;
   background: lightgray;
   margin: 0 auto;
-  height: 480px;
+  height: 100vh;
   background-image: url(./../images/background.jpg);
   position: relative;
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+
 }
 
 .tableRecords {

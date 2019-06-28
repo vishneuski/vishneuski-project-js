@@ -140,7 +140,7 @@ window.onload = function () {
     self.enemyCollision();
 
     if (self.enemyCounter === 1) {
-      alert('Yoy are die!!!!');
+      console.log('Yoy are die!!!!');
       // startGame(); todo start game again
     }
   };
