@@ -51,9 +51,9 @@ window.onload = function () {
   };
 
   var player = new Player({posX: 0, posY: 0});
-  var enemies = []; // и враги конечно
+  var enemies = []; // массив врагов
   var bullets = []; // массив выстрелов
-  var coins = []; // то же и с монетами
+  var coins = []; // массив монет
 
   // ***************Функции-конструкторы**********************
   //* ******************    Player FC ****************
