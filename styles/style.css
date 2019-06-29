@@ -5,8 +5,9 @@
   max-width: 86em;
   background: lightgray;
   margin: 0 auto;
-  padding: 0;
   height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
   background-image: url(./../images/background.jpg);
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -96,18 +97,7 @@
 }
 
 .container-canvas {
-  width: 100vw;
-  max-width: 86em;
-  background: lightgray;
-  margin: 0 auto;
-  height: 100vh;
-  background-image: url(./../images/background.jpg);
-  position: relative;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
   display: flex;
-
 }
 
 .tableRecords {
@@ -117,6 +107,9 @@
   font-size: 1.5em;
 }
 
-td {
-  border: 1px solid lightblue;
+.table-cell {
+  color: white;
 }
+/*td {*/
+  /*border: 1px solid lightblue;*/
+/*}*/

@@ -16,7 +16,7 @@ window.onload = function () {
   var BULLETWIDTH = 10;
   var BULLETHEIGHT = 10;
 
-  var COINSIZE = 20;
+  var COINSIZE = 16;
 
   //* **************************Канвас**************************
 
@@ -30,16 +30,20 @@ window.onload = function () {
   var hero = new Image();
   var fireball = new Image();
   var allien = new Image();
+  var prise = new Image();
 
 
   field.onload = drawCanvas;
   hero.onload = drawCanvas;
   fireball.onload = drawCanvas;
   allien.onload = drawCanvas;
+  prise.onload = drawCanvas;
+
   field.src = 'images/field.png';
   hero.src = 'images/hero.gif';
   fireball.src = 'images/fireball.png';
   allien.src = 'images/allien.gif';
+  prise.src = 'images/coin.png';
 
 
 
@@ -188,7 +192,6 @@ window.onload = function () {
         if (self.health === 0) {
           self.die = true;
           enemies = enemies.filter(function (enemy) {
-            // return !enemy.die && !enemy.bulletTouch;
             return !enemy.die;
           });
         }
@@ -321,10 +324,11 @@ window.onload = function () {
 
   Coin.prototype.draw = function () {
     var self = this;
-    ctx.beginPath();
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(self.posX, self.posY, self.width, self.height);
-    ctx.fill();
+    ctx.drawImage(prise, self.posX, self.posY, self.width, self.height);
+    // ctx.beginPath();
+    // ctx.fillStyle = 'yellow';
+    // ctx.fillRect(self.posX, self.posY, self.width, self.height);
+    // ctx.fill();
   };
 
   Coin.prototype.playerCollision = function () {
