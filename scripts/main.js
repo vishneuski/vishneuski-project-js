@@ -69,17 +69,13 @@ window.onload = function () {
     self.posX = player.posX;
     self.posY = player.posY;
     self.direction = 37;
-    self.coinCounter = 0;
-    self.enemyCounter = 0;
+    self.coinCounter = 0; // кол-во столкновений с монетами
+    self.enemyCounter = 0;// кол-во столкновений с врагами
     self.coinTouch = false;
   }
 
   Player.prototype.draw = function () {
     var self = this;
-    // ctx.beginPath();
-    // ctx.fillStyle = 'green';
-    // ctx.fillRect(self.posX, self.posY, self.width, self.height);
-    // ctx.fill();
     ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
   };
 
@@ -176,11 +172,6 @@ window.onload = function () {
   }
 
   Enemy.prototype.draw = function () {
-    // var self = this;
-    // ctx.beginPath();
-    // ctx.fillStyle = 'red';
-    // ctx.fillRect(self.posX, self.posY, self.width, self.height);
-    // ctx.fill();
     var self = this;
     ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
   };
@@ -197,7 +188,8 @@ window.onload = function () {
         if (self.health === 0) {
           self.die = true;
           enemies = enemies.filter(function (enemy) {
-            return !enemy.die && !enemy.bulletTouch;
+            // return !enemy.die && !enemy.bulletTouch;
+            return !enemy.die;
           });
         }
       }
