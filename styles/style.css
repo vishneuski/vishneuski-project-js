@@ -96,6 +96,15 @@
   top: 15em;
 }
 
+#score {
+  width: 10em;
+  height: 2em;
+  position: absolute;
+  top: 5em;
+  left: 2em;
+  background: lightcyan;
+}
+
 .container-canvas {
   display: flex;
 }
@@ -109,6 +118,7 @@
 
 .table-cell {
   color: white;
+  text-align: center;
 }
 /*td {*/
   /*border: 1px solid lightblue;*/

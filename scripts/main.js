@@ -91,6 +91,7 @@ window.onload = function () {
       if (isColl === true) {
         // logic for coin catch
         self.coinCounter += 1;
+        document.querySelector('#score').innerHTML = 'Score: ' +self.coinCounter;
         console.log('I catch coin!!!! ' + self.coinCounter);
       }
     }
