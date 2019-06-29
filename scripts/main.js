@@ -1,6 +1,6 @@
 window.onload = function () {
 
-  var time;
+  var time = 0;
   (function timer() {
     document.querySelector('#timer').innerHTML = time;
     time = setTimeout(timer, 1000);
@@ -397,8 +397,9 @@ window.onload = function () {
     clearTimeout(time);
     var askName = prompt('Введите ваше имя: ', 'player');
     console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
-    document.querySelector('#timer').innerHTML = timeout;
+    document.querySelector('#timer').innerHTML = time;
     playerInfo.name = askName;
+    playerInfo.time = time;
     endGame();
   }
 
@@ -465,5 +466,4 @@ window.onload = function () {
   function endGame() {
     console.log(playerInfo);
   }
-
 };
