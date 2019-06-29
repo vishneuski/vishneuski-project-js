@@ -334,10 +334,6 @@ window.onload = function () {
   Coin.prototype.draw = function () {
     var self = this;
     ctx.drawImage(prise, self.posX, self.posY, self.width, self.height);
-    // ctx.beginPath();
-    // ctx.fillStyle = 'yellow';
-    // ctx.fillRect(self.posX, self.posY, self.width, self.height);
-    // ctx.fill();
   };
 
   Coin.prototype.playerCollision = function () {
@@ -398,7 +394,7 @@ window.onload = function () {
 
 
   function saveResult() {
-    clearTimeout(timeout);
+    clearTimeout(time);
     var askName = prompt('Введите ваше имя: ', 'player');
     console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
     document.querySelector('#timer').innerHTML = timeout;
