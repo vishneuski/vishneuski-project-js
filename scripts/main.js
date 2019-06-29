@@ -1,4 +1,10 @@
 window.onload = function () {
+
+  var time;
+  (function timer() {
+    document.querySelector('#timer').innerHTML = time;
+    time = setTimeout(timer, 1000);
+  })();
 // *******************Константы***********************
 
   var CANVASWIDTH = 512;
@@ -17,6 +23,8 @@ window.onload = function () {
   var BULLETHEIGHT = 10;
 
   var COINSIZE = 16;
+  // ************************ Tiner ************************
+
 
   //* **************************Канвас**************************
 
@@ -46,7 +54,6 @@ window.onload = function () {
   prise.src = 'images/coin.png';
 
 
-
   // Хранилище нажатых клавиш
   var keyStorage = {};
   var KEY_CODE = {
@@ -61,6 +68,7 @@ window.onload = function () {
   var enemies = []; // массив врагов
   var bullets = []; // массив выстрелов
   var coins = []; // массив монет
+  var playerInfo = {}; // счет игрока
 
   // ***************Функции-конструкторы**********************
   //* ******************    Player FC ****************
@@ -91,7 +99,7 @@ window.onload = function () {
       if (isColl === true) {
         // logic for coin catch
         self.coinCounter += 1;
-        document.querySelector('#score').innerHTML = 'Score: ' +self.coinCounter;
+        document.querySelector('#score').innerHTML = 'Score: ' + self.coinCounter;
         console.log('I catch coin!!!! ' + self.coinCounter);
       }
     }
@@ -349,7 +357,7 @@ window.onload = function () {
     self.playerCollision();
 
     if (coins.length === 0) {
-      console.log('Full Victory!!!');
+      saveResult();
       //todo victory game logic
     }
   };
@@ -386,6 +394,16 @@ window.onload = function () {
   function addEntity(FC, name, obj, objArr) {
     var name = new FC(obj);
     objArr.push(name);
+  }
+
+
+  function saveResult() {
+    clearTimeout(timeout);
+    var askName = prompt('Введите ваше имя: ', 'player');
+    console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
+    document.querySelector('#timer').innerHTML = timeout;
+    playerInfo.name = askName;
+    endGame();
   }
 
 //* *****************отрисовка CANVAS *********************
@@ -445,7 +463,11 @@ window.onload = function () {
       coin.update();
     });
     drawCanvas();
-    // ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     RequestAnimationFrame(game);
   }
+
+  function endGame() {
+    console.log(playerInfo);
+  }
+
 };

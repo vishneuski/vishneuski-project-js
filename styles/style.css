@@ -105,6 +105,15 @@
   background: lightcyan;
 }
 
+#timer {
+  width: 10em;
+  height: 2em;
+  position: absolute;
+  top: 8em;
+  left: 2em;
+  background: lightcyan;
+}
+
 .container-canvas {
   display: flex;
 }

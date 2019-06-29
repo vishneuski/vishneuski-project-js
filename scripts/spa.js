@@ -33,7 +33,8 @@ function renderNewState() {
     case 'game':
       page += `<div class="container container-canvas"><input type="button" class="buttons-canvas" value="back to main menu" 
 onclick="switchToStart()"><input type="button" class=" buttons-canvas buttons-canvas-2" value="Start the game!!!" 
-onclick="gameStart()"><div id="score">Score:</div><canvas id="canvas"></canvas></div>`;
+onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div><canvas 
+id="canvas"></canvas></div>`;
       break;
 
     case 'rules':
@@ -53,7 +54,7 @@ onclick="gameStart()"><div id="score">Score:</div><canvas id="canvas"></canvas><
       page += '<input type="button" class="buttons" value="back to main menu" onclick="switchToStart()">';
       page += '<table class="tableRecords">';
       page += `<tr class="table-cell"><th class="table-cell">Игрок</th><th class="table-cell">Время</th></tr>
-       <tr class="table-cell"><td class="table-cell">Player</td><td class="table-cell">100</td></tr>`;
+       <tr class="table-cell"><td class="table-cell" id="igrok">Player</td><td class="table-cell" id="itog">100</td></tr>`;
       page += '</table>';
       page += '</div>';
       break;
@@ -86,6 +87,5 @@ function gameStart() {
   document.location.reload(true);
 
 }
-
 
 renderNewState();
