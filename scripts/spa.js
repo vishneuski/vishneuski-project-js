@@ -33,6 +33,7 @@ function renderNewState() {
     case 'game':
       page += '<div class="container-canvas">';
       page += '<input type="button" class="buttons-canvas" value="back to main menu" onclick="switchToStart()">';
+      page += '<input type="button" class=" buttons-canvas buttons-canvas-2" value="Start the game!!!" onclick="gameStart()">';
       page += '<canvas id="canvas">';
       page += '</canvas>';
       page += '</div>';
@@ -81,6 +82,10 @@ function switchToRules() {
 
 function switchToRecords() {
   switchToState({page: 'records'});
+}
+
+function gameStart() {
+  document.location.reload(true);
 }
 
 renderNewState();

@@ -91,6 +91,10 @@
   transition: 0.5s;
 }
 
+.buttons-canvas-2 {
+  top: 15em;
+}
+
 .container-canvas {
   width: 100vw;
   max-width: 86em;
