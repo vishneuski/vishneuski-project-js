@@ -32,24 +32,67 @@ window.onload = function () {
   canvas.height = CANVASHEIGHT;
 
   // todo рефакторинг - ф-ию
-  var field = new Image();
+  // var field = new Image();
   var hero = new Image();
   var fireball = new Image();
   var allien = new Image();
   var prise = new Image();
 
 
-  field.onload = drawCanvas;
+  // field.onload = drawCanvas;
   hero.onload = drawCanvas;
   fireball.onload = drawCanvas;
   allien.onload = drawCanvas;
   prise.onload = drawCanvas;
 
-  field.src = 'images/field.png';
+  // field.src = 'images/field.png';
   hero.src = 'images/hero.gif';
   fireball.src = 'images/fireball.png';
   allien.src = 'images/allien.gif';
   prise.src = 'images/coin.png';
+
+
+  //*********** map *******************
+
+  function drawMap() {
+    var mapArray = [
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0]
+    ];
+
+    var brick = new Image();
+    var wall = new Image();
+
+    brick.src = 'images/brick.png';
+    wall.src = 'images/wall.png';
+
+    var posX = 0;
+    var posY = 0;
+
+    brick.onload = function () {
+      wall.onload = function () {
+        for (var i = 0; i < mapArray.length; i++) {
+          for (var j = 0; j < mapArray[i].length; j++) {
+            if (mapArray[i][j] == 0) {
+              ctx.drawImage(brick, posX, posY, 64, 64);
+            }
+            if (mapArray[i][j] == 1) {
+              ctx.drawImage(wall, posX, posY, 64, 64);
+            }
+            posX += 64;
+          }
+          posY += 64;
+          posX = 0;
+        }
+      }
+    };
+  }
 
 
   // Хранилище нажатых клавиш
@@ -402,7 +445,9 @@ window.onload = function () {
 
 //* *****************отрисовка CANVAS *********************
   function drawCanvas() {
-    ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
+
+    drawMap();
+    // ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
     bullets.forEach(function (bullet) {
       bullet.draw();
