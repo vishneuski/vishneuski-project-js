@@ -396,6 +396,7 @@ window.onload = function () {
     document.querySelector('#timer').innerHTML = time;
     playerInfo.name = askName;
     playerInfo.time = time;
+    sendResult();
     endGame();
   }
 
@@ -530,8 +531,8 @@ window.onload = function () {
           resultArray = [];
       }
 
-      var playerName = playerInfo.name;
-      var playerTime = playerInfo.time;
+      var playerName = playerInfo.name || 'player';
+      var playerTime = playerInfo.time || 0;
       resultArray.push({name: playerName, time: playerTime});
       if (resultArray.length > 5)
         resultArray = resultArray.slice(resultArray.length - 5);
