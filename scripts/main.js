@@ -150,7 +150,7 @@ window.onload = function () {
     self.coinCollision();
     self.enemyCollision();
 
-    if (self.health <= 0) {
+    if (self.health === 0) {
       console.log('Yoy are die!!!!');
       // startGame(); todo start game again
     }
@@ -463,75 +463,45 @@ window.onload = function () {
     console.log(playerInfo);
   }
 
-  $.ajax(Server,
+  var resultArray = [];
+  var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
+  var storeageMail = 'TEST_GAME_DB';
+  var UpdatePassword;
+
+
+ // ****************** Refresh data ******************
+  function refreshMessages() {
+    $.ajax(
+        {
+          url: Server,
+          type: 'POST',
+          data: {f: 'READ', n: storeageMail},
+          cache: false,
+          success: ReadReady,
+          error: ErrorHandler
+        }
+    );
+  }
+
+  function ReadReady(resultData) // сообщения получены - показывает
+  {
+    if (resultData.error !== undefined)
+      alert(resultData.error);
+    else {
+      resultArray = [];
+      if (resultData.result !== "") // либо строка пустая - сообщений нет
       {
-        type: "POST",
-        cache: false,
-        data: {f: "READ", n: "VISHNEUSKI_TEST_DRINKSTORAGE"},
-        success: LoadData,
-        error: ErrorHandler
-      }
-  );
-
-  function LoadData(data) {
-    if (data !== ' ') {
-      self.StorageHash = JSON.parse(data.result);
-      console.log('Data from server - ' + data.result);
-    } else if (data === ' ') {
-      $.ajax(Server,
-          {
-            type: "POST",
-            cache: false,
-            data: {f: "INSERT", n: "VISHNEUSKI_TEST_DRINKSTORAGE", v: JSON.stringify(self.StorageHash)},
-            success: InsertData,
-            error: ErrorHandler
-          }
-      );
-
-      function InsertData(data) {
-        console.log(data.result);
+        // либо в строке - JSON-представление массива результатов
+        resultArray = JSON.parse(resultData.result);
+        // вдруг кто-то сохранил мусор
+        if (!resultArray.length)
+          resultArray = [];
       }
     }
   }
+  function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
+    console.log(StatusStr + ' ' + ErrorStr);
+  }
 
-
-//   var ajaxHandlerScript="https://fe.it-academy.by/AjaxStringStorage2.php";
-//   var updatePassword;
-//   var stringName='TEST-GAME-DB';
-//   var resultString = [];
-//
-//   function storeInfo() {
-//     updatePassword=Math.random();
-//     $.ajax( {
-//           url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
-//           data : { f : 'LOCKGET', n : stringName, p : updatePassword },
-//           success : lockGetReady, error : errorHandler
-//         }
-//     );
-//   }
-//
-//   function lockGetReady(callresult) {
-//     if ( callresult.error!=undefined )
-//       alert(callresult.error);
-//     else {
-//       var resultString = JSON.parse(callresult.result)
-//       resultString.push({name: self.gamerName, record: self.myCount});
-//
-//       $.ajax( {
-//             url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
-//             data : { f : 'UPDATE', n : stringName, v : JSON.stringify(resultString), p : updatePassword },
-//             success : updateReady, error : errorHandler
-//           }
-//       );
-//     }
-//   }
-//
-//   function updateReady(callresult) {
-//     if ( callresult.error!=undefined )
-//       console.log(callresult.error);
-//   }
-//   function errorHandler(jqXHR,statusStr,errorStr) {
-//     alert(statusStr+' '+errorStr);
-//   }
-// }
+  refreshMessages();
 };
