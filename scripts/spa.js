@@ -1,5 +1,41 @@
 window.onhashchange = renderNewState;
 
+// ****************** Refresh results******************
+var resultArray = [];
+var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
+var storeageMail = 'TEST_GAME_DB';
+
+(function refreshRecords() {
+  $.ajax(
+      {
+        url: Server,
+        type: 'POST',
+        data: {f: 'READ', n: storeageMail},
+        cache: false,
+        success: ReadReady,
+        error: ErrorHandler
+      }
+  );
+})();
+
+function ReadReady(resultData) {
+  if (resultData.error !== undefined)
+    alert(resultData.error);
+  else {
+    resultArray = [];
+    if (resultData.result !== "") {
+      resultArray = JSON.parse(resultData.result);
+      if (!resultArray.length)
+        resultArray = [];
+    }
+  }
+}
+
+function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
+  console.log(StatusStr + ' ' + ErrorStr);
+};
+
+
 function renderNewState() {
   var hash = window.location.hash;
   var state = decodeURIComponent(hash.substr(1));
@@ -53,8 +89,10 @@ id="canvas"></canvas></div>`;
       page += '<div class="container">';
       page += '<input type="button" class="buttons" value="back to main menu" onclick="switchToStart()">';
       page += '<table class="tableRecords">';
-      page += `<tr class="table-cell"><th class="table-cell">Игрок</th><th class="table-cell">Время</th></tr>
-       <tr class="table-cell"><td class="table-cell" id="igrok">Player</td><td class="table-cell" id="itog">100</td></tr>`;
+      page += `<tr class="table-cell"><th class="table-cell">Игрок</th><th class="table-cell">Время</th></tr>`;
+      for (var i = 0; i < resultArray.length; i++) {
+        page += `<tr class="table-cell"><td class="table-cell" id="igrok">${resultArray[i].name}</td><td class="table-cell" id="itog">${resultArray[i].time}</td></tr>`;
+      }
       page += '</table>';
       page += '</div>';
       break;
