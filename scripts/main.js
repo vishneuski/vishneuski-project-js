@@ -23,8 +23,6 @@ window.onload = function () {
   var BULLETHEIGHT = 10;
 
   var COINSIZE = 16;
-  // ************************ Tiner ************************
-
 
   //* **************************Канвас**************************
 
@@ -84,6 +82,7 @@ window.onload = function () {
     self.coinCounter = 0; // кол-во столкновений с монетами
     self.enemyCounter = 0;// кол-во столкновений с врагами
     self.coinTouch = false;
+    self.health = 100;
   }
 
   Player.prototype.draw = function () {
@@ -111,7 +110,8 @@ window.onload = function () {
       var isColl = collision(self, enemies[i]);
       collision(self, enemies[i]);
       if (isColl === true) {
-        console.log('collision with enemy!!!!' + self.enemyCounter);
+        self.health -= 25;
+        console.log(`collision with enemy!!!!${self.enemyCounter} - ${self.health}`);
         // logic for enemy catch - the end of game)
         self.enemyCounter += 1;
       }
@@ -150,7 +150,7 @@ window.onload = function () {
     self.coinCollision();
     self.enemyCollision();
 
-    if (self.enemyCounter === 1) {
+    if (self.health <= 0) {
       console.log('Yoy are die!!!!');
       // startGame(); todo start game again
     }
@@ -262,10 +262,6 @@ window.onload = function () {
 
   Bullet.prototype.draw = function () {
     var self = this;
-    // ctx.beginPath();
-    // ctx.fillStyle = 'green';
-    // ctx.fillRect(self.posX, self.posY, self.width, self.height);
-    // ctx.fill();
     ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
   };
 
@@ -466,4 +462,76 @@ window.onload = function () {
   function endGame() {
     console.log(playerInfo);
   }
+
+  $.ajax(Server,
+      {
+        type: "POST",
+        cache: false,
+        data: {f: "READ", n: "VISHNEUSKI_TEST_DRINKSTORAGE"},
+        success: LoadData,
+        error: ErrorHandler
+      }
+  );
+
+  function LoadData(data) {
+    if (data !== ' ') {
+      self.StorageHash = JSON.parse(data.result);
+      console.log('Data from server - ' + data.result);
+    } else if (data === ' ') {
+      $.ajax(Server,
+          {
+            type: "POST",
+            cache: false,
+            data: {f: "INSERT", n: "VISHNEUSKI_TEST_DRINKSTORAGE", v: JSON.stringify(self.StorageHash)},
+            success: InsertData,
+            error: ErrorHandler
+          }
+      );
+
+      function InsertData(data) {
+        console.log(data.result);
+      }
+    }
+  }
+
+
+//   var ajaxHandlerScript="https://fe.it-academy.by/AjaxStringStorage2.php";
+//   var updatePassword;
+//   var stringName='TEST-GAME-DB';
+//   var resultString = [];
+//
+//   function storeInfo() {
+//     updatePassword=Math.random();
+//     $.ajax( {
+//           url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
+//           data : { f : 'LOCKGET', n : stringName, p : updatePassword },
+//           success : lockGetReady, error : errorHandler
+//         }
+//     );
+//   }
+//
+//   function lockGetReady(callresult) {
+//     if ( callresult.error!=undefined )
+//       alert(callresult.error);
+//     else {
+//       var resultString = JSON.parse(callresult.result)
+//       resultString.push({name: self.gamerName, record: self.myCount});
+//
+//       $.ajax( {
+//             url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
+//             data : { f : 'UPDATE', n : stringName, v : JSON.stringify(resultString), p : updatePassword },
+//             success : updateReady, error : errorHandler
+//           }
+//       );
+//     }
+//   }
+//
+//   function updateReady(callresult) {
+//     if ( callresult.error!=undefined )
+//       console.log(callresult.error);
+//   }
+//   function errorHandler(jqXHR,statusStr,errorStr) {
+//     alert(statusStr+' '+errorStr);
+//   }
+// }
 };
