@@ -66,7 +66,7 @@ window.onload = function () {
   var enemies = []; // массив врагов
   var bullets = []; // массив выстрелов
   var coins = []; // массив монет
-  var playerInfo = {}; // счет игрока
+  var playerInfo = {}; //имя и время игрока
 
   // ***************Функции-конструкторы**********************
   //* ******************    Player FC ****************
@@ -469,8 +469,8 @@ window.onload = function () {
   var UpdatePassword;
 
 
- // ****************** Refresh data ******************
-  function refreshMessages() {
+  // ****************** Refresh results******************
+  function refreshRecords() {
     $.ajax(
         {
           url: Server,
@@ -499,9 +499,67 @@ window.onload = function () {
       }
     }
   }
+
+  //**************   add result  *****************
+  function sendResult() {
+    UpdatePassword = Math.random();
+    $.ajax(
+        {
+          url: Server,
+          type: 'POST',
+          data: {
+            f: 'LOCKGET', n: storeageMail,
+            p: UpdatePassword
+          },
+          cache: false,
+          success: LockGetReady,
+          error: ErrorHandler
+        }
+    );
+  }
+
+  // сообщения получены, добавляет, показывает, сохраняет
+  function LockGetReady(resultData) {
+    if (resultData.error !== undefined)
+      alert(resultData.error);
+    else {
+      resultArray = [];
+      if (resultData.result != "") {
+        resultArray = JSON.parse(resultData.result);
+        if (!resultArray.length)
+          resultArray = [];
+      }
+
+      var playerName = playerInfo.name;
+      var playerTime = playerInfo.time;
+      resultArray.push({name: playerName, time: playerTime});
+      if (resultArray.length > 5)
+        resultArray = resultArray.slice(resultArray.length - 5);
+
+      $.ajax(
+          {
+            url: Server,
+            type: 'POST',
+            data: {
+              f: 'UPDATE', n: storeageMail,
+              v: JSON.stringify(resultArray), p: UpdatePassword
+            },
+            cache: false,
+            success: UpdateReady,
+            error: ErrorHandler
+          }
+      );
+    }
+  }
+
+  function UpdateReady(resultData) {
+    if (resultData.error != undefined)
+      alert(resultData.error);
+  }
+
   function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
     console.log(StatusStr + ' ' + ErrorStr);
   }
 
-  refreshMessages();
+  refreshRecords();
 };
