@@ -327,7 +327,6 @@ window.onload = function () {
     collision(self, player);
   };
 
-// todo function for outside canvas bullets delete - maby bullets.filter???
   Bullet.prototype.goOut = function () {
     var self = this;
     if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
@@ -411,7 +410,6 @@ window.onload = function () {
   function collision(obj1, obj2) {
     var isCollisioned = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
-      // console.log(obj1 + ' collision! ' + obj2);
       isCollisioned = true;
     } else {
       isCollisioned = false;
@@ -529,17 +527,13 @@ window.onload = function () {
     );
   }
 
-  function ReadReady(resultData) // сообщения получены - показывает
-  {
+  function ReadReady(resultData) {
     if (resultData.error !== undefined)
       alert(resultData.error);
     else {
       resultArray = [];
-      if (resultData.result !== "") // либо строка пустая - сообщений нет
-      {
-        // либо в строке - JSON-представление массива результатов
+      if (resultData.result !== "") {
         resultArray = JSON.parse(resultData.result);
-        // вдруг кто-то сохранил мусор
         if (!resultArray.length)
           resultArray = [];
       }
@@ -564,7 +558,6 @@ window.onload = function () {
     );
   }
 
-  // сообщения получены, добавляет, показывает, сохраняет
   function LockGetReady(resultData) {
     if (resultData.error !== undefined)
       alert(resultData.error);

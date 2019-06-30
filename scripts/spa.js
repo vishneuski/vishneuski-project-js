@@ -82,7 +82,6 @@ id="canvas"></canvas></div>`;
           '        прикосновений врагов и их коварных выстрелов. <br/>Победите всех недругов и будет\n' +
           '        Вам счастье!)</div>';
       page += '</div>';
-      // page += 'second page'; //page += buildGameArea(); игра может запускаться этой функцией
       break;
 
     case 'records':
@@ -123,7 +122,6 @@ function switchToRecords() {
 
 function gameStart() {
   document.location.reload(true);
-
 }
 
 renderNewState();
