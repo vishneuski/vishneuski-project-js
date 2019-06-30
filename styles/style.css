@@ -100,8 +100,8 @@
   width: 10em;
   height: 2em;
   position: absolute;
-  top: 5em;
-  left: 2em;
+  top: 0;
+  left: 16em;
   background: lightcyan;
 }
 
@@ -109,8 +109,8 @@
   width: 10em;
   height: 2em;
   position: absolute;
-  top: 8em;
-  left: 2em;
+  top: 0;
+  left: 5em;
   background: lightcyan;
 }
 
