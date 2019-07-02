@@ -79,10 +79,10 @@ window.onload = function () {
       wall.onload = function () {
         for (var i = 0; i < mapArray.length; i++) {
           for (var j = 0; j < mapArray[i].length; j++) {
-            if (mapArray[i][j] == 0) {
+            if (mapArray[i][j] === 0) {
               ctx.drawImage(brick, posX, posY, 64, 64);
             }
-            if (mapArray[i][j] == 1) {
+            if (mapArray[i][j] === 1) {
               ctx.drawImage(wall, posX, posY, 64, 64);
             }
             posX += 64;
@@ -90,20 +90,9 @@ window.onload = function () {
           posY += 64;
           posX = 0;
         }
-      }
+      };
     };
   }
-
-
-  // Хранилище нажатых клавиш
-  var keyStorage = {};
-  var KEY_CODE = {
-    up: 38,
-    down: 40,
-    left: 37,
-    right: 39,
-    shot: 32
-  };
 
   var player = new Player({posX: 0, posY: 0});
   var enemies = []; // массив врагов
@@ -116,6 +105,18 @@ window.onload = function () {
 
   function Player(player) {
     var self = this;
+
+
+    self.keyStorage = {};
+    self.KEY_CODE = {
+      up: 38,
+      down: 40,
+      left: 37,
+      right: 39,
+      shot: 32
+    };
+
+
     self.width = PLAYERWIDTH;
     self.height = PLAYERHEIGHT;
     self.speed = PLAYERSPEED;
@@ -163,27 +164,27 @@ window.onload = function () {
 
   Player.prototype.update = function () {
     var self = this;
-    if (keyStorage[KEY_CODE.up]) {
+    if (self.keyStorage[self.KEY_CODE.up]) {
       self.posY -= self.speed;
       self.direction = 38;
     }
 
-    if (keyStorage[KEY_CODE.down]) {
+    if (self.keyStorage[self.KEY_CODE.down]) {
       self.posY += self.speed;
       self.direction = 40;
     }
 
-    if (keyStorage[KEY_CODE.left]) {
+    if (self.keyStorage[self.KEY_CODE.left]) {
       self.posX -= self.speed;
       self.direction = 37;
     }
 
-    if (keyStorage[KEY_CODE.right]) {
+    if (self.keyStorage[self.KEY_CODE.right]) {
       self.posX += self.speed;
       self.direction = 39;
     }
 
-    if (keyStorage[KEY_CODE.shot]) {
+    if (self.keyStorage[self.KEY_CODE.shot]) {
       self.shot();
     }
 
@@ -458,20 +459,23 @@ window.onload = function () {
     });
   }
 
-//* ******************* слушаем события клавиатуры*********************
+//*******************************************************
+//*******************  CONTROLLER  **********************
+//*******************************************************
+
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
 
   function keyDown(e) {
     var e = e || window.event;
     e.preventDefault();
-    keyStorage[e.keyCode] = true;
+    player.keyStorage[e.keyCode] = true;
   }
 
   function keyUp(e) {
     var e = e || window.event;
     e.preventDefault();
-    delete keyStorage[e.keyCode];
+    delete player.keyStorage[e.keyCode];
   }
 
 //* ************ RequestAnimationFrame ***********************
