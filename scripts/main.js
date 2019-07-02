@@ -98,9 +98,9 @@ window.onload = function () {
   var enemies = []; // массив врагов
   var bullets = []; // массив выстрелов
   var coins = []; // массив монет
-  var playerInfo = {}; //имя и время игрока
 
-  // ***************Функции-конструкторы**********************
+  
+  // ***************Функции-конструкторы**************
   //* ******************    Player FC ****************
 
   function Player(player) {
@@ -116,7 +116,7 @@ window.onload = function () {
       shot: 32
     };
 
-
+    self.playerInfo = {}; //имя и время игрока
     self.width = PLAYERWIDTH;
     self.height = PLAYERHEIGHT;
     self.speed = PLAYERSPEED;
@@ -430,16 +430,21 @@ window.onload = function () {
     objArr.push(name);
   }
 
-
+  /**
+   * Функция для сохраниения результатов игры
+   * @returns {boolean} Состояние сохранения.
+   */
   function saveResult() {
     clearTimeout(time);
     var askName = prompt('Введите ваше имя: ', 'player');
     console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
     document.querySelector('#timer').innerHTML = time;
-    playerInfo.name = askName;
-    playerInfo.time = time;
+    player.playerInfo.name = askName;
+    player.playerInfo.time = time;
     sendResult();
     endGame();
+
+    return true;
   }
 
 //* *****************отрисовка CANVAS *********************
@@ -508,7 +513,7 @@ window.onload = function () {
   }
 
   function endGame() {
-    console.log(playerInfo);
+    console.log(player.playerInfo);
   }
 
   var resultArray = [];
@@ -567,14 +572,14 @@ window.onload = function () {
       alert(resultData.error);
     else {
       resultArray = [];
-      if (resultData.result != "") {
+      if (resultData.result !== '') {
         resultArray = JSON.parse(resultData.result);
         if (!resultArray.length)
           resultArray = [];
       }
 
-      var playerName = playerInfo.name || 'player';
-      var playerTime = playerInfo.time || 0;
+      var playerName = player.playerInfo.name || 'player';
+      var playerTime = player.playerInfo.time || 0;
       resultArray.push({name: playerName, time: playerTime});
       if (resultArray.length > 5)
         resultArray = resultArray.slice(resultArray.length - 5);
@@ -596,7 +601,7 @@ window.onload = function () {
   }
 
   function UpdateReady(resultData) {
-    if (resultData.error != undefined)
+    if (resultData.error !== undefined)
       alert(resultData.error);
   }
 
