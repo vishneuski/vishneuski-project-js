@@ -449,7 +449,9 @@ window.onload = function () {
     return true;
   }
 
-//* *****************отрисовка CANVAS *********************
+//***************** !!! VIEW !!! *****************************
+
+
   function drawCanvas() {
 
     drawMap();
@@ -466,9 +468,7 @@ window.onload = function () {
     });
   }
 
-//*******************************************************
-//*******************  CONTROLLER  **********************
-//*******************************************************
+//******************* !!! CONTROLLER !!! **********************
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
@@ -518,6 +518,8 @@ window.onload = function () {
     console.log(player.playerInfo);
   }
 
+
+  //**********************  AJAX  ***********************************
   var resultArray = [];
   var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
   var storeageMail = 'TEST_GAME_DB';

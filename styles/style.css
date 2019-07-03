@@ -69,7 +69,9 @@
 }
 
 #canvas {
-  background: tan;
+  background-image: url("../images/canvas-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 0;
   margin: auto auto;
   width: 55vw;
@@ -95,6 +97,15 @@
 .buttons-canvas-2 {
   top: 15em;
 }
+
+#touchButton {
+  bottom: 0;
+  left: 0;
+  width: 10em;
+  height: 5em;
+  position: absolute;
+  background: #fff;
+  }
 
 #score {
   width: 10em;
