@@ -72,17 +72,17 @@ onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
  <table class="controll-container">
     <tr>
       <td></td>
-      <td><input id='up' class='touchButton' type=button value='&uarr;' onclick='shiftUp()'></td>
+      <td><input id='up' class='touchButton' type=button value='&uarr;' onclick='player.update()'></td>
       <td></td>
     </tr>
     <tr>
-      <td><input id='left' class='touchButton' type=button value='&larr;' onclick='shiftLeft()'></td>
-      <td><input id='shot' class='touchButton' type="button" value='&bull;' onclick="playerShot()"></td>
-      <td><input id='right' class='touchButton' type=button value='&rarr;' onclick='shiftRight()'></td>
+      <td><input id='left' class='touchButton' type=button value='&larr;' onclick='player.update()'></td>
+      <td><input id='shot' class='touchButton' type="button" value='&bull;' onclick="player.update()"></td>
+      <td><input id='right' class='touchButton' type=button value='&rarr;' onclick='player.update()'></td>
     </tr>
     <tr>
       <td></td>
-      <td><input id='down' class='touchButton' type=button value='&darr;' onclick='shiftDown()'></td>
+      <td><input id='down' class='touchButton' type=button value='&darr;' onclick='player.update()'></td>
       <td></td>
     </tr>
   </table><canvas id="canvas"></canvas></div>`;

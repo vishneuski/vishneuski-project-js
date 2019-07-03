@@ -476,6 +476,17 @@ window.onload = function () {
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
+  window.addEventListener('mousedown', mouseDown, false);
+  window.addEventListener('mouseup', mouseUp, false);
+
+
+  function mouseDown(e) {
+    console.log(e);
+  }
+
+  function mouseUp(e) {
+    console.log(e);
+  }
 
   function keyDown(e) {
     var e = e || window.event;
