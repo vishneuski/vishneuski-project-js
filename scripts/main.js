@@ -1,5 +1,9 @@
 window.onload = function () {
 
+   // var audio = new Audio();
+   // audio.src = 'audio/lesnik.mp3';
+   // audio.autoplay = true;
+
   var time = 0;
   (function timer() {
     document.querySelector('#timer').innerHTML = time;
