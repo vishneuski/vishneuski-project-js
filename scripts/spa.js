@@ -35,7 +35,6 @@ function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
   console.log(StatusStr + ' ' + ErrorStr);
 };
 
-
 function renderNewState() {
   var hash = window.location.hash;
   var state = decodeURIComponent(hash.substr(1));
@@ -69,8 +68,24 @@ function renderNewState() {
     case 'game':
       page += `<div class="container container-canvas"><input type="button" class="buttons-canvas" value="back to main menu" 
 onclick="switchToStart()"><input type="button" class=" buttons-canvas buttons-canvas-2" value="Start the game!!!" 
-onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div><canvas 
-id="canvas"></canvas></div>`;
+onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
+ <table class="controll-container">
+    <tr>
+      <td></td>
+      <td><input class='touchButton' type=button value='&uarr;' onclick='shiftUp()'></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><input class='touchButton' type=button value='&larr;' onclick='shiftLeft()'></td>
+      <td><input class='touchButton' type="button" value='&bull;' onclick="playerShot()"></td>
+      <td><input class='touchButton' type=button value='&rarr;' onclick='shiftRight()'></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input class='touchButton' type=button value='&darr;' onclick='shiftDown()'></td>
+      <td></td>
+    </tr>
+  </table><canvas id="canvas"></canvas></div>`;
       break;
 
     case 'rules':

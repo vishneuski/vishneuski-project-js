@@ -360,7 +360,7 @@ window.onload = function () {
     self.goOut();
   };
 
-//* ***************  Coin f-c  *****************
+// ********************  Coin f-c  *********************
   function Coin(coin) {
 
     var self = this;
@@ -403,7 +403,8 @@ window.onload = function () {
   addEntity(Coin, 'coin2', {posX: 300, posY: 50}, coins);
   addEntity(Coin, 'coin3', {posX: 300, posY: 100}, coins);
 
-// *********************** Common functions ****************************
+// ******************** Common functions *************************
+
   /**
    * Функция для определения столкновений
    * @param {object} obj1 Первый объект
@@ -441,7 +442,7 @@ window.onload = function () {
     var askName = prompt('Введите ваше имя: ', 'player');
     console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
     document.querySelector('#timer').innerHTML = time;
-    player.playerInfo.name = askName;
+    player.playerInfo.name = askName || 'player';
     player.playerInfo.time = time;
     sendResult();
     endGame();

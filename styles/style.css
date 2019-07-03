@@ -69,13 +69,13 @@
 }
 
 #canvas {
-  background-image: url("../images/canvas-background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
   padding: 0;
   margin: auto auto;
   width: 55vw;
   height: 90vh;
+  background-image: url("../images/canvas-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .buttons-canvas {
@@ -85,6 +85,7 @@
   box-sizing: border-box;
   padding: 0.5em 1em;
   border: none;
+  border-radius: 0.1em;
   color: black;
   background-color: lightcyan;
   text-align: center;
@@ -98,13 +99,25 @@
   top: 15em;
 }
 
-#touchButton {
-  bottom: 0;
-  left: 0;
-  width: 10em;
-  height: 5em;
+.controll-container {
   position: absolute;
+  left: calc(50% - 0.75em);
+  bottom: 10%;
+}
+
+.touchButton {
+  box-sizing: border-box;
+  padding: 0;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1.5em;
+  text-align: center;
+  color: black;
+  line-height: 1.5em;
+  border-radius: 25%;
+  /*position: absolute;*/
   background: #fff;
+  opacity: 0.5;
   }
 
 #score {
