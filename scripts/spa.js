@@ -66,30 +66,29 @@ function renderNewState() {
       break;
 
     case 'game':
-      page += `<audio src="audio/lesnik.mp3" autoplay="autoplay"></audio><div class="container container-canvas"><input type="button" class="buttons-canvas" value="back to main menu" 
+      page += `<audio src="audio/lesnik.mp3"></audio><div class="container container-canvas"><input type="button" class="buttons-canvas" value="back to main menu" 
 onclick="switchToStart()"><input type="button" class=" buttons-canvas buttons-canvas-2" value="Start the game!!!" 
 onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
  <table class="controll-container">
     <tr>
       <td></td>
-      <td><input class='touchButton' type=button value='&uarr;' onclick='shiftUp()'></td>
+      <td><input id='up' class='touchButton' type=button value='&uarr;' onclick='shiftUp()'></td>
       <td></td>
     </tr>
     <tr>
-      <td><input class='touchButton' type=button value='&larr;' onclick='shiftLeft()'></td>
-      <td><input class='touchButton' type="button" value='&bull;' onclick="playerShot()"></td>
-      <td><input class='touchButton' type=button value='&rarr;' onclick='shiftRight()'></td>
+      <td><input id='left' class='touchButton' type=button value='&larr;' onclick='shiftLeft()'></td>
+      <td><input id='shot' class='touchButton' type="button" value='&bull;' onclick="playerShot()"></td>
+      <td><input id='right' class='touchButton' type=button value='&rarr;' onclick='shiftRight()'></td>
     </tr>
     <tr>
       <td></td>
-      <td><input class='touchButton' type=button value='&darr;' onclick='shiftDown()'></td>
+      <td><input id='down' class='touchButton' type=button value='&darr;' onclick='shiftDown()'></td>
       <td></td>
     </tr>
   </table><canvas id="canvas"></canvas></div>`;
       break;
 
     case 'rules':
-      page += '<audio src="audio/fokusnik.mp3" autoplay="autoplay"></audio>';
       page += '<div class="container">';
       page += '<input type="button" class="buttons" value="back to main menu" onclick="switchToStart()">';
       page += ' <div class="rules">Перед Вами игра Bugs Killer. Цель игры - собрать все монеты, не попадя в лапы коварных врагов.</br> Они те еще\n' +
@@ -101,7 +100,6 @@ onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
       break;
 
     case 'records':
-      page += '<audio src="audio/Adele.mp3" autoplay="autoplay"></audio>';
       page += '<div class="container">';
       page += '<input type="button" class="buttons" value="back to main menu" onclick="switchToStart()">';
       page += '<table class="tableRecords">';

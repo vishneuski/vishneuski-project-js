@@ -1,13 +1,11 @@
 window.onload = function () {
 
-   // var audio = new Audio();
-   // audio.src = 'audio/lesnik.mp3';
-   // audio.autoplay = true;
-
+  var audio = document.querySelector('audio');
   var time = 0;
   (function timer() {
     document.querySelector('#timer').innerHTML = time;
     time = setTimeout(timer, 1000);
+    audio.play();
   })();
 // *******************Константы***********************
 
@@ -443,6 +441,7 @@ window.onload = function () {
    */
   function saveResult() {
     clearTimeout(time);
+    audio.pause();
     var askName = prompt('Введите ваше имя: ', 'player');
     console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
     document.querySelector('#timer').innerHTML = time;
