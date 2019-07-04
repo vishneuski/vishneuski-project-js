@@ -109,8 +109,6 @@ window.onload = function () {
 
   function Player(player) {
     var self = this;
-
-
     self.keyStorage = {};
     self.KEY_CODE = {
       up: 38,
@@ -170,7 +168,7 @@ window.onload = function () {
     var self = this;
     if (self.keyStorage[self.KEY_CODE.up]) {
       self.posY -= self.speed;
-      self.direction = 38;
+      self.direction = 38; //need for define shot direction
     }
 
     if (self.keyStorage[self.KEY_CODE.down]) {
@@ -473,20 +471,49 @@ window.onload = function () {
   }
 
 //******************* !!! CONTROLLER !!! **********************
+  var up = document.querySelector('#up');
+  var down = document.querySelector('#down');
+  var left = document.querySelector('#left');
+  var right = document.querySelector('#right');
+  var shot = document.querySelector('#shot');
+
+  up.addEventListener('mousedown', upMouseDown, false);
+  down.addEventListener('mousedown', downMouseDown, false);
+  left.addEventListener('mousedown', leftMouseDown, false);
+  right.addEventListener('mousedown', rightMouseDown, false);
+  shot.addEventListener('mousedown', shotMouseDown, false);
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
-  window.addEventListener('mousedown', mouseDown, false);
-  window.addEventListener('mouseup', mouseUp, false);
+  // window.addEventListener('mousedown', mouseDown, false);
+  // window.addEventListener('mouseup', mouseUp, false);
 
 
-  function mouseDown(e) {
+  function upMouseDown(e) {
+    console.log('up is pressed!');
+    console.log(e);
+  }
+  function downMouseDown(e) {
+    console.log('down is pressed!');
+    console.log(e);
+  }
+  function leftMouseDown(e) {
+    console.log('left is pressed!');
+    console.log(e);
+  }
+  function rightMouseDown(e) {
+    console.log('right is pressed!');
     console.log(e);
   }
 
-  function mouseUp(e) {
+  function shotMouseDown(e) {
+    console.log('shot is pressed!');
     console.log(e);
   }
+
+  // function mouseUp(e) {
+  //   console.log(e);
+  // }
 
   function keyDown(e) {
     var e = e || window.event;

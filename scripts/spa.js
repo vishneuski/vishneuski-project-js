@@ -72,17 +72,17 @@ onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
  <table class="controll-container">
     <tr>
       <td></td>
-      <td><input id='up' class='touchButton' type=button value='&uarr;' onclick='player.update()'></td>
+      <td><input id='up' class='touchButton' type=button value='&uarr;'></td>
       <td></td>
     </tr>
     <tr>
-      <td><input id='left' class='touchButton' type=button value='&larr;' onclick='player.update()'></td>
-      <td><input id='shot' class='touchButton' type="button" value='&bull;' onclick="player.update()"></td>
-      <td><input id='right' class='touchButton' type=button value='&rarr;' onclick='player.update()'></td>
+      <td><input id='left' class='touchButton' type=button value='&larr;'></td>
+      <td><input id='shot' class='touchButton' type="button" value='&bull;'></td>
+      <td><input id='right' class='touchButton' type=button value='&rarr;'></td>
     </tr>
     <tr>
       <td></td>
-      <td><input id='down' class='touchButton' type=button value='&darr;' onclick='player.update()'></td>
+      <td><input id='down' class='touchButton' type=button value='&darr;'></td>
       <td></td>
     </tr>
   </table><canvas id="canvas"></canvas></div>`;
