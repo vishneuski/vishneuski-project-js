@@ -195,6 +195,7 @@ window.onload = function () {
 
     self.coinCollision();
     self.enemyCollision();
+    self.shiftUp();
 
     if (self.health === 0) {
       console.log('Yoy are die!!!!');
@@ -207,6 +208,11 @@ window.onload = function () {
       posX: this.posX,
       posY: this.posY
     }));
+  };
+
+  Player.prototype.shiftUp = function () {
+    var self = this;
+    self.posY += self.speed;
   };
 
 
@@ -490,24 +496,37 @@ window.onload = function () {
 
 
   function upMouseDown(e) {
+    e.preventDefault();
     console.log('up is pressed!');
+    player.shiftUp(38);
     console.log(e);
   }
+
   function downMouseDown(e) {
+    e.preventDefault();
     console.log('down is pressed!');
+    player.shiftUp(40);
     console.log(e);
   }
+
   function leftMouseDown(e) {
+    e.preventDefault();
     console.log('left is pressed!');
+    player.shiftUp(37);
     console.log(e);
   }
+
   function rightMouseDown(e) {
+    e.preventDefault();
     console.log('right is pressed!');
+    player.shiftUp(39);
     console.log(e);
   }
 
   function shotMouseDown(e) {
+    e.preventDefault();
     console.log('shot is pressed!');
+    player.shot();
     console.log(e);
   }
 
