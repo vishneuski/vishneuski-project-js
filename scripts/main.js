@@ -237,15 +237,6 @@ window.onload = function () {
       self.posX += self.speed / 5;
       self.direction = 39;
     }
-    // if (self.key === 38) {
-    //   self.posY -= self.speed;
-    // } else if (self.key === 40) {
-    //   self.posY += self.speed;
-    // } else if (self.key === 37) {
-    //   self.posX -= self.speed;
-    // } else if (self.key === 39) {
-    //   self.posX += self.speed;
-    // }
   };
 
   //* ********************** Enemy function-constructor *************
@@ -521,17 +512,14 @@ window.onload = function () {
   right.addEventListener('mousedown', rightMouseDown, false);
   shot.addEventListener('mousedown', shotMouseDown, false);
 
-  // up.addEventListener('mousedown', upMouseDown, false);
-  // down.addEventListener('mousedown', downMouseDown, false);
-  // left.addEventListener('mousedown', leftMouseDown, false);
-  // right.addEventListener('mousedown', rightMouseDown, false);
-  // shot.addEventListener('mousedown', shotMouseDown, false);
+  up.addEventListener('mouseup', upMouseUp, false);
+  down.addEventListener('mouseup', downMouseUp, false);
+  left.addEventListener('mouseup', leftMouseUp, false);
+  right.addEventListener('mouseup', rightMouseUp, false);
+  // shot.addEventListener('mouseup', shotMouseUp, false);
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
-  // window.addEventListener('mousedown', mouseDown, false);
-  // window.addEventListener('mouseup', mouseUp, false);
-
 
   function upMouseDown(e) {
     var e = e || window.event;
@@ -539,7 +527,6 @@ window.onload = function () {
     e.preventDefault();
     player.keyStorage[key] = true;
     console.log('up is pressed!');
-
     player.shift();
   }
 
@@ -570,16 +557,48 @@ window.onload = function () {
     player.shift();
   }
 
+  function downMouseUp(e) {
+    var e = e || window.event;
+    var key = 40;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    console.log('down is unpressed!');
+    player.shift();
+  }
+
+  function upMouseUp(e) {
+    var e = e || window.event;
+    var key = 38;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    console.log('down is unpressed!');
+    player.shift();
+  }
+
+  function leftMouseUp(e) {
+    var e = e || window.event;
+    var key = 37;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    console.log('left is unpressed!');
+    player.shift();
+  }
+
+  function rightMouseUp(e) {
+    var e = e || window.event;
+    var key = 39;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    console.log('right is unpressed!');
+    player.shift();
+  }
+
   function shotMouseDown(e) {
     var e = e || window.event;
     e.preventDefault();
     console.log('shot is pressed!');
     player.shot();
   }
-
-  // function mouseUp(e) {
-  //   console.log(e);
-  // }
 
   function keyDown(e) {
     var e = e || window.event;
@@ -592,18 +611,6 @@ window.onload = function () {
     e.preventDefault();
     delete player.keyStorage[e.keyCode];
   }
-
-  // function mousekeyDown(e) {
-  //   var e = e || window.event;
-  //   e.preventDefault();
-  //   player.keyStorage[e.keyCode] = true;
-  // }
-  //
-  // function mousekeyUp(e) {
-  //   var e = e || window.event;
-  //   e.preventDefault();
-  //   delete player.keyStorage[e.keyCode];
-  // }
 
 //* ************ RequestAnimationFrame ***********************
 
