@@ -210,11 +210,19 @@ window.onload = function () {
     }));
   };
 
-  Player.prototype.shiftUp = function () {
+  Player.prototype.shiftUp = function (mouseKey) {
     var self = this;
-    self.posY += self.speed;
+    self.key = mouseKey;
+    if (self.key === 38) {
+      self.posY -= self.speed;
+    } else if (self.key === 40) {
+      self.posY += self.speed;
+    } else if (self.key === 37) {
+      self.posX -= self.speed;
+    } else if (self.key === 39) {
+      self.posX += self.speed;
+    }
   };
-
 
   //* ********************** Enemy function-constructor *************
   function Enemy(enemy) {
@@ -496,38 +504,38 @@ window.onload = function () {
 
 
   function upMouseDown(e) {
+    var e = e || window.event;
     e.preventDefault();
     console.log('up is pressed!');
     player.shiftUp(38);
-    console.log(e);
   }
 
   function downMouseDown(e) {
+    var e = e || window.event;
     e.preventDefault();
     console.log('down is pressed!');
     player.shiftUp(40);
-    console.log(e);
   }
 
   function leftMouseDown(e) {
+    var e = e || window.event;
     e.preventDefault();
     console.log('left is pressed!');
     player.shiftUp(37);
-    console.log(e);
   }
 
   function rightMouseDown(e) {
+    var e = e || window.event;
     e.preventDefault();
     console.log('right is pressed!');
     player.shiftUp(39);
-    console.log(e);
   }
 
   function shotMouseDown(e) {
+    var e = e || window.event;
     e.preventDefault();
     console.log('shot is pressed!');
     player.shot();
-    console.log(e);
   }
 
   // function mouseUp(e) {
