@@ -117,6 +117,13 @@ window.onload = function () {
       right: 39,
       shot: 32
     };
+    // self.mouseCode = {
+    //   up: 38,
+    //   down: 40,
+    //   left: 37,
+    //   right: 39,
+    //   shot: 32
+    // };
 
     self.playerInfo = {}; //имя и время игрока
     self.width = PLAYERWIDTH;
@@ -195,7 +202,7 @@ window.onload = function () {
 
     self.coinCollision();
     self.enemyCollision();
-    self.shiftUp();
+    // self.shift();
 
     if (self.health === 0) {
       console.log('Yoy are die!!!!');
@@ -210,18 +217,35 @@ window.onload = function () {
     }));
   };
 
-  Player.prototype.shiftUp = function (mouseKey) {
+  Player.prototype.shift = function () {
     var self = this;
-    self.key = mouseKey;
-    if (self.key === 38) {
-      self.posY -= self.speed;
-    } else if (self.key === 40) {
-      self.posY += self.speed;
-    } else if (self.key === 37) {
-      self.posX -= self.speed;
-    } else if (self.key === 39) {
-      self.posX += self.speed;
+    if (self.keyStorage[self.KEY_CODE.up]) {
+      self.posY -= self.speed / 5;
+      self.direction = 38;
     }
+    if (self.keyStorage[self.KEY_CODE.down]) {
+      self.posY += self.speed / 5;
+      self.direction = 40;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.left]) {
+      self.posX -= self.speed / 5;
+      self.direction = 37;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.right]) {
+      self.posX += self.speed / 5;
+      self.direction = 39;
+    }
+    // if (self.key === 38) {
+    //   self.posY -= self.speed;
+    // } else if (self.key === 40) {
+    //   self.posY += self.speed;
+    // } else if (self.key === 37) {
+    //   self.posX -= self.speed;
+    // } else if (self.key === 39) {
+    //   self.posX += self.speed;
+    // }
   };
 
   //* ********************** Enemy function-constructor *************
@@ -497,6 +521,12 @@ window.onload = function () {
   right.addEventListener('mousedown', rightMouseDown, false);
   shot.addEventListener('mousedown', shotMouseDown, false);
 
+  // up.addEventListener('mousedown', upMouseDown, false);
+  // down.addEventListener('mousedown', downMouseDown, false);
+  // left.addEventListener('mousedown', leftMouseDown, false);
+  // right.addEventListener('mousedown', rightMouseDown, false);
+  // shot.addEventListener('mousedown', shotMouseDown, false);
+
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
   // window.addEventListener('mousedown', mouseDown, false);
@@ -505,30 +535,39 @@ window.onload = function () {
 
   function upMouseDown(e) {
     var e = e || window.event;
+    var key = 38;
     e.preventDefault();
+    player.keyStorage[key] = true;
     console.log('up is pressed!');
-    player.shiftUp(38);
+
+    player.shift();
   }
 
   function downMouseDown(e) {
     var e = e || window.event;
+    var key = 40;
     e.preventDefault();
+    player.keyStorage[key] = true;
     console.log('down is pressed!');
-    player.shiftUp(40);
+    player.shift();
   }
 
   function leftMouseDown(e) {
     var e = e || window.event;
+    var key = 37;
     e.preventDefault();
+    player.keyStorage[key] = true;
     console.log('left is pressed!');
-    player.shiftUp(37);
+    player.shift();
   }
 
   function rightMouseDown(e) {
     var e = e || window.event;
+    var key = 39;
     e.preventDefault();
+    player.keyStorage[key] = true;
     console.log('right is pressed!');
-    player.shiftUp(39);
+    player.shift();
   }
 
   function shotMouseDown(e) {
@@ -554,6 +593,18 @@ window.onload = function () {
     delete player.keyStorage[e.keyCode];
   }
 
+  // function mousekeyDown(e) {
+  //   var e = e || window.event;
+  //   e.preventDefault();
+  //   player.keyStorage[e.keyCode] = true;
+  // }
+  //
+  // function mousekeyUp(e) {
+  //   var e = e || window.event;
+  //   e.preventDefault();
+  //   delete player.keyStorage[e.keyCode];
+  // }
+
 //* ************ RequestAnimationFrame ***********************
 
   var RequestAnimationFrame =
@@ -570,6 +621,7 @@ window.onload = function () {
 
   function game() {
     player.update();
+    player.shift();
     bullets.forEach(function (bullet) {
       bullet.update();
     });
