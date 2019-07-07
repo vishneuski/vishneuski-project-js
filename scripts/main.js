@@ -34,27 +34,20 @@ window.onload = function () {
   canvas.height = CANVASHEIGHT;
 
   // todo рефакторинг - ф-ию
-  // var field = new Image();
   var hero = new Image();
   var fireball = new Image();
   var allien = new Image();
   var prise = new Image();
 
-
-  // field.onload = drawCanvas;
   hero.onload = drawCanvas;
   fireball.onload = drawCanvas;
   allien.onload = drawCanvas;
   prise.onload = drawCanvas;
 
-  // field.src = 'images/field.png';
   hero.src = 'images/hero.gif';
   fireball.src = 'images/fireball.png';
   allien.src = 'images/allien.gif';
   prise.src = 'images/coin.png';
-
-
-  //*********** audio *****************
 
   //*********** map *******************
 
@@ -72,9 +65,6 @@ window.onload = function () {
 
     var brick = new Image();
     var wall = new Image();
-
-    brick.src = 'images/brick.png';
-    wall.src = 'images/wall.png';
 
     var posX = 0;
     var posY = 0;
@@ -96,13 +86,15 @@ window.onload = function () {
         }
       };
     };
+
+    brick.src = 'images/brick.png';
+    wall.src = 'images/wall.png';
   }
 
   var player = new Player({posX: 0, posY: 0});
   var enemies = []; // массив врагов
   var bullets = []; // массив выстрелов
   var coins = []; // массив монет
-
 
   // ***************Функции-конструкторы**************
   //* ******************    Player FC ****************
@@ -134,6 +126,7 @@ window.onload = function () {
     self.direction = 37;
     self.coinCounter = 0; // кол-во столкновений с монетами
     self.enemyCounter = 0;// кол-во столкновений с врагами
+    self.bulletCounter = 3;
     self.coinTouch = false;
     self.health = 100;
   }
@@ -215,6 +208,7 @@ window.onload = function () {
       posX: this.posX,
       posY: this.posY
     }));
+    if (bullets.length >= self.bulletCounter)
   };
 
   Player.prototype.shift = function () {
@@ -354,11 +348,6 @@ window.onload = function () {
     }
   };
 
-  Bullet.prototype.playerCollision = function () {
-    var self = this;
-    collision(self, player);
-  };
-
   Bullet.prototype.goOut = function () {
     var self = this;
     if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
@@ -385,7 +374,6 @@ window.onload = function () {
       self.posY += self.speed;
     }
     self.enemyCollision();
-    self.playerCollision();
     self.goOut();
   };
 
@@ -486,7 +474,6 @@ window.onload = function () {
   function drawCanvas() {
 
     drawMap();
-    // ctx.drawImage(field, 0, 0, CANVASWIDTH, CANVASHEIGHT);
     player.draw();
     bullets.forEach(function (bullet) {
       bullet.draw();
@@ -534,7 +521,6 @@ window.onload = function () {
     var key = 40;
     e.preventDefault();
     player.keyStorage[key] = true;
-    console.log('down is pressed!');
     player.shift();
   }
 
@@ -543,7 +529,6 @@ window.onload = function () {
     var key = 37;
     e.preventDefault();
     player.keyStorage[key] = true;
-    console.log('left is pressed!');
     player.shift();
   }
 
@@ -552,7 +537,6 @@ window.onload = function () {
     var key = 39;
     e.preventDefault();
     player.keyStorage[key] = true;
-    console.log('right is pressed!');
     player.shift();
   }
 
@@ -561,7 +545,6 @@ window.onload = function () {
     var key = 40;
     e.preventDefault();
     delete player.keyStorage[key];
-    console.log('down is unpressed!');
     player.shift();
   }
 
@@ -570,7 +553,6 @@ window.onload = function () {
     var key = 38;
     e.preventDefault();
     delete player.keyStorage[key];
-    console.log('down is unpressed!');
     player.shift();
   }
 
@@ -579,7 +561,6 @@ window.onload = function () {
     var key = 37;
     e.preventDefault();
     delete player.keyStorage[key];
-    console.log('left is unpressed!');
     player.shift();
   }
 
@@ -588,14 +569,12 @@ window.onload = function () {
     var key = 39;
     e.preventDefault();
     delete player.keyStorage[key];
-    console.log('right is unpressed!');
     player.shift();
   }
 
   function shotMouseDown(e) {
     var e = e || window.event;
     e.preventDefault();
-    console.log('shot is pressed!');
     player.shot();
   }
 
@@ -645,13 +624,11 @@ window.onload = function () {
     console.log(player.playerInfo);
   }
 
-
   //**********************  AJAX  ***********************************
   var resultArray = [];
   var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
   var storeageMail = 'TEST_GAME_DB';
   var UpdatePassword;
-
 
   // ****************** Refresh results******************
   function refreshRecords() {
