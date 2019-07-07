@@ -302,6 +302,7 @@ window.onload = function () {
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
     self.bulletCollision();
+    endGame();
   };
 
   addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
@@ -418,6 +419,7 @@ window.onload = function () {
       saveResult();
     }
   }
+
   /**
    * Функция для определения столкновений
    * @param {object} obj1 Первый объект
@@ -460,6 +462,7 @@ window.onload = function () {
     player.playerInfo.time = time;
     sendResult();
 
+    alert('ВЫ ПОБЕДИЛИ!!!');
     return true;
   }
 
