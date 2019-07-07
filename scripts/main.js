@@ -14,7 +14,7 @@ window.onload = function () {
 
   var PLAYERWIDTH = 32;
   var PLAYERHEIGHT = 32;
-  var PLAYERSPEED = 2;
+  var PLAYERSPEED = 1.2;
 
   var ENEMYWIDTH = 32;
   var ENEMYHEIGHT = 32;
@@ -189,8 +189,9 @@ window.onload = function () {
     self.enemyCollision();
 
     if (self.health === 0) {
-      console.log('Yoy are die!!!!');
-      // startGame(); todo start game again
+      audio.pause();
+      //todo gameover
+      alert('Yoy are die!!!!');
     }
   };
 
@@ -409,15 +410,19 @@ window.onload = function () {
     self.playerCollision();
   };
 
-  addEntity(Coin, 'coin1', {posX: 300, posY: 10}, coins);
-  addEntity(Coin, 'coin2', {posX: 300, posY: 50}, coins);
-  addEntity(Coin, 'coin3', {posX: 300, posY: 100}, coins);
+  for (var i = 0; i <= 100; i ++) {
+    addEntity(Coin, 'coin1', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
+  }
 
 // ******************** Common functions *************************
   function endGame() {
     if (coins.length === 0 && enemies.length === 0) {
       saveResult();
     }
+  }
+
+  function getMathRandom(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   /**
@@ -462,7 +467,7 @@ window.onload = function () {
     player.playerInfo.time = time;
     sendResult();
 
-    alert('ВЫ ПОБЕДИЛИ!!!');
+    alert('ВЫ ПОБЕДИЛИ!!!'); //todo relocate on main page
     return true;
   }
 
@@ -470,7 +475,6 @@ window.onload = function () {
 
 
   function drawCanvas() {
-
     drawMap();
     player.draw();
     bullets.forEach(function (bullet) {
@@ -491,21 +495,21 @@ window.onload = function () {
   var right = document.querySelector('#right');
   var shot = document.querySelector('#shot');
 
-  up.addEventListener('touchstart', upMouseDown, false);
-  down.addEventListener('touchstart', downMouseDown, false);
-  left.addEventListener('touchstart', leftMouseDown, false);
-  right.addEventListener('touchstart', rightMouseDown, false);
-  shot.addEventListener('touchstart', shotMouseDown, false);
+  up.addEventListener('touchstart', upDown, false);
+  down.addEventListener('touchstart', downDown, false);
+  left.addEventListener('touchstart', leftDown, false);
+  right.addEventListener('touchstart', rightDown, false);
+  shot.addEventListener('touchstart', shotDown, false);
 
-  up.addEventListener('touchend', upMouseUp, false);
-  down.addEventListener('touchend', downMouseUp, false);
-  left.addEventListener('touchend', leftMouseUp, false);
-  right.addEventListener('touchend', rightMouseUp, false);
+  up.addEventListener('touchend', upUp, false);
+  down.addEventListener('touchend', downUp, false);
+  left.addEventListener('touchend', leftUp, false);
+  right.addEventListener('touchend', rightUp, false);
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
 
-  function upMouseDown(e) {
+  function upDown(e) {
     var e = e || window.event;
     var key = 38;
     e.preventDefault();
@@ -513,7 +517,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function downMouseDown(e) {
+  function downDown(e) {
     var e = e || window.event;
     var key = 40;
     e.preventDefault();
@@ -521,7 +525,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function leftMouseDown(e) {
+  function leftDown(e) {
     var e = e || window.event;
     var key = 37;
     e.preventDefault();
@@ -529,7 +533,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function rightMouseDown(e) {
+  function rightDown(e) {
     var e = e || window.event;
     var key = 39;
     e.preventDefault();
@@ -537,7 +541,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function downMouseUp(e) {
+  function downUp(e) {
     var e = e || window.event;
     var key = 40;
     e.preventDefault();
@@ -545,7 +549,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function upMouseUp(e) {
+  function upUp(e) {
     var e = e || window.event;
     var key = 38;
     e.preventDefault();
@@ -553,7 +557,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function leftMouseUp(e) {
+  function leftUp(e) {
     var e = e || window.event;
     var key = 37;
     e.preventDefault();
@@ -561,7 +565,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function rightMouseUp(e) {
+  function rightUp(e) {
     var e = e || window.event;
     var key = 39;
     e.preventDefault();
@@ -569,7 +573,7 @@ window.onload = function () {
     player.shift();
   }
 
-  function shotMouseDown(e) {
+  function shotDown(e) {
     var e = e || window.event;
     e.preventDefault();
     player.shot();
@@ -598,7 +602,6 @@ window.onload = function () {
       function (callback) {
         window.setTimeout(callback, 1000 / 60);
       };
-
   RequestAnimationFrame(game);
 
   function game() {
