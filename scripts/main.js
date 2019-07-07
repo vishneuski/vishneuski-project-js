@@ -506,17 +506,16 @@ window.onload = function () {
   var right = document.querySelector('#right');
   var shot = document.querySelector('#shot');
 
-  up.addEventListener('mousedown', upMouseDown, false);
-  down.addEventListener('mousedown', downMouseDown, false);
-  left.addEventListener('mousedown', leftMouseDown, false);
-  right.addEventListener('mousedown', rightMouseDown, false);
-  shot.addEventListener('mousedown', shotMouseDown, false);
+  up.addEventListener('touchstart', upMouseDown, false);
+  down.addEventListener('touchstart', downMouseDown, false);
+  left.addEventListener('touchstart', leftMouseDown, false);
+  right.addEventListener('touchstart', rightMouseDown, false);
+  shot.addEventListener('touchstart', shotMouseDown, false);
 
-  up.addEventListener('mouseup', upMouseUp, false);
-  down.addEventListener('mouseup', downMouseUp, false);
-  left.addEventListener('mouseup', leftMouseUp, false);
-  right.addEventListener('mouseup', rightMouseUp, false);
-  // shot.addEventListener('mouseup', shotMouseUp, false);
+  up.addEventListener('touchend', upMouseUp, false);
+  down.addEventListener('touchend', downMouseUp, false);
+  left.addEventListener('touchend', leftMouseUp, false);
+  right.addEventListener('touchend', rightMouseUp, false);
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);

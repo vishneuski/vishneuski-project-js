@@ -153,6 +153,13 @@
   color: white;
   text-align: center;
 }
-/*td {*/
-  /*border: 1px solid lightblue;*/
-/*}*/
+/*
+todo @media and buttons move
+*/
+
+@media (max-width: 900px) {
+  #canvas {
+    width: 100vw;
+    height: 50vh;
+  }
+}
