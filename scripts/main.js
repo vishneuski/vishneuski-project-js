@@ -306,10 +306,22 @@ window.onload = function () {
     endGame();
   };
 
-  addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
-  addEntity(Enemy, 'enemy2', {posX: 300, posY: 50, direction: 3}, enemies);
-  addEntity(Enemy, 'enemy3', {posX: 200, posY: 100, direction: 2}, enemies);
-  addEntity(Enemy, 'enemy2', {posX: 200, posY: 150, direction: 4}, enemies);
+  enemyAdd();
+  
+  function enemyAdd() {
+    for (var i = 0; i <= 10; i++) {
+      addEntity(Enemy, 'enemy', {
+        posX: getMathRandom(0, 496),
+        posY: getMathRandom(0, 496),
+        direction: Math.floor(Math.random() * (5 - 1)) + 1
+      }, enemies);
+    }
+  }
+
+  // addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
+  // addEntity(Enemy, 'enemy2', {posX: 300, posY: 50, direction: 3}, enemies);
+  // addEntity(Enemy, 'enemy3', {posX: 200, posY: 100, direction: 2}, enemies);
+  // addEntity(Enemy, 'enemy2', {posX: 200, posY: 150, direction: 4}, enemies);
 
 
   //* ***********      Bullet FC    ****************
@@ -410,17 +422,28 @@ window.onload = function () {
     self.playerCollision();
   };
 
-  for (var i = 0; i <= 100; i ++) {
-    addEntity(Coin, 'coin1', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
+  coinAdd();
+
+  function coinAdd() {
+    for (var i = 0; i <= 100; i++) {
+      addEntity(Coin, 'coin', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
+    }
   }
 
 // ******************** Common functions *************************
+
   function endGame() {
     if (coins.length === 0 && enemies.length === 0) {
       saveResult();
     }
   }
 
+  /**
+   * Функция получения рандомного числа для размещения объектов(монет, врагов)
+   * @param {number} min Минимальная координата по осям x или y
+   * @param {number} max Максимальная координата по осям x или y
+   * @returns {number} Рандомное число
+   */
   function getMathRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
