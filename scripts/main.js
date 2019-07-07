@@ -109,13 +109,6 @@ window.onload = function () {
       right: 39,
       shot: 32
     };
-    // self.mouseCode = {
-    //   up: 38,
-    //   down: 40,
-    //   left: 37,
-    //   right: 39,
-    //   shot: 32
-    // };
 
     self.playerInfo = {}; //имя и время игрока
     self.width = PLAYERWIDTH;
@@ -126,7 +119,8 @@ window.onload = function () {
     self.direction = 37;
     self.coinCounter = 0; // кол-во столкновений с монетами
     self.enemyCounter = 0;// кол-во столкновений с врагами
-    self.bulletCounter = 3;
+    self.bulletNumber = 0;
+    self.bulletActive = false;
     self.coinTouch = false;
     self.health = 100;
   }
@@ -204,11 +198,15 @@ window.onload = function () {
   };
 
   Player.prototype.shot = function () {
-    bullets.push(new Bullet({
-      posX: this.posX,
-      posY: this.posY
-    }));
-    if (bullets.length >= self.bulletCounter)
+    var self = this;
+    while (self.bulletNumber < 1 && self.bulletActive === false) {
+      bullets.push(new Bullet({
+        posX: this.posX,
+        posY: this.posY
+      }));
+      self.bulletNumber ++;
+      self.bulletActive = true;
+    }
   };
 
   Player.prototype.shift = function () {
@@ -318,7 +316,7 @@ window.onload = function () {
   //* ***********      Bullet FC    ****************
   function Bullet(bullet) {
     var self = this;
-    self.numOfBullet = 0;
+    self.maxNumOfBullet = 3;
     self.speed = BULLETSPEED;
     self.width = BULLETWIDTH;
     self.height = BULLETHEIGHT;
@@ -350,14 +348,24 @@ window.onload = function () {
 
   Bullet.prototype.goOut = function () {
     var self = this;
-    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0) {
+    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0 || self.getEnemyTarget === true) {
       self.isOut = true;
+      player.bulletActive = false;
+      player.bulletNumber --;
       console.log(self);
       bullets = bullets.filter(function (bullet) {
         return !bullet.isOut;
       });
     }
   };
+  //
+  // Bullet.prototype.quantityOfBullets = function () {
+  //   var self = this;
+  //
+  //   if (bullets.length >= self.maxNumOfBullet) {
+  //     bullets = bullets.slice(self.maxNumOfBullet);
+  //   }
+  // };
 
   Bullet.prototype.update = function () {
     var self = this;
@@ -375,6 +383,7 @@ window.onload = function () {
     }
     self.enemyCollision();
     self.goOut();
+    // self.quantityOfBullets();
   };
 
 // ********************  Coin f-c  *********************
