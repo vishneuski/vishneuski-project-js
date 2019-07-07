@@ -136,10 +136,8 @@ window.onload = function () {
       collision(self, coins[i]);
       var isColl = collision(self, coins[i]);
       if (isColl === true) {
-        // logic for coin catch
         self.coinCounter += 1;
         document.querySelector('#score').innerHTML = 'Score: ' + self.coinCounter;
-        console.log('I catch coin!!!! ' + self.coinCounter);
       }
     }
   };
@@ -189,7 +187,6 @@ window.onload = function () {
 
     self.coinCollision();
     self.enemyCollision();
-    // self.shift();
 
     if (self.health === 0) {
       console.log('Yoy are die!!!!');
@@ -204,7 +201,7 @@ window.onload = function () {
         posX: this.posX,
         posY: this.posY
       }));
-      self.bulletNumber ++;
+      self.bulletNumber++;
       self.bulletActive = true;
     }
   };
@@ -247,7 +244,7 @@ window.onload = function () {
       down: 4
     };
     self.bulletTouch = false; // collision with the bullet
-    self.health = 100; // health quantity
+    self.health = 10; // health quantity
     self.die = false;
   }
 
@@ -351,21 +348,13 @@ window.onload = function () {
     if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0 || self.getEnemyTarget === true) {
       self.isOut = true;
       player.bulletActive = false;
-      player.bulletNumber --;
+      player.bulletNumber--;
       console.log(self);
       bullets = bullets.filter(function (bullet) {
         return !bullet.isOut;
       });
     }
   };
-  //
-  // Bullet.prototype.quantityOfBullets = function () {
-  //   var self = this;
-  //
-  //   if (bullets.length >= self.maxNumOfBullet) {
-  //     bullets = bullets.slice(self.maxNumOfBullet);
-  //   }
-  // };
 
   Bullet.prototype.update = function () {
     var self = this;
@@ -383,7 +372,6 @@ window.onload = function () {
     }
     self.enemyCollision();
     self.goOut();
-    // self.quantityOfBullets();
   };
 
 // ********************  Coin f-c  *********************
@@ -418,11 +406,6 @@ window.onload = function () {
   Coin.prototype.update = function () {
     var self = this;
     self.playerCollision();
-
-    if (coins.length === 0) {
-      saveResult();
-      //todo victory game logic
-    }
   };
 
   addEntity(Coin, 'coin1', {posX: 300, posY: 10}, coins);
@@ -430,7 +413,11 @@ window.onload = function () {
   addEntity(Coin, 'coin3', {posX: 300, posY: 100}, coins);
 
 // ******************** Common functions *************************
-
+  function endGame() {
+    if (coins.length === 0 && enemies.length === 0) {
+      saveResult();
+    }
+  }
   /**
    * Функция для определения столкновений
    * @param {object} obj1 Первый объект
@@ -472,7 +459,6 @@ window.onload = function () {
     player.playerInfo.name = askName || 'player';
     player.playerInfo.time = time;
     sendResult();
-    endGame();
 
     return true;
   }
@@ -521,7 +507,6 @@ window.onload = function () {
     var key = 38;
     e.preventDefault();
     player.keyStorage[key] = true;
-    console.log('up is pressed!');
     player.shift();
   }
 
@@ -627,10 +612,6 @@ window.onload = function () {
     });
     drawCanvas();
     RequestAnimationFrame(game);
-  }
-
-  function endGame() {
-    console.log(player.playerInfo);
   }
 
   //**********************  AJAX  ***********************************
