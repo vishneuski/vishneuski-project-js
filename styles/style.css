@@ -1,4 +1,11 @@
-@import url('./root.css');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', Helvetica sans-serif;
+}
 
 .container {
   width: 100vw;
@@ -8,10 +15,7 @@
   height: 100vh;
   padding: 0;
   box-sizing: border-box;
-  background-image: url(./../images/background.jpg);
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat center bottom/cover url('./../images/background.jpg');
   position: relative;
 }
 
@@ -73,9 +77,7 @@
   margin: auto auto;
   width: 55vw;
   height: 90vh;
-  background-image: url("../images/canvas-background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat center/cover url('../images/canvas-background.jpg');
 }
 
 .buttons-canvas {
@@ -115,7 +117,6 @@
   color: black;
   line-height: 1.5em;
   border-radius: 25%;
-  /*position: absolute;*/
   background: #fff;
   opacity: 0.5;
 }
@@ -153,10 +154,6 @@
   color: white;
   text-align: center;
 }
-
-/*
-todo @media and buttons move
-*/
 
 @media (max-width: 900px) {
   #canvas {
