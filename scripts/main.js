@@ -19,10 +19,11 @@ window.onload = function () {
   var ENEMYWIDTH = 32;
   var ENEMYHEIGHT = 32;
   var ENEMYSPEED = 1;
+  var ENEMYSPEEDADVANSED = 1.5;
 
   var BULLETSPEED = 3;
-  var BULLETWIDTH = 10;
-  var BULLETHEIGHT = 10;
+  var BULLETWIDTH = 20;
+  var BULLETHEIGHT = 20;
 
   var COINSIZE = 16;
 
@@ -33,7 +34,7 @@ window.onload = function () {
   canvas.width = CANVASWIDTH;
   canvas.height = CANVASHEIGHT;
 
-  // todo рефакторинг - ф-ию
+  // TODO: рефакторинг - ф-ию
   var hero = new Image();
   var fireball = new Image();
   var allien = new Image();
@@ -86,7 +87,6 @@ window.onload = function () {
         }
       };
     };
-
     brick.src = 'images/brick.png';
     wall.src = 'images/wall.png';
   }
@@ -190,7 +190,7 @@ window.onload = function () {
 
     if (self.health === 0) {
       audio.pause();
-      //todo gameover
+      //TODO: gameover
       alert('Yoy are die!!!!');
     }
   };
@@ -235,6 +235,7 @@ window.onload = function () {
     self.width = ENEMYWIDTH;
     self.height = ENEMYHEIGHT;
     self.speed = ENEMYSPEED;
+    self.speedAdvanced = ENEMYSPEEDADVANSED;
     self.posX = enemy.posX;
     self.posY = enemy.posY;
     self.direction = enemy.direction;
@@ -275,6 +276,9 @@ window.onload = function () {
 
   Enemy.prototype.update = function () {
     var self = this;
+    if (player.coinCounter === 50) {
+      self.speed = self.speedAdvanced;
+    }
 
     if (self.direction === self.directionEnemy.right) {
       self.posX += self.speed;
@@ -307,7 +311,7 @@ window.onload = function () {
   };
 
   enemyAdd();
-  
+
   function enemyAdd() {
     for (var i = 0; i <= 10; i++) {
       addEntity(Enemy, 'enemy', {
