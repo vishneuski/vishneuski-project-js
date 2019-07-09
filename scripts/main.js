@@ -19,7 +19,6 @@ window.onload = function () {
   var ENEMYWIDTH = 32;
   var ENEMYHEIGHT = 32;
   var ENEMYSPEED = 1;
-  var ENEMYSPEEDADVANSED = 1.5;
 
   var BULLETSPEED = 3;
   var BULLETWIDTH = 20;
@@ -158,6 +157,7 @@ window.onload = function () {
 
   Player.prototype.update = function () {
     var self = this;
+
     if (self.keyStorage[self.KEY_CODE.up]) {
       self.posY -= self.speed;
       self.direction = 38; //need for define shot direction
@@ -235,7 +235,6 @@ window.onload = function () {
     self.width = ENEMYWIDTH;
     self.height = ENEMYHEIGHT;
     self.speed = ENEMYSPEED;
-    self.speedAdvanced = ENEMYSPEEDADVANSED;
     self.posX = enemy.posX;
     self.posY = enemy.posY;
     self.direction = enemy.direction;
@@ -276,9 +275,6 @@ window.onload = function () {
 
   Enemy.prototype.update = function () {
     var self = this;
-    if (player.coinCounter === 50) {
-      self.speed = self.speedAdvanced;
-    }
 
     if (self.direction === self.directionEnemy.right) {
       self.posX += self.speed;
@@ -307,13 +303,12 @@ window.onload = function () {
     self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
 
     self.bulletCollision();
-    endGame();
   };
 
   enemyAdd();
 
   function enemyAdd() {
-    for (var i = 0; i <= 10; i++) {
+    for (var i = 0; i <= 5; i++) {
       addEntity(Enemy, 'enemy', {
         posX: getMathRandom(0, 496),
         posY: getMathRandom(0, 496),
@@ -321,12 +316,6 @@ window.onload = function () {
       }, enemies);
     }
   }
-
-  // addEntity(Enemy, 'enemy1', {posX: 200, posY: 10, direction: 1}, enemies);
-  // addEntity(Enemy, 'enemy2', {posX: 300, posY: 50, direction: 3}, enemies);
-  // addEntity(Enemy, 'enemy3', {posX: 200, posY: 100, direction: 2}, enemies);
-  // addEntity(Enemy, 'enemy2', {posX: 200, posY: 150, direction: 4}, enemies);
-
 
   //* ***********      Bullet FC    ****************
   function Bullet(bullet) {
@@ -396,7 +385,6 @@ window.onload = function () {
   function Coin(coin) {
 
     var self = this;
-    self.quantity = 3;
     self.width = COINSIZE;
     self.height = COINSIZE;
     self.posX = coin.posX;
@@ -418,6 +406,9 @@ window.onload = function () {
       coins = coins.filter(function (coin) {
         return !coin.playerTouch;
       });
+      if (coins.length === 0) {
+        saveResult();
+      }
     }
   };
 
@@ -429,19 +420,12 @@ window.onload = function () {
   coinAdd();
 
   function coinAdd() {
-    for (var i = 0; i <= 100; i++) {
+    for (var i = 0; i <= 10; i++) {
       addEntity(Coin, 'coin', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
     }
   }
 
 // ******************** Common functions *************************
-
-  function endGame() {
-    if (coins.length === 0 && enemies.length === 0) {
-      saveResult();
-    }
-  }
-
   /**
    * Функция получения рандомного числа для размещения объектов(монет, врагов)
    * @param {number} min Минимальная координата по осям x или y
@@ -493,15 +477,21 @@ window.onload = function () {
     player.playerInfo.name = askName || 'player';
     player.playerInfo.time = time;
     sendResult();
-
-    alert('ВЫ ПОБЕДИЛИ!!!'); //todo relocate on main page
+    endGame();
     return true;
+  }
+
+  function endGame() {
+    var hideCanvas = document.getElementById('canvas');
+    hideCanvas.style.display = 'none';
+    coins = null;
+    enemies = null;
+    bullets = null;
   }
 
 //***************** !!! VIEW !!! *****************************
 
-
-  function drawCanvas() {
+  function drawCanvas(boolean) {
     drawMap();
     player.draw();
     bullets.forEach(function (bullet) {
@@ -629,6 +619,7 @@ window.onload = function () {
       function (callback) {
         window.setTimeout(callback, 1000 / 60);
       };
+
   RequestAnimationFrame(game);
 
   function game() {
