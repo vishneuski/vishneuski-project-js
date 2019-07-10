@@ -1,48 +1,83 @@
 window.onload = function () {
 
   /**
-   * canvas width
+   * canvas size - width
    * @const
    * @type {number}
    */
   const CANVASWIDTH = 512;
+
   /**
-   * canvas height
+   * canvas size - height
    * @const
    * @type {number}
    */
   const CANVASHEIGHT = 512;
+
   /**
-   * player size - width
+   * character size - width
    * @const
    * @type {number}
    */
-  const PLAYERWIDTH = 32;
+  const HEROWIDTH = 32;
+
   /**
-   * player size - height
+   * character size - height
    * @const
    * @type {number}
    */
-  const PLAYERHEIGHT = 32;
+  const HEROHEIGHT = 32;
+
   /**
-   * player  - width
+   * player feature - speed
    * @const
    * @type {number}
    */
   const PLAYERSPEED = 1.2;
 
-  const ENEMYWIDTH = 32;
-  const ENEMYHEIGHT = 32;
+  /**
+   * enemy feature - speed
+   * @const
+   * @type {number}
+   */
   const ENEMYSPEED = 1;
 
-  const BULLETSPEED = 3;
-  const BULLETWIDTH = 20;
-  const BULLETHEIGHT = 20;
+  /**
+   * bullet size
+   * @const
+   * @type {number}
+   */
+  const BULLETSIZE = 16;
 
+  /**
+   * bullet feature - speed
+   * @const
+   * @type {number}
+   */
+  const BULLETSPEED = 3;
+
+  /**
+   * coin size
+   * @const
+   * @type {number}
+   */
   const COINSIZE = 16;
 
-  var audio = document.querySelector('audio');
-  var time = 0;
+  /**
+   * sound of the game
+   * @type {HTMLAudioElement | null}
+   */
+  let audio = document.querySelector('audio');
+
+  /**
+   * game timer - start state
+   * @type {number}
+   */
+  let time = 0;
+
+  /**
+   *
+   */
   (function timer() {
     document.querySelector('#timer').innerHTML = time;
     time = setTimeout(timer, 1000);
@@ -134,8 +169,8 @@ window.onload = function () {
     };
 
     self.playerInfo = {}; //имя и время игрока
-    self.width = PLAYERWIDTH;
-    self.height = PLAYERHEIGHT;
+    self.width = HEROWIDTH;
+    self.height = HEROHEIGHT;
     self.speed = PLAYERSPEED;
     self.posX = player.posX;
     self.posY = player.posY;
@@ -215,7 +250,7 @@ window.onload = function () {
     if (self.health === 0) {
       audio.pause();
       //TODO: gameover
-      alert('Yoy are die!!!!');
+      endGame();
     }
   };
 
@@ -256,8 +291,8 @@ window.onload = function () {
   //* ********************** Enemy function-constructor *************
   function Enemy(enemy) {
     var self = this;
-    self.width = ENEMYWIDTH;
-    self.height = ENEMYHEIGHT;
+    self.width = HEROWIDTH;
+    self.height = HEROHEIGHT;
     self.speed = ENEMYSPEED;
     self.posX = enemy.posX;
     self.posY = enemy.posY;
@@ -346,8 +381,8 @@ window.onload = function () {
     var self = this;
     self.maxNumOfBullet = 3;
     self.speed = BULLETSPEED;
-    self.width = BULLETWIDTH;
-    self.height = BULLETHEIGHT;
+    self.width = BULLETSIZE;
+    self.height = BULLETSIZE;
     self.posX = bullet.posX;
     self.posY = bullet.posY;
     self.direction = player.direction;
