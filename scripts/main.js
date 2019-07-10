@@ -1,5 +1,46 @@
 window.onload = function () {
 
+  /**
+   * canvas width
+   * @const
+   * @type {number}
+   */
+  const CANVASWIDTH = 512;
+  /**
+   * canvas height
+   * @const
+   * @type {number}
+   */
+  const CANVASHEIGHT = 512;
+  /**
+   * player size - width
+   * @const
+   * @type {number}
+   */
+  const PLAYERWIDTH = 32;
+  /**
+   * player size - height
+   * @const
+   * @type {number}
+   */
+  const PLAYERHEIGHT = 32;
+  /**
+   * player  - width
+   * @const
+   * @type {number}
+   */
+  const PLAYERSPEED = 1.2;
+
+  const ENEMYWIDTH = 32;
+  const ENEMYHEIGHT = 32;
+  const ENEMYSPEED = 1;
+
+  const BULLETSPEED = 3;
+  const BULLETWIDTH = 20;
+  const BULLETHEIGHT = 20;
+
+  const COINSIZE = 16;
+
   var audio = document.querySelector('audio');
   var time = 0;
   (function timer() {
@@ -7,24 +48,7 @@ window.onload = function () {
     time = setTimeout(timer, 1000);
     audio.play();
   })();
-// *******************Константы***********************
 
-  var CANVASWIDTH = 512;
-  var CANVASHEIGHT = 512;
-
-  var PLAYERWIDTH = 32;
-  var PLAYERHEIGHT = 32;
-  var PLAYERSPEED = 1.2;
-
-  var ENEMYWIDTH = 32;
-  var ENEMYHEIGHT = 32;
-  var ENEMYSPEED = 1;
-
-  var BULLETSPEED = 3;
-  var BULLETWIDTH = 20;
-  var BULLETHEIGHT = 20;
-
-  var COINSIZE = 16;
 
   //* **************************Канвас**************************
 
