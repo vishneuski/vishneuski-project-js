@@ -170,17 +170,157 @@ window.onload = () => {
     return true;
   };
 
-  // function drawMap() {
-  //
-  // }
+  /**
+   * Создаем героя
+   * @type {Player}
+   */
+  let player = new Player({posX: 0, posY: 0});
 
-  var player = new Player({posX: 0, posY: 0});
-  var enemies = []; // массив врагов
-  var bullets = []; // массив выстрелов
-  var coins = []; // массив монет
+  /**
+   * Создаем массив врагов, пуль, монет
+   * @type {Array}
+   */
+  let enemies = [];
+  let bullets = [];
+  let coins = [];
+
 
   // ***************Функции-конструкторы**************
   //* ******************    Player FC ****************
+  class Player {
+    constructor(player) {
+      this.keyStorage = {};
+      this.KEY_CODE = {
+        up: 38,
+        down: 40,
+        left: 37,
+        right: 39,
+        shot: 32
+    };
+      this.playerInfo = {}; //имя и время игрока
+      this.width = HEROWIDTH;
+      this.height = HEROHEIGHT;
+      this.speed = PLAYERSPEED;
+      this.posX = player.posX;
+      this.posY = player.posY;
+      this.direction = 37;
+      this.coinCounter = 0; // кол-во столкновений с монетами
+      this.enemyCounter = 0;// кол-во столкновений с врагами
+      this.bulletNumber = 0;
+      this.bulletActive = false;
+      this.health = 100;
+    };
+
+    draw() {
+      ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
+    }
+  }
+
+  Player.prototype.draw = function () {
+    var self = this;
+
+  };
+
+  Player.prototype.coinCollision = function () {
+    var self = this;
+    for (var i = 0; i < coins.length; i++) {
+      collision(self, coins[i]);
+      var isColl = collision(self, coins[i]);
+      if (isColl === true) {
+        self.coinCounter += 1;
+        document.querySelector('#score').innerHTML = 'Score: ' + self.coinCounter;
+      }
+    }
+  };
+
+  Player.prototype.enemyCollision = function () {
+    var self = this;
+    for (var i = 0; i < enemies.length; i++) {
+      var isColl = collision(self, enemies[i]);
+      collision(self, enemies[i]);
+      if (isColl === true) {
+        self.health -= 25;
+        console.log(`collision with enemy!!!!${self.enemyCounter} - ${self.health}`);
+        // logic for enemy catch - the end of game)
+        self.enemyCounter += 1;
+      }
+    }
+  };
+
+  Player.prototype.update = function () {
+    var self = this;
+
+    if (self.keyStorage[self.KEY_CODE.up]) {
+      self.posY -= self.speed;
+      self.direction = 38; //need for define shot direction
+    }
+
+    if (self.keyStorage[self.KEY_CODE.down]) {
+      self.posY += self.speed;
+      self.direction = 40;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.left]) {
+      self.posX -= self.speed;
+      self.direction = 37;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.right]) {
+      self.posX += self.speed;
+      self.direction = 39;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.shot]) {
+      self.shot();
+    }
+
+    self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
+    self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
+
+    self.coinCollision();
+    self.enemyCollision();
+
+    if (self.health === 0) {
+      audio.pause();
+      //TODO: gameover
+      endGame();
+    }
+  };
+
+  Player.prototype.shot = function () {
+    var self = this;
+    while (self.bulletNumber < 1 && self.bulletActive === false) {
+      bullets.push(new Bullet({
+        posX: this.posX,
+        posY: this.posY
+      }));
+      self.bulletNumber++;
+      self.bulletActive = true;
+    }
+  };
+
+  Player.prototype.shift = function () {
+    var self = this;
+    if (self.keyStorage[self.KEY_CODE.up]) {
+      self.posY -= self.speed / 5;
+      self.direction = 38;
+    }
+    if (self.keyStorage[self.KEY_CODE.down]) {
+      self.posY += self.speed / 5;
+      self.direction = 40;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.left]) {
+      self.posX -= self.speed / 5;
+      self.direction = 37;
+    }
+
+    if (self.keyStorage[self.KEY_CODE.right]) {
+      self.posX += self.speed / 5;
+      self.direction = 39;
+    }
+  };
+
 
   function Player(player) {
     var self = this;
@@ -725,7 +865,7 @@ window.onload = () => {
   //**********************  AJAX  ***********************************
   var resultArray = [];
   var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
-  var storeageMail = 'TEST_GAME_DB';
+  var storageMail = 'TEST_GAME_DB';
   var UpdatePassword;
 
   // ****************** Refresh results******************
@@ -734,7 +874,7 @@ window.onload = () => {
         {
           url: Server,
           type: 'POST',
-          data: {f: 'READ', n: storeageMail},
+          data: {f: 'READ', n: storageMail},
           cache: false,
           success: ReadReady,
           error: ErrorHandler
@@ -763,7 +903,7 @@ window.onload = () => {
           url: Server,
           type: 'POST',
           data: {
-            f: 'LOCKGET', n: storeageMail,
+            f: 'LOCKGET', n: storageMail,
             p: UpdatePassword
           },
           cache: false,
@@ -795,7 +935,7 @@ window.onload = () => {
             url: Server,
             type: 'POST',
             data: {
-              f: 'UPDATE', n: storeageMail,
+              f: 'UPDATE', n: storageMail,
               v: JSON.stringify(resultArray), p: UpdatePassword
             },
             cache: false,
