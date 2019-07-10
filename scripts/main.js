@@ -1,94 +1,104 @@
 window.onload = function () {
 
   /**
-   * canvas size - width
+   * размер канвас - ширина
    * @const
    * @type {number}
    */
   const CANVASWIDTH = 512;
 
   /**
-   * canvas size - height
+   * размер канвас - высота
    * @const
    * @type {number}
    */
   const CANVASHEIGHT = 512;
 
   /**
-   * character size - width
+   * размер персонажей игры - ширина
    * @const
    * @type {number}
    */
   const HEROWIDTH = 32;
 
   /**
-   * character size - height
+   * размер персонажей игры - высота
    * @const
    * @type {number}
    */
   const HEROHEIGHT = 32;
 
   /**
-   * player feature - speed
+   * скорость героя
    * @const
    * @type {number}
    */
   const PLAYERSPEED = 1.2;
 
   /**
-   * enemy feature - speed
+   * скорость врагов
    * @const
    * @type {number}
    */
   const ENEMYSPEED = 1;
 
   /**
-   * bullet size
+   * размер пули
    * @const
    * @type {number}
    */
   const BULLETSIZE = 16;
 
   /**
-   * bullet feature - speed
+   * скорость пули
    * @const
    * @type {number}
    */
   const BULLETSPEED = 3;
 
   /**
-   * coin size
+   * размер монеты
    * @const
    * @type {number}
    */
   const COINSIZE = 16;
 
   /**
-   * sound of the game
+   * фоновая музыка игры
    * @type {HTMLAudioElement | null}
    */
   let audio = document.querySelector('audio');
 
   /**
-   * game timer - start state
+   * таймер игры - начальное состояние
    * @type {number}
    */
   let time = 0;
 
   /**
-   *
+   * функция для запуска таймера и фоновой музыки
+   * @return {boolean} true
    */
-  (function timer() {
+  let timer = () => {
     document.querySelector('#timer').innerHTML = time;
     time = setTimeout(timer, 1000);
     audio.play();
-  })();
+    return true;
+  };
+  timer();
 
+  /**
+   * Находим канвас в документе
+   * @type {HTMLElement | null}
+   */
+  let canvas = document.getElementById('canvas');
 
-  //* **************************Канвас**************************
+  /**
+   * Получаем контекст канваса
+   */
+  let ctx = canvas.getContext('2d');
 
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext('2d');
+  
   canvas.width = CANVASWIDTH;
   canvas.height = CANVASHEIGHT;
 
