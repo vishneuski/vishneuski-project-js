@@ -320,7 +320,7 @@ window.onload = () => {
   /** Класс враг*/
   class Enemy {
     /**
-     * Создаем врагов в заданных координатах и с заданными направлениями первоначального движения
+     * Создаем врагов в рандомных координатах и с заданными направлениями первоначального движения
      * @param {object} enemy - объект содержащий координаты
      */
     constructor(enemy) {
@@ -469,51 +469,49 @@ window.onload = () => {
     }
   }
 
-// ********************  Coin f-c  *********************
-  function Coin(coin) {
+  /** Класс монета*/
+  class Coin {
+    /**
+     * Создаем монеты в рандомных координатах
+     * @param {object} coin - объект содержащий координаты
+     */
+    constructor(coin) {
+      this.width = COINSIZE;
+      this.height = COINSIZE;
+      this.posX = coin.posX;
+      this.posY = coin.posY;
+      this.playerTouch = false;
+    }
 
-    var self = this;
-    self.width = COINSIZE;
-    self.height = COINSIZE;
-    self.posX = coin.posX;
-    self.posY = coin.posY;
-    self.playerTouch = false;
-  }
+    draw() {
+      ctx.drawImage(prise, this.posX, this.posY, this.width, this.height);
+    }
 
-  Coin.prototype.draw = function () {
-    var self = this;
-    ctx.drawImage(prise, self.posX, self.posY, self.width, self.height);
-  };
-
-  Coin.prototype.playerCollision = function () {
-    var self = this;
-    var isColl = collision(self, player);
-    collision(self, player);
-    if (isColl === true) {
-      self.playerTouch = true;
-      coins = coins.filter(function (coin) {
-        return !coin.playerTouch;
-      });
-      if (coins.length === 0) {
-        saveResult();
+    playerCollision() {
+      let isColl = collision(this, player);
+      collision(this, player);
+      if (isColl === true) {
+        this.playerTouch = true;
+        coins = coins.filter(coin => !coin.playerTouch);
+        if (coins.length === 0) {
+          saveResult();
+        }
       }
     }
-  };
 
-  Coin.prototype.update = function () {
-    var self = this;
-    self.playerCollision();
+    update() {
+      this.playerCollision();
+    }
+  }
+
+  let coinAdd = () => {
+    for (let i = 0; i <= 10; i++) {
+      addEntity(Coin, 'coin', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
+    }
   };
 
   coinAdd();
 
-  function coinAdd() {
-    for (var i = 0; i <= 10; i++) {
-      addEntity(Coin, 'coin', {posX: getMathRandom(0, 496), posY: getMathRandom(0, 496)}, coins);
-    }
-  }
-
-// ******************** Common functions *************************
   /**
    * Функция получения рандомного числа для размещения объектов(монет, врагов)
    * @param {number} min Минимальная координата по осям x или y
@@ -571,7 +569,7 @@ window.onload = () => {
 
   function endGame() {
     audio.pause();
-    var hideCanvas = document.getElementById('canvas');
+    let hideCanvas = document.getElementById('canvas');
     hideCanvas.style.display = 'none';
     coins = null;
     enemies = null;
@@ -580,26 +578,26 @@ window.onload = () => {
 
 //***************** !!! VIEW !!! *****************************
 
-  function drawCanvas(boolean) {
+  function drawCanvas() {
     drawMap();
     player.draw();
-    bullets.forEach(function (bullet) {
+    bullets.forEach(bullet => {
       bullet.draw();
     });
-    coins.forEach(function (coin) {
+    coins.forEach(coin => {
       coin.draw();
     });
-    enemies.forEach(function (enemie) {
+    enemies.forEach(enemie => {
       enemie.draw();
     });
   }
 
 //******************* !!! CONTROLLER !!! **********************
-  var up = document.querySelector('#up');
-  var down = document.querySelector('#down');
-  var left = document.querySelector('#left');
-  var right = document.querySelector('#right');
-  var shot = document.querySelector('#shot');
+  let up = document.querySelector('#up');
+  let down = document.querySelector('#down');
+  let left = document.querySelector('#left');
+  let right = document.querySelector('#right');
+  let shot = document.querySelector('#shot');
 
   up.addEventListener('touchstart', upDown, false);
   down.addEventListener('touchstart', downDown, false);
@@ -699,7 +697,7 @@ window.onload = () => {
 
 //* ************ RequestAnimationFrame ***********************
 
-  var RequestAnimationFrame =
+  let RequestAnimationFrame =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
       window.mozRequestAnimationFrame ||
@@ -714,13 +712,13 @@ window.onload = () => {
   function game() {
     player.update();
     player.shift();
-    bullets.forEach(function (bullet) {
+    bullets.forEach(bullet => {
       bullet.update();
     });
-    enemies.forEach(function (enemie) {
+    enemies.forEach(enemie => {
       enemie.update();
     });
-    coins.forEach(function (coin) {
+    coins.forEach(coin => {
       coin.update();
     });
     drawCanvas();
@@ -728,10 +726,10 @@ window.onload = () => {
   }
 
   //**********************  AJAX  ***********************************
-  var resultArray = [];
-  var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
-  var storageMail = 'TEST_GAME_DB';
-  var UpdatePassword;
+  let resultArray = [];
+  let Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
+  let storageMail = 'TEST_GAME_DB';
+  let UpdatePassword;
 
   // ****************** Refresh results******************
   function refreshRecords() {
