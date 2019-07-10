@@ -201,7 +201,6 @@ window.onload = () => {
       this.posY = player.posY;
       this.direction = 37;
       this.coinCounter = 0; // кол-во столкновений с монетами
-      this.enemyCounter = 0;// кол-во столкновений с врагами
       this.bulletNumber = 0;
       this.bulletActive = false;
       this.health = 100;
@@ -228,8 +227,6 @@ window.onload = () => {
         collision(this, enemies[i]);
         if (isColl === true) {
           this.health -= 25;
-          console.log(`collision with enemy!!!!${this.enemyCounter} - ${this.health}`);
-          this.enemyCounter += 1;
         }
       }
     }
@@ -259,15 +256,23 @@ window.onload = () => {
         this.shot();
       }
 
-      this.posX + this.width > CANVASWIDTH ? this.posX = CANVASWIDTH - this.width : ((this.posX) < 0 ? this.posX = 0 : 1);
-      this.posY + this.height > CANVASHEIGHT ? this.posY = CANVASHEIGHT - this.height : ((this.posY) < 0 ? this.posY = 0 : 1);
+      if (this.posX + this.width > CANVASWIDTH) {
+        this.posX = CANVASWIDTH - this.width;
+      } else if (this.posX < 0) {
+        this.posX = 0;
+      }
+
+      if (this.posY + this.height > CANVASHEIGHT) {
+        this.posY = CANVASHEIGHT - this.height;
+      } else if (this.posY < 0) {
+        this.posY = 0;
+      }
 
       this.coinCollision();
       this.enemyCollision();
 
       if (this.health === 0) {
         audio.pause();
-        //TODO: game over
         endGame();
       }
     }
@@ -311,137 +316,6 @@ window.onload = () => {
    */
   let player = new Player({posX: 0, posY: 0});
 
-
-  // function Player(player) {
-  //   var self = this;
-  //   self.keyStorage = {};
-  //   self.KEY_CODE = {
-  //     up: 38,
-  //     down: 40,
-  //     left: 37,
-  //     right: 39,
-  //     shot: 32
-  //   };
-  //
-  //   self.playerInfo = {}; //имя и время игрока
-  //   self.width = HEROWIDTH;
-  //   self.height = HEROHEIGHT;
-  //   self.speed = PLAYERSPEED;
-  //   self.posX = player.posX;
-  //   self.posY = player.posY;
-  //   self.direction = 37;
-  //   self.coinCounter = 0; // кол-во столкновений с монетами
-  //   self.enemyCounter = 0;// кол-во столкновений с врагами
-  //   self.bulletNumber = 0;
-  //   self.bulletActive = false;
-  //   self.coinTouch = false;
-  //   self.health = 100;
-  // }
-
-  // Player.prototype.draw = function () {
-  //   var self = this;
-  //   ctx.drawImage(hero, self.posX, self.posY, self.width, self.height);
-  // };
-  //
-  // Player.prototype.coinCollision = function () {
-  //   var self = this;
-  //   for (var i = 0; i < coins.length; i++) {
-  //     collision(self, coins[i]);
-  //     var isColl = collision(self, coins[i]);
-  //     if (isColl === true) {
-  //       self.coinCounter += 1;
-  //       document.querySelector('#score').innerHTML = 'Score: ' + self.coinCounter;
-  //     }
-  //   }
-  // };
-  //
-  // Player.prototype.enemyCollision = function () {
-  //   var self = this;
-  //   for (var i = 0; i < enemies.length; i++) {
-  //     var isColl = collision(self, enemies[i]);
-  //     collision(self, enemies[i]);
-  //     if (isColl === true) {
-  //       self.health -= 25;
-  //       console.log(`collision with enemy!!!!${self.enemyCounter} - ${self.health}`);
-  //       // logic for enemy catch - the end of game)
-  //       self.enemyCounter += 1;
-  //     }
-  //   }
-  // };
-  //
-  // Player.prototype.update = function () {
-  //   var self = this;
-  //
-  //   if (self.keyStorage[self.KEY_CODE.up]) {
-  //     self.posY -= self.speed;
-  //     self.direction = 38; //need for define shot direction
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.down]) {
-  //     self.posY += self.speed;
-  //     self.direction = 40;
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.left]) {
-  //     self.posX -= self.speed;
-  //     self.direction = 37;
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.right]) {
-  //     self.posX += self.speed;
-  //     self.direction = 39;
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.shot]) {
-  //     self.shot();
-  //   }
-  //
-  //   self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
-  //   self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
-  //
-  //   self.coinCollision();
-  //   self.enemyCollision();
-  //
-  //   if (self.health === 0) {
-  //     audio.pause();
-  //     //TODO: gameover
-  //     endGame();
-  //   }
-  // };
-  //
-  // Player.prototype.shot = function () {
-  //   var self = this;
-  //   while (self.bulletNumber < 1 && self.bulletActive === false) {
-  //     bullets.push(new Bullet({
-  //       posX: this.posX,
-  //       posY: this.posY
-  //     }));
-  //     self.bulletNumber++;
-  //     self.bulletActive = true;
-  //   }
-  // };
-  //
-  // Player.prototype.shift = function () {
-  //   var self = this;
-  //   if (self.keyStorage[self.KEY_CODE.up]) {
-  //     self.posY -= self.speed / 5;
-  //     self.direction = 38;
-  //   }
-  //   if (self.keyStorage[self.KEY_CODE.down]) {
-  //     self.posY += self.speed / 5;
-  //     self.direction = 40;
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.left]) {
-  //     self.posX -= self.speed / 5;
-  //     self.direction = 37;
-  //   }
-  //
-  //   if (self.keyStorage[self.KEY_CODE.right]) {
-  //     self.posX += self.speed / 5;
-  //     self.direction = 39;
-  //   }
-  // };
 
   //* ********************** Enemy function-constructor *************
   function Enemy(enemy) {
