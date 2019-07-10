@@ -1,127 +1,137 @@
-window.onload = function () {
+window.onload = () => {
 
   /**
-   * размер канвас - ширина
+   * Размер канвас - ширина
    * @const
    * @type {number}
    */
   const CANVASWIDTH = 512;
 
   /**
-   * размер канвас - высота
+   * Размер канвас - высота
    * @const
    * @type {number}
    */
   const CANVASHEIGHT = 512;
 
   /**
-   * размер персонажей игры - ширина
+   * Размер персонажей игры - ширина
    * @const
    * @type {number}
    */
   const HEROWIDTH = 32;
 
   /**
-   * размер персонажей игры - высота
+   * Размер персонажей игры - высота
    * @const
    * @type {number}
    */
   const HEROHEIGHT = 32;
 
   /**
-   * скорость героя
+   * Скорость героя
    * @const
    * @type {number}
    */
   const PLAYERSPEED = 1.2;
 
   /**
-   * скорость врагов
+   * Скорость врагов
    * @const
    * @type {number}
    */
   const ENEMYSPEED = 1;
 
   /**
-   * размер пули
+   * Размер пули
    * @const
    * @type {number}
    */
   const BULLETSIZE = 16;
 
   /**
-   * скорость пули
+   * Скорость пули
    * @const
    * @type {number}
    */
   const BULLETSPEED = 3;
 
   /**
-   * размер монеты
+   * Размер монеты
    * @const
    * @type {number}
    */
   const COINSIZE = 16;
 
   /**
-   * фоновая музыка игры
+   * Фоновая музыка игры
    * @type {HTMLAudioElement | null}
    */
   let audio = document.querySelector('audio');
 
   /**
-   * таймер игры - начальное состояние
+   * Таймер игры - начальное состояние
    * @type {number}
    */
   let time = 0;
 
   /**
-   * функция для запуска таймера и фоновой музыки
-   * @return {boolean} true
+   * Функция для запуска таймера и фоновой музыки
+   * @return {string} Таймер и музыка запущены
    */
   let timer = () => {
     document.querySelector('#timer').innerHTML = time;
     time = setTimeout(timer, 1000);
     audio.play();
-    return true;
+    return 'Start the game!';
   };
   timer();
 
   /**
-   * Находим канвас в документе
+   * Находим канвас в документе, получаем контекст и задаем размеры канвас
    * @type {HTMLElement | null}
    */
   let canvas = document.getElementById('canvas');
-
-  /**
-   * Получаем контекст канваса
-   */
   let ctx = canvas.getContext('2d');
 
-  
   canvas.width = CANVASWIDTH;
   canvas.height = CANVASHEIGHT;
 
-  // TODO: рефакторинг - ф-ию
-  var hero = new Image();
-  var fireball = new Image();
-  var allien = new Image();
-  var prise = new Image();
+  /**
+   * Создаем изображение героя, врага, пули и монеты
+   * @type {HTMLImageElement}
+   */
+  const hero = new Image();
+  const fireball = new Image();
+  const allien = new Image();
+  const prise = new Image();
 
+  /**
+   * Отрисовка изображений происходит только после их загрузки
+   * @type {drawCanvas}
+   */
   hero.onload = drawCanvas;
   fireball.onload = drawCanvas;
   allien.onload = drawCanvas;
   prise.onload = drawCanvas;
 
+
+  /**
+   * Путь до изображений
+   * @type {string}
+   */
   hero.src = 'images/hero.gif';
   fireball.src = 'images/fireball.png';
   allien.src = 'images/allien.gif';
   prise.src = 'images/coin.png';
 
-  //*********** map *******************
 
-  function drawMap() {
-    var mapArray = [
+  /**
+   * Функция для отрисовки карты игры
+   * @return {boolean} true - карта успешно загружена
+   */
+  let drawMap = () => {
+    let mapArray = [
       [1, 1, 0, 0, 1, 1, 1, 1],
       [0, 1, 1, 1, 1, 0, 0, 1],
       [0, 1, 0, 0, 0, 0, 0, 1],
@@ -132,16 +142,16 @@ window.onload = function () {
       [0, 1, 1, 1, 1, 0, 0, 0]
     ];
 
-    var brick = new Image();
-    var wall = new Image();
+    const brick = new Image();
+    const wall = new Image();
 
-    var posX = 0;
-    var posY = 0;
+    let posX = 0;
+    let posY = 0;
 
-    brick.onload = function () {
-      wall.onload = function () {
-        for (var i = 0; i < mapArray.length; i++) {
-          for (var j = 0; j < mapArray[i].length; j++) {
+    brick.onload = () => {
+      wall.onload = () => {
+        for (let i = 0; i < mapArray.length; i++) {
+          for (let j = 0; j < mapArray[i].length; j++) {
             if (mapArray[i][j] === 0) {
               ctx.drawImage(brick, posX, posY, 64, 64);
             }
@@ -157,7 +167,12 @@ window.onload = function () {
     };
     brick.src = 'images/brick.png';
     wall.src = 'images/wall.png';
-  }
+    return true;
+  };
+
+  // function drawMap() {
+  //
+  // }
 
   var player = new Player({posX: 0, posY: 0});
   var enemies = []; // массив врагов
@@ -801,4 +816,5 @@ window.onload = function () {
   }
 
   refreshRecords();
+
 };
