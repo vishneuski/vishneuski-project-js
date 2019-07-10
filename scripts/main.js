@@ -410,70 +410,64 @@ window.onload = () => {
 
   enemyAdd();
 
+  /** Класс пуля*/
+  class Bullet {
+    /**
+     * Создаем пули в заданных координатах и с направлением героя
+     * @param {object} bullet - объект содержащий координаты
+     */
+    constructor(bullet) {
+      this.speed = BULLETSPEED;
+      this.width = BULLETSIZE;
+      this.height = BULLETSIZE;
+      this.posX = bullet.posX;
+      this.posY = bullet.posY;
+      this.direction = player.direction;
+      this.isOut = false;
+      this.getEnemyTarget = false;
+    }
 
-  //* ***********      Bullet FC    ****************
-  function Bullet(bullet) {
-    var self = this;
-    self.maxNumOfBullet = 3;
-    self.speed = BULLETSPEED;
-    self.width = BULLETSIZE;
-    self.height = BULLETSIZE;
-    self.posX = bullet.posX;
-    self.posY = bullet.posY;
-    self.direction = player.direction;
-    self.isOut = false; // нахождение пули в рамках Канвас
-    self.getEnemyTarget = false; // попадание пули во врага
-  }
+    draw() {
+      ctx.drawImage(fireball, this.posX, this.posY, this.width, this.height);
+    }
 
-  Bullet.prototype.draw = function () {
-    var self = this;
-    ctx.drawImage(fireball, self.posX, self.posY, self.width, self.height);
-  };
-
-  Bullet.prototype.enemyCollision = function () {
-    var self = this;
-    for (var i = 0; i < enemies.length; i++) {
-      var isColl = collision(self, enemies[i]);
-      collision(self, enemies[i]);
-      if (isColl === true) {
-        self.getEnemyTarget = true;
-        bullets = bullets.filter(function (bullet) {
-          return !bullet.getEnemyTarget;
-        });
+    enemyCollision() {
+      for (let i = 0; i < enemies.length; i++) {
+        let isColl = collision(this, enemies[i]);
+        collision(this, enemies[i]);
+        if (isColl === true) {
+          this.getEnemyTarget = true;
+          bullets = bullets.filter(bullet => !bullet.getEnemyTarget);
+        }
       }
     }
-  };
 
-  Bullet.prototype.goOut = function () {
-    var self = this;
-    if (self.posX > canvas.height || self.posX < 0 || self.posY > canvas.height || self.posY < 0 || self.getEnemyTarget === true) {
-      self.isOut = true;
-      player.bulletActive = false;
-      player.bulletNumber--;
-      console.log(self);
-      bullets = bullets.filter(function (bullet) {
-        return !bullet.isOut;
-      });
+    goOut() {
+      if (this.posX > CANVASHEIGHT || this.posX < 0 || this.posY > CANVASHEIGHT || this.posY < 0 || this.getEnemyTarget === true) {
+        this.isOut = true;
+        player.bulletActive = false;
+        player.bulletNumber--;
+        bullets = bullets.filter(bullet => !bullet.isOut);
+      }
     }
-  };
 
-  Bullet.prototype.update = function () {
-    var self = this;
-    if (self.direction === 37) {
-      self.posX -= self.speed;
+    update() {
+      if (this.direction === 37) {
+        this.posX -= this.speed;
+      }
+      if (this.direction === 39) {
+        this.posX += this.speed;
+      }
+      if (this.direction === 38) {
+        this.posY -= this.speed;
+      }
+      if (this.direction === 40) {
+        this.posY += this.speed;
+      }
+      this.enemyCollision();
+      this.goOut();
     }
-    if (self.direction === 39) {
-      self.posX += self.speed;
-    }
-    if (self.direction === 38) {
-      self.posY -= self.speed;
-    }
-    if (self.direction === 40) {
-      self.posY += self.speed;
-    }
-    self.enemyCollision();
-    self.goOut();
-  };
+  }
 
 // ********************  Coin f-c  *********************
   function Coin(coin) {
