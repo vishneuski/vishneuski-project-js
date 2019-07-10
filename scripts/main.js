@@ -178,7 +178,7 @@ window.onload = () => {
   let bullets = [];
   let coins = [];
 
-  /** Класс игрока*/
+  /** Класс игрок*/
   class Player {
     /**
      * Создаем игрока в заданных координатах
@@ -317,93 +317,99 @@ window.onload = () => {
   let player = new Player({posX: 0, posY: 0});
 
 
-  //* ********************** Enemy function-constructor *************
-  function Enemy(enemy) {
-    var self = this;
-    self.width = HEROWIDTH;
-    self.height = HEROHEIGHT;
-    self.speed = ENEMYSPEED;
-    self.posX = enemy.posX;
-    self.posY = enemy.posY;
-    self.direction = enemy.direction;
-    self.directionEnemy = {
-      left: 1,
-      right: 2,
-      up: 3,
-      down: 4
-    };
-    self.bulletTouch = false; // collision with the bullet
-    self.health = 10; // health quantity
-    self.die = false;
-  }
+  /** Класс враг*/
+  class Enemy {
+    /**
+     * Создаем врагов в заданных координатах и с заданными направлениями первоначального движения
+     * @param {object} enemy - объект содержащий координаты
+     */
+    constructor(enemy) {
+      this.width = HEROWIDTH;
+      this.height = HEROHEIGHT;
+      this.speed = ENEMYSPEED;
+      this.posX = enemy.posX;
+      this.posY = enemy.posY;
+      this.direction = enemy.direction;
+      this.directionEnemy = {
+        left: 1,
+        right: 2,
+        up: 3,
+        down: 4
+      };
+      this.health = 10;
+      this.die = false;
+    }
 
-  Enemy.prototype.draw = function () {
-    var self = this;
-    ctx.drawImage(allien, self.posX, self.posY, self.width, self.height);
-  };
+    draw() {
+      ctx.drawImage(allien, this.posX, this.posY, this.width, this.height);
+    }
 
-  Enemy.prototype.bulletCollision = function () {
-    var self = this;
-    for (var i = 0; i < bullets.length; i++) {
-      var isColl = collision(self, bullets[i]);
-      collision(self, bullets[i]);
-      if (isColl === true) {
-        self.bulletTouch = true;
-        self.health -= 10;
-        console.log(self + self.health);
-        if (self.health === 0) {
-          self.die = true;
-          enemies = enemies.filter(function (enemy) {
-            return !enemy.die;
-          });
+    bulletCollision() {
+      for (let i = 0; i < bullets.length; i++) {
+        let isColl = collision(this, bullets[i]);
+        collision(this, bullets[i]);
+        if (isColl === true) {
+          this.health -= 10;
+          if (this.health === 0) {
+            this.die = true;
+            enemies = enemies.filter(enemy => !enemy.die);
+          }
         }
       }
     }
-  };
 
-  Enemy.prototype.update = function () {
-    var self = this;
+    update() {
+      if (this.direction === this.directionEnemy.right) {
+        this.posX += this.speed;
+        this.posY -= this.speed;
+        if ((this.posX + this.width > CANVASWIDTH) || (this.posX < 0)) {
+          this.speed = -this.speed;
+        }
+      } else if (this.direction === this.directionEnemy.left) {
+        this.posX -= this.speed;
+        if ((this.posX + this.width > CANVASWIDTH) || (this.posX < 0)) {
+          this.speed = -this.speed;
+        }
+      } else if (this.direction === this.directionEnemy.down) {
+        this.posY += this.speed;
+        if ((this.posY + this.height > CANVASHEIGHT) || (this.posY < 0)) {
+          this.speed = -this.speed;
+        }
+      } else if (this.direction === this.directionEnemy.up) {
+        this.posY -= this.speed;
+        if ((this.posY + this.height > CANVASHEIGHT) || (this.posY < 0)) {
+          this.speed = -this.speed;
+        }
+      }
 
-    if (self.direction === self.directionEnemy.right) {
-      self.posX += self.speed;
-      self.posY -= self.speed;
-      if ((self.posX + self.width > CANVASWIDTH) || (self.posX < 0)) {
-        self.speed = -self.speed;
+      if (this.posX + this.width > CANVASWIDTH) {
+        this.posX = CANVASWIDTH - this.width;
+      } else if (this.posX < 0) {
+        this.posX = 0;
       }
-    } else if (self.direction === self.directionEnemy.left) {
-      self.posX -= self.speed;
-      if ((self.posX + self.width > CANVASWIDTH) || (self.posX < 0)) {
-        self.speed = -self.speed;
+
+      if (this.posY + this.height > CANVASHEIGHT) {
+        this.posY = CANVASHEIGHT - this.height;
+      } else if (this.posY < 0) {
+        this.posY = 0;
       }
-    } else if (self.direction === self.directionEnemy.down) {
-      self.posY += self.speed;
-      if ((self.posY + self.height > CANVASHEIGHT) || (self.posY < 0)) {
-        self.speed = -self.speed;
-      }
-    } else if (self.direction === self.directionEnemy.up) {
-      self.posY -= self.speed;
-      if ((self.posY + self.height > CANVASHEIGHT) || (self.posY < 0)) {
-        self.speed = -self.speed;
-      }
+
+      this.bulletCollision();
     }
+  }
 
-    self.posX + self.width > CANVASWIDTH ? self.posX = CANVASWIDTH - self.width : ((self.posX) < 0 ? self.posX = 0 : 1);
-    self.posY + self.height > CANVASHEIGHT ? self.posY = CANVASHEIGHT - self.height : ((self.posY) < 0 ? self.posY = 0 : 1);
-
-    self.bulletCollision();
-  };
-
-  enemyAdd();
-
-  function enemyAdd() {
-    for (var i = 0; i <= 5; i++) {
+  let enemyAdd = () => {
+    for (let i = 0; i <= 5; i++) {
       addEntity(Enemy, 'enemy', {
         posX: getMathRandom(0, 496),
         posY: getMathRandom(0, 496),
         direction: Math.floor(Math.random() * (5 - 1)) + 1
       }, enemies);
     }
-  }
+  };
+
+  enemyAdd();
+
 
   //* ***********      Bullet FC    ****************
   function Bullet(bullet) {
