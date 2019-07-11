@@ -765,97 +765,129 @@ window.onload = () => {
 
   // ***************   AJAX   ***************
 
+  /**
+   * @description Массив, в который будем соханять результаты из БД
+   * @type {Array}
+   */
   let resultArray = [];
-  let AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
-  let storageAdress = 'TEST_GAME_DB';
-  let UpdatePassword;
 
-  // ****************** Refresh results******************
-  function refreshRecords() {
+  /**
+   * @description Бэкенд для работы с AJAX
+   * @type {string}
+   */
+  let AjaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
+
+  /**
+   * @description Название нашего хранилища в БД
+   * @type {string}
+   */
+  let storageAddress = 'TEST_GAME_DB';
+
+  /**
+   * @description Пароль для блокировки хранилища при обновлении
+   */
+  let updatePassword;
+
+  /**
+   * @description Функция для обновления рекордов игры
+   */
+  let refreshRecords = () => {
     $.ajax(
         {
           url: AjaxHandlerScript,
           type: 'POST',
-          data: {f: 'READ', n: storageAdress},
+          data: {f: 'READ', n: storageAddress},
           cache: false,
-          success: ReadReady,
-          error: ErrorHandler
+          success: readReady,
+          error: errorHandler
         }
     );
-  }
+  };
 
-  function ReadReady(resultData) {
-    if (resultData.error !== undefined)
-      console.error(resultData.error);
-    else {
-      resultArray = [];
-      if (resultData.result !== "") {
-        resultArray = JSON.parse(resultData.result);
-        if (!resultArray.length)
-          resultArray = [];
-      }
-    }
-  }
-
-  //**************   add result  *****************
-  function sendResult() {
-    UpdatePassword = Math.random();
-    $.ajax(
-        {
-          url: AjaxHandlerScript,
-          type: 'POST',
-          data: {
-            f: 'LOCKGET', n: storageAdress,
-            p: UpdatePassword
-          },
-          cache: false,
-          success: LockGetReady,
-          error: ErrorHandler
-        }
-    );
-  }
-
-  function LockGetReady(resultData) {
+  /**
+   * @description Функция, валидирующая полученые с помощью AJAX данные и сохраняющая их в массив для работы с ними
+   * @param resultData {JSON} Получаемые данные
+   */
+  let readReady = (resultData) => {
     if (resultData.error !== undefined) {
       console.error(resultData.error);
     } else {
       resultArray = [];
       if (resultData.result !== '') {
         resultArray = JSON.parse(resultData.result);
-        if (!resultArray.length)
+        if (!resultArray.length) {
           resultArray = [];
+        }
+      }
+    }
+  };
+
+  /**
+   * @description Функция для блокирования хранилища при обновлении результатов игры
+   */
+  let sendResult = () => {
+    updatePassword = Math.random();
+    $.ajax(
+        {
+          url: AjaxHandlerScript,
+          type: 'POST',
+          data: {
+            f: 'LOCKGET', n: storageAddress,
+            p: updatePassword
+          },
+          cache: false,
+          success: lockGetReady,
+          error: errorHandler
+        }
+    );
+  };
+
+  /**
+   * @description Функция для оправки данных
+   */
+  let lockGetReady = (resultData) => {
+    if (resultData.error !== undefined) {
+      console.error(resultData.error);
+    } else {
+      resultArray = [];
+      if (resultData.result !== '') {
+        resultArray = JSON.parse(resultData.result);
+        if (!resultArray.length) {
+          resultArray = [];
+        }
       }
 
-      var playerName = player.playerInfo.name || 'player';
-      var playerTime = player.playerInfo.time || 0;
+      let playerName = player.playerInfo.name || 'player';
+      let playerTime = player.playerInfo.time || 0;
       resultArray.push({name: playerName, time: playerTime});
-      if (resultArray.length > 5)
+      if (resultArray.length > 5) {
         resultArray = resultArray.slice(resultArray.length - 5);
+      }
 
       $.ajax(
           {
             url: AjaxHandlerScript,
             type: 'POST',
             data: {
-              f: 'UPDATE', n: storageAdress,
-              v: JSON.stringify(resultArray), p: UpdatePassword
+              f: 'UPDATE', n: storageAddress,
+              v: JSON.stringify(resultArray), p: updatePassword
             },
             cache: false,
-            success: UpdateReady,
-            error: ErrorHandler
+            success: updateReady,
+            error: errorHandler
           }
       );
     }
-  }
+  };
 
-  function UpdateReady(resultData) {
-    if (resultData.error !== undefined)
+  let updateReady = (resultData) => {
+    if (resultData.error !== undefined) {
       console.error(resultData.error);
-  }
+    }
+  };
 
-  function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
+  let errorHandler = (jqXHR, StatusStr, ErrorStr) => {
     console.log(StatusStr + ' ' + ErrorStr);
-  }
-
+  };
   refreshRecords();
 };

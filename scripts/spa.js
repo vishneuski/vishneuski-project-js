@@ -3,22 +3,22 @@ window.onhashchange = renderNewState;
 // ****************** Refresh results******************
 var resultArray = [];
 var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
-var storageAdress = 'TEST_GAME_DB';
+var storageAddress = 'TEST_GAME_DB';
 
 (function refreshRecords() {
   $.ajax(
       {
         url: AjaxHandlerScript,
         type: 'POST',
-        data: {f: 'READ', n: storageAdress},
+        data: {f: 'READ', n: storageAddress},
         cache: false,
-        success: ReadReady,
+        success: readReady,
         error: ErrorHandler
       }
   );
 })();
 
-function ReadReady(resultData) {
+function readReady(resultData) {
   if (resultData.error !== undefined)
     alert(resultData.error);
   else {
