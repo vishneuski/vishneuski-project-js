@@ -606,7 +606,7 @@ window.onload = () => {
   //  ***************   CONTROLLER   ***************
 
   /**
-   * @description Функция обработки touch down event
+   * @description Функции обработки touch down event
    * @param e - event - событие
    */
   let upDown = (e) => {
@@ -617,10 +617,6 @@ window.onload = () => {
     player.shift();
   };
 
-  /**
-   * @description Функция обработки touch down event
-   * @param e - event - событие
-   */
   function downDown(e) {
     e = e || window.event;
     let key = 40;
@@ -628,6 +624,84 @@ window.onload = () => {
     player.keyStorage[key] = true;
     player.shift();
   }
+
+  let leftDown = (e) => {
+    e = e || window.event;
+    let key = 37;
+    e.preventDefault();
+    player.keyStorage[key] = true;
+    player.shift();
+  };
+
+  let rightDown = (e) => {
+    e = e || window.event;
+    let key = 39;
+    e.preventDefault();
+    player.keyStorage[key] = true;
+    player.shift();
+  };
+
+  let shotDown = (e) => {
+    e = e || window.event;
+    e.preventDefault();
+    player.shot();
+  };
+
+  /**
+   * @description Функции обработки touch up event
+   * @param e - event - событие
+   */
+  let downUp = (e) => {
+    e = e || window.event;
+    let key = 40;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    player.shift();
+  };
+
+  let upUp = (e) => {
+    e = e || window.event;
+    let key = 38;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    player.shift();
+  };
+
+  let leftUp = (e) => {
+    e = e || window.event;
+    let key = 37;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    player.shift();
+  };
+
+  let rightUp = (e) => {
+    e = e || window.event;
+    let key = 39;
+    e.preventDefault();
+    delete player.keyStorage[key];
+    player.shift();
+  };
+
+  /**
+   * @description Функция обработки key down event
+   * @param e - event - событие
+   */
+  let keyDown = (e) => {
+    e = e || window.event;
+    e.preventDefault();
+    player.keyStorage[e.keyCode] = true;
+  };
+
+  /**
+   * @description Функция обработки key up event
+   * @param e - event - событие
+   */
+  let keyUp = (e) => {
+    e = e || window.event;
+    e.preventDefault();
+    delete player.keyStorage[e.keyCode];
+  };
 
   /**
    * @description Назначение обработчиков событий - касания(touch event) и нажатия клавиш (key down & key up)
@@ -654,77 +728,10 @@ window.onload = () => {
   window.addEventListener('keyup', keyUp, false);
 
 
-
-
-  function leftDown(e) {
-    var e = e || window.event;
-    var key = 37;
-    e.preventDefault();
-    player.keyStorage[key] = true;
-    player.shift();
-  }
-
-  function rightDown(e) {
-    var e = e || window.event;
-    var key = 39;
-    e.preventDefault();
-    player.keyStorage[key] = true;
-    player.shift();
-  }
-
-  function downUp(e) {
-    var e = e || window.event;
-    var key = 40;
-    e.preventDefault();
-    delete player.keyStorage[key];
-    player.shift();
-  }
-
-  function upUp(e) {
-    var e = e || window.event;
-    var key = 38;
-    e.preventDefault();
-    delete player.keyStorage[key];
-    player.shift();
-  }
-
-  function leftUp(e) {
-    var e = e || window.event;
-    var key = 37;
-    e.preventDefault();
-    delete player.keyStorage[key];
-    player.shift();
-  }
-
-  function rightUp(e) {
-    var e = e || window.event;
-    var key = 39;
-    e.preventDefault();
-    delete player.keyStorage[key];
-    player.shift();
-  }
-
-  function shotDown(e) {
-    var e = e || window.event;
-    e.preventDefault();
-    player.shot();
-  }
-
-  function keyDown(e) {
-    var e = e || window.event;
-    e.preventDefault();
-    player.keyStorage[e.keyCode] = true;
-  }
-
-  function keyUp(e) {
-    var e = e || window.event;
-    e.preventDefault();
-    delete player.keyStorage[e.keyCode];
-  }
-
-//* ************ RequestAnimationFrame ***********************
-
-  let RequestAnimationFrame =
+  /**
+   * @description Кроссбраузерность для ReqestAnimationFrame
+   */
+  let requestAnimationFrame =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
       window.mozRequestAnimationFrame ||
@@ -734,9 +741,10 @@ window.onload = () => {
         window.setTimeout(callback, 1000 / 60);
       };
 
-  RequestAnimationFrame(game);
-
-  function game() {
+  /**
+   * @description Функци для обновления состояния игры в каждом RequestAnimationFrame
+   */
+  let game = () => {
     player.update();
     player.shift();
     bullets.forEach(bullet => {
@@ -749,10 +757,14 @@ window.onload = () => {
       coin.update();
     });
     drawCanvas();
-    RequestAnimationFrame(game);
-  }
+    requestAnimationFrame(game);
+  };
 
-  //**********************  AJAX  ***********************************
+  requestAnimationFrame(game);
+
+
+  // ***************   AJAX   ***************
+
   let resultArray = [];
   let Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
   let storageMail = 'TEST_GAME_DB';
