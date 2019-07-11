@@ -88,6 +88,29 @@ window.onload = () => {
   timer();
 
   /**
+   * Функция получения рандомного числа для размещения объектов(монет, врагов)
+   * @param {number} min Минимальная координата по осям x или y
+   * @param {number} max Максимальная координата по осям x или y
+   * @returns {number} Рандомное число
+   */
+  let getMathRandom = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+  /**
+   * Функция для добавления обьектов в массив
+   * @param {function} CL класс
+   * @param {string} name Имя объекта
+   * @param {object} obj Объект аргументов
+   * @param {array} objArr Массив, содержащий объекты
+   * @return
+   */
+  let addEntity = (CL, name, obj, objArr) => {
+    let title = name;
+    title = new CL(obj);
+    return objArr.push(title);
+  };
+
+
+  /**
    * Находим канвас в документе, получаем контекст и задаем размеры канвас
    * @type {HTMLElement | null}
    */
@@ -512,15 +535,6 @@ window.onload = () => {
 
   coinAdd();
 
-  /**
-   * Функция получения рандомного числа для размещения объектов(монет, врагов)
-   * @param {number} min Минимальная координата по осям x или y
-   * @param {number} max Максимальная координата по осям x или y
-   * @returns {number} Рандомное число
-   */
-  function getMathRandom(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
 
   /**
    * Функция для определения столкновений
@@ -528,45 +542,36 @@ window.onload = () => {
    * @param {object} obj2 Второй объект
    * @returns {boolean} Состояние столкновения.
    */
-  function collision(obj1, obj2) {
-    var isCollisioned = false;
+  let collision = (obj1, obj2) => {
+    let isCollisioned = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
       isCollisioned = true;
     } else {
       isCollisioned = false;
     }
     return isCollisioned;
-  }
+  };
 
-  /**
-   * Функция для добавления обьектов в массив
-   * @param {function} FC Функция-констуктор
-   * @param {string} name Имя объекта
-   * @param {object} obj Объект аргументов
-   * @param {array} objArr Массив, содержащий объекты
-   */
-  function addEntity(FC, name, obj, objArr) {
-    var name = new FC(obj);
-    objArr.push(name);
-  }
 
   /**
    * Функция для сохраниения результатов игры
    * @returns {boolean} Состояние сохранения.
    */
-  function saveResult() {
+  let saveResult = () => {
     clearTimeout(time);
-
-    var askName = prompt('Введите ваше имя: ', 'player');
-    console.log(`You are winner!!!${askName}!!! Our congratulates!!!`);
+    let askName = prompt('Введите ваше имя: ', 'player');
     document.querySelector('#timer').innerHTML = time;
     player.playerInfo.name = askName || 'player';
     player.playerInfo.time = time;
     sendResult();
     endGame();
     return true;
-  }
+  };
 
+  /**
+   * Функция, завершающая игру
+   * @return {boolean} Результат
+   */
   function endGame() {
     audio.pause();
     let hideCanvas = document.getElementById('canvas');
@@ -574,6 +579,7 @@ window.onload = () => {
     coins = null;
     enemies = null;
     bullets = null;
+    return true;
   }
 
 //***************** !!! VIEW !!! *****************************
