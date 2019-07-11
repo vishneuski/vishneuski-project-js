@@ -76,7 +76,7 @@ window.onload = () => {
   let time = 0;
 
   /**
-   * Функция для запуска таймера и фоновой музыки
+   * @description Функция для запуска таймера и фоновой музыки
    * @return {string} Таймер и музыка запущены
    */
   let timer = () => {
@@ -88,7 +88,7 @@ window.onload = () => {
   timer();
 
   /**
-   * Функция получения рандомного числа для размещения объектов(монет, врагов)
+   * @description Функция получения рандомного числа для размещения объектов(монет, врагов)
    * @param {number} min Минимальная координата по осям x или y
    * @param {number} max Максимальная координата по осям x или y
    * @returns {number} Рандомное число
@@ -96,12 +96,12 @@ window.onload = () => {
   let getMathRandom = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
   /**
-   * Функция для добавления обьектов в массив
+   * @description Функция для добавления обьектов в массив
    * @param {function} CL класс
    * @param {string} name Имя объекта
    * @param {object} obj Объект аргументов
    * @param {array} objArr Массив, содержащий объекты
-   * @return
+   * @return {array} objArr Заполненный массив
    */
   let addEntity = (CL, name, obj, objArr) => {
     let title = name;
@@ -150,7 +150,7 @@ window.onload = () => {
 
 
   /**
-   * Функция для отрисовки карты игры
+   * @description Функция для отрисовки карты игры
    * @return {boolean} true - карта успешно загружена
    */
   let drawMap = () => {
@@ -204,7 +204,7 @@ window.onload = () => {
   /** Класс игрок*/
   class Player {
     /**
-     * Создаем игрока в заданных координатах
+     * @description Создаем игрока в заданных координатах
      * @param {object} player - объект содержащий координаты
      */
     constructor(player) {
@@ -343,7 +343,7 @@ window.onload = () => {
   /** Класс враг*/
   class Enemy {
     /**
-     * Создаем врагов в рандомных координатах и с заданными направлениями первоначального движения
+     * @description Создаем врагов в рандомных координатах и с заданными направлениями первоначального движения
      * @param {object} enemy - объект содержащий координаты
      */
     constructor(enemy) {
@@ -436,7 +436,7 @@ window.onload = () => {
   /** Класс пуля*/
   class Bullet {
     /**
-     * Создаем пули в заданных координатах и с направлением героя
+     * @description Создаем пули в заданных координатах и с направлением героя
      * @param {object} bullet - объект содержащий координаты
      */
     constructor(bullet) {
@@ -495,7 +495,7 @@ window.onload = () => {
   /** Класс монета*/
   class Coin {
     /**
-     * Создаем монеты в рандомных координатах
+     * @description Создаем монеты в рандомных координатах
      * @param {object} coin - объект содержащий координаты
      */
     constructor(coin) {
@@ -537,24 +537,24 @@ window.onload = () => {
 
 
   /**
-   * Функция для определения столкновений
+   * @description Функция для определения столкновений
    * @param {object} obj1 Первый объект
    * @param {object} obj2 Второй объект
-   * @returns {boolean} Состояние столкновения.
+   * @returns {boolean} isCollision Состояние столкновения.
    */
   let collision = (obj1, obj2) => {
-    let isCollisioned = false;
+    let isCollision = false;
     if (((obj1.posX < obj2.posX + obj2.width && obj1.posX > obj2.posX) || (obj1.posX + obj1.width > obj2.posX && obj1.posX < obj2.posX)) && ((obj1.posY < obj2.posY + obj2.height && obj1.posY > obj2.posY) || (obj1.posY + obj1.height > obj2.posY && obj1.posY < obj2.posY))) {
-      isCollisioned = true;
+      isCollision = true;
     } else {
-      isCollisioned = false;
+      isCollision = false;
     }
-    return isCollisioned;
+    return isCollision;
   };
 
 
   /**
-   * Функция для сохраниения результатов игры
+   * @description Функция для сохраниения результатов игры
    * @returns {boolean} Состояние сохранения.
    */
   let saveResult = () => {
@@ -569,7 +569,7 @@ window.onload = () => {
   };
 
   /**
-   * Функция, завершающая игру
+   * @description Функция, завершающая игру
    * @return {boolean} Результат
    */
   function endGame() {
@@ -582,8 +582,11 @@ window.onload = () => {
     return true;
   }
 
-//***************** !!! VIEW !!! *****************************
-
+//***************   VIEW   ***************
+  /**
+   * @description Функция для перерисовки канвас
+   * @return Результат перерисовки
+   */
   function drawCanvas() {
     drawMap();
     player.draw();
@@ -596,9 +599,11 @@ window.onload = () => {
     enemies.forEach(enemie => {
       enemie.draw();
     });
+    return true;
   }
 
-//******************* !!! CONTROLLER !!! **********************
+//***************   CONTROLLER   ***************
+  
   let up = document.querySelector('#up');
   let down = document.querySelector('#down');
   let left = document.querySelector('#left');
