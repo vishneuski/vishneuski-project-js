@@ -2,15 +2,15 @@ window.onhashchange = renderNewState;
 
 // ****************** Refresh results******************
 var resultArray = [];
-var Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
-var storeageMail = 'TEST_GAME_DB';
+var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
+var storageAdress = 'TEST_GAME_DB';
 
 (function refreshRecords() {
   $.ajax(
       {
-        url: Server,
+        url: AjaxHandlerScript,
         type: 'POST',
-        data: {f: 'READ', n: storeageMail},
+        data: {f: 'READ', n: storageAdress},
         cache: false,
         success: ReadReady,
         error: ErrorHandler

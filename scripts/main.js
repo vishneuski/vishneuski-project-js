@@ -610,40 +610,40 @@ window.onload = () => {
    * @param e - event - событие
    */
   let upDown = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 38;
-    e.preventDefault();
+    event.preventDefault();
     player.keyStorage[key] = true;
     player.shift();
   };
 
   function downDown(e) {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 40;
-    e.preventDefault();
+    event.preventDefault();
     player.keyStorage[key] = true;
     player.shift();
   }
 
   let leftDown = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 37;
-    e.preventDefault();
+    event.preventDefault();
     player.keyStorage[key] = true;
     player.shift();
   };
 
   let rightDown = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 39;
-    e.preventDefault();
+    event.preventDefault();
     player.keyStorage[key] = true;
     player.shift();
   };
 
   let shotDown = (e) => {
-    e = e || window.event;
-    e.preventDefault();
+    let event = e || window.event;
+    event.preventDefault();
     player.shot();
   };
 
@@ -652,33 +652,33 @@ window.onload = () => {
    * @param e - event - событие
    */
   let downUp = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 40;
-    e.preventDefault();
+    event.preventDefault();
     delete player.keyStorage[key];
     player.shift();
   };
 
   let upUp = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 38;
-    e.preventDefault();
+    event.preventDefault();
     delete player.keyStorage[key];
     player.shift();
   };
 
   let leftUp = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 37;
-    e.preventDefault();
+    event.preventDefault();
     delete player.keyStorage[key];
     player.shift();
   };
 
   let rightUp = (e) => {
-    e = e || window.event;
+    let event = e || window.event;
     let key = 39;
-    e.preventDefault();
+    event.preventDefault();
     delete player.keyStorage[key];
     player.shift();
   };
@@ -688,8 +688,8 @@ window.onload = () => {
    * @param e - event - событие
    */
   let keyDown = (e) => {
-    e = e || window.event;
-    e.preventDefault();
+    let event = e || window.event;
+    event.preventDefault();
     player.keyStorage[e.keyCode] = true;
   };
 
@@ -698,8 +698,8 @@ window.onload = () => {
    * @param e - event - событие
    */
   let keyUp = (e) => {
-    e = e || window.event;
-    e.preventDefault();
+    let event = e || window.event;
+    event.preventDefault();
     delete player.keyStorage[e.keyCode];
   };
 
@@ -766,17 +766,17 @@ window.onload = () => {
   // ***************   AJAX   ***************
 
   let resultArray = [];
-  let Server = "http://fe.it-academy.by/AjaxStringStorage2.php";
-  let storageMail = 'TEST_GAME_DB';
+  let AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
+  let storageAdress = 'TEST_GAME_DB';
   let UpdatePassword;
 
   // ****************** Refresh results******************
   function refreshRecords() {
     $.ajax(
         {
-          url: Server,
+          url: AjaxHandlerScript,
           type: 'POST',
-          data: {f: 'READ', n: storageMail},
+          data: {f: 'READ', n: storageAdress},
           cache: false,
           success: ReadReady,
           error: ErrorHandler
@@ -802,10 +802,10 @@ window.onload = () => {
     UpdatePassword = Math.random();
     $.ajax(
         {
-          url: Server,
+          url: AjaxHandlerScript,
           type: 'POST',
           data: {
-            f: 'LOCKGET', n: storageMail,
+            f: 'LOCKGET', n: storageAdress,
             p: UpdatePassword
           },
           cache: false,
@@ -834,10 +834,10 @@ window.onload = () => {
 
       $.ajax(
           {
-            url: Server,
+            url: AjaxHandlerScript,
             type: 'POST',
             data: {
-              f: 'UPDATE', n: storageMail,
+              f: 'UPDATE', n: storageAdress,
               v: JSON.stringify(resultArray), p: UpdatePassword
             },
             cache: false,
