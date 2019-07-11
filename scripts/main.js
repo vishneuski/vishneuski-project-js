@@ -582,10 +582,11 @@ window.onload = () => {
     return true;
   }
 
-//***************   VIEW   ***************
+  //  ***************   VIEW   ***************
+
   /**
    * @description Функция для перерисовки канвас
-   * @return Результат перерисовки
+   * @return {boolean} Результат перерисовки
    */
   function drawCanvas() {
     drawMap();
@@ -602,8 +603,36 @@ window.onload = () => {
     return true;
   }
 
-//***************   CONTROLLER   ***************
-  
+  //  ***************   CONTROLLER   ***************
+
+  /**
+   * @description Функция обработки touch down event
+   * @param e - event - событие
+   */
+  let upDown = (e) => {
+    e = e || window.event;
+    let key = 38;
+    e.preventDefault();
+    player.keyStorage[key] = true;
+    player.shift();
+  };
+
+  /**
+   * @description Функция обработки touch down event
+   * @param e - event - событие
+   */
+  function downDown(e) {
+    e = e || window.event;
+    let key = 40;
+    e.preventDefault();
+    player.keyStorage[key] = true;
+    player.shift();
+  }
+
+  /**
+   * @description Назначение обработчиков событий - касания(touch event) и нажатия клавиш (key down & key up)
+   * @type {Element | null}
+   */
   let up = document.querySelector('#up');
   let down = document.querySelector('#down');
   let left = document.querySelector('#left');
@@ -624,21 +653,8 @@ window.onload = () => {
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
 
-  function upDown(e) {
-    var e = e || window.event;
-    var key = 38;
-    e.preventDefault();
-    player.keyStorage[key] = true;
-    player.shift();
-  }
 
-  function downDown(e) {
-    var e = e || window.event;
-    var key = 40;
-    e.preventDefault();
-    player.keyStorage[key] = true;
-    player.shift();
-  }
+
 
   function leftDown(e) {
     var e = e || window.event;
@@ -758,7 +774,7 @@ window.onload = () => {
 
   function ReadReady(resultData) {
     if (resultData.error !== undefined)
-      alert(resultData.error);
+      console.error(resultData.error);
     else {
       resultArray = [];
       if (resultData.result !== "") {
@@ -788,9 +804,9 @@ window.onload = () => {
   }
 
   function LockGetReady(resultData) {
-    if (resultData.error !== undefined)
-      alert(resultData.error);
-    else {
+    if (resultData.error !== undefined) {
+      console.error(resultData.error);
+    } else {
       resultArray = [];
       if (resultData.result !== '') {
         resultArray = JSON.parse(resultData.result);
@@ -822,7 +838,7 @@ window.onload = () => {
 
   function UpdateReady(resultData) {
     if (resultData.error !== undefined)
-      alert(resultData.error);
+      console.error(resultData.error);
   }
 
   function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
@@ -830,5 +846,4 @@ window.onload = () => {
   }
 
   refreshRecords();
-
 };
