@@ -1,9 +1,8 @@
 window.onhashchange = renderNewState;
 
-// ****************** Refresh results******************
-var resultArray = [];
-var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
-var storageAddress = 'TEST_GAME_DB';
+let resultArray = [];
+let AjaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
+let storageAddress = 'TEST_GAME_DB';
 
 (function refreshRecords() {
   $.ajax(
@@ -13,71 +12,105 @@ var storageAddress = 'TEST_GAME_DB';
         data: {f: 'READ', n: storageAddress},
         cache: false,
         success: readReady,
-        error: ErrorHandler
+        error: errorHandler
       }
   );
 })();
 
-function readReady(resultData) {
-  if (resultData.error !== undefined)
-    alert(resultData.error);
-  else {
+let readReady = (resultData) => {
+  if (resultData.error !== undefined) {
+    console.dir(resultData.error);
+  } else {
     resultArray = [];
     if (resultData.result !== "") {
       resultArray = JSON.parse(resultData.result);
-      if (!resultArray.length)
+      if (!resultArray.length) {
         resultArray = [];
+      }
     }
   }
-}
+};
 
-function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
+let errorHandler = (jqXHR, StatusStr, ErrorStr) => {
   console.log(StatusStr + ' ' + ErrorStr);
 };
 
-function renderNewState() {
-  var hash = window.location.hash;
-  var state = decodeURIComponent(hash.substr(1));
+let renderNewState = () => {
+  let hash = window.location.hash;
+  let state = decodeURIComponent(hash.substr(1));
   if (state === '') { // если пустой значит мы зашли в первый раз
     state = {
       page: 'main'
-    }
+    };
   } else {
     state = JSON.parse(state); // иначе пробуем парсить состояние
   }
-  var page = '';
+  let page = '';
 
   switch (state.page) {
     case 'main':
-      page += "<div class='container'>";
-      page += "<div class='gameName'>Bugs killer</div>";
-      page += "<ul class='menu-list'>";
-      page += "<li class='menu-item'>";
-      page += "<input type=\"button\" class='buttons' value=\"game\" onclick=\"switchToGame()\">";
-      page += "</li>";
-      page += "<li class='menu-item'>";
-      page += "<input type=\"button\" class='buttons' value=\"rules\" onclick=\"switchToRules()\">";
-      page += "</li>";
-      page += "<li class='menu-item'>";
-      page += "<input type=\"button\" class='buttons' value=\"records\" onclick=\"switchToRecords()\">";
-      page += "</li>";
-      page += "</ul>";
-      page += '</div>';
+      page += `<div class='container'>
+                 <div class='gameName'>Bugs killer</div>
+                 <ul class='menu-list'>
+                   <li class='menu-item'>
+                     <input type='button'
+                            class='buttons'
+                            value='game'
+                            onclick='switchToGame()'>
+                    </li>
+                    <li class='menu-item'>
+                      <input type='button'
+                             class='buttons'
+                             value='rules'
+                             onclick='switchToRules()'>
+                    </li>
+                    <li class='menu-item'>
+                      <input type='button'
+                       class='buttons'
+                       value='records'
+                       onclick='switchToRecords()'>
+                    </li>
+                 </ul>
+               </div>`;
       break;
 
     case 'game':
-      page += `<audio src="audio/lesnik.mp3"></audio><div class="container container-canvas"><input type="button" class="buttons-canvas" value="back to main menu" 
-onclick="switchToStart()"><input type="button" class=" buttons-canvas buttons-canvas-2" value="Start the game!!!" 
-onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
- <table class="controll-container">
-    <tr>
-      <td></td>
-      <td><input id='up' class='touchButton' type=button value='&uarr;'></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><input id='left' class='touchButton' type=button value='&larr;'></td>
-      <td><input id='shot' class='touchButton' type="button" value='&bull;'></td>
+      page += `<audio src='audio/lesnik.mp3'></audio>
+               <div class="container container-canvas">
+                 <input type="button"
+                        class="buttons-canvas"
+                        value="back to main menu"
+                        onclick="switchToStart()">
+                 <input type="button"
+                        class=" buttons-canvas buttons-canvas-2"
+                        value="Start the game!!!"
+                        onclick="gameStart()">
+                 <div id="score">Score:</div>
+                 <div id="timer">Time:</div>
+                 <table class="controll-container">
+                   <tr>
+                     <td></td>
+                     <td>
+                       <input id='up'
+                              class='touchButton'
+                              type=button
+                              value='&uarr;'>
+                     </td>
+                     <td></td>
+                   </tr>
+                   <tr>
+                     <td>
+                       <input id='left'
+                              class='touchButton'
+                              type=button
+                              value='&larr;'>
+                     </td>
+                     <td>
+                       <input id='shot'
+                              class='touchButton'
+                              type="button"
+                              value='&bull;'>
+                     </td>
       <td><input id='right' class='touchButton' type=button value='&rarr;'></td>
     </tr>
     <tr>
@@ -113,7 +146,7 @@ onclick="gameStart()"><div id="score">Score:</div><div id="timer">Time:</div>
   }
 
   document.getElementById('page').innerHTML = page;
-}
+};
 
 function switchToState(state) {
   location.hash = encodeURIComponent(JSON.stringify(state));
