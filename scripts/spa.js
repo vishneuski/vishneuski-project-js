@@ -41,11 +41,11 @@ let renderNewState = () => {
       page += `<audio src='audio/lesnik.mp3'></audio>
                <div class="container container-canvas">
                  <input type="button"
-                        class="buttons-canvas"
+                        class="buttons-canvas buttons-canvas-menu"
                         value="BACK TO MENU"
                         onclick="switchToStart()">
                  <input type="button"
-                        class=" buttons-canvas buttons-canvas-2"
+                        class=" buttons-canvas buttons-canvas-game"
                         value="START THE GAME"
                         onclick="gameStart()">
                  <div id="score">Score:</div>

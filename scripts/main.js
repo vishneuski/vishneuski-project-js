@@ -76,11 +76,11 @@ window.onload = () => {
   let time = 0;
 
   /**
-   * @description Функция для запуска таймера и фоновой музыки
+   * Функция для запуска таймера и фоновой музыки
    * @return {string} Таймер и музыка запущены
    */
   let timer = () => {
-    document.querySelector('#timer').innerHTML = `Time:${time}`;
+    $('#timer').html(`Time:${time}`);
     time = setTimeout(timer, 1000);
     audio.play();
     return 'Start the game!';
@@ -88,7 +88,7 @@ window.onload = () => {
   timer();
 
   /**
-   * @description Функция получения рандомного числа для размещения объектов(монет, врагов)
+   * Функция получения рандомного числа для размещения объектов(монет, врагов)
    * @param {number} min Минимальная координата по осям x или y
    * @param {number} max Максимальная координата по осям x или y
    * @returns {number} Рандомное число
@@ -96,7 +96,7 @@ window.onload = () => {
   let getMathRandom = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
   /**
-   * @description Функция для добавления обьектов в массив
+   * Функция для добавления обьектов в массив
    * @param {function} CL класс
    * @param {string} name Имя объекта
    * @param {object} obj Объект аргументов
@@ -150,7 +150,7 @@ window.onload = () => {
 
 
   /**
-   * @description Функция для отрисовки карты игры
+   * Функция для отрисовки карты игры
    * @return {boolean} true - карта успешно загружена
    */
   let drawMap = () => {
@@ -204,7 +204,7 @@ window.onload = () => {
   /** Класс игрок*/
   class Player {
     /**
-     * @description Создаем игрока в заданных координатах
+     * Создаем игрока в заданных координатах
      * @param {object} player - объект содержащий координаты
      */
     constructor(player) {
@@ -223,7 +223,7 @@ window.onload = () => {
       this.posX = player.posX;
       this.posY = player.posY;
       this.direction = 37;
-      this.coinCounter = 0; // кол-во столкновений с монетами
+      this.coinCounter = 0;
       this.bulletNumber = 0;
       this.bulletActive = false;
       this.health = 100;
@@ -257,7 +257,7 @@ window.onload = () => {
     update() {
       if (this.keyStorage[this.KEY_CODE.up]) {
         this.posY -= this.speed;
-        this.direction = 38; //need for define shot direction
+        this.direction = 38;
       }
 
       if (this.keyStorage[this.KEY_CODE.down]) {
@@ -343,7 +343,7 @@ window.onload = () => {
   /** Класс враг*/
   class Enemy {
     /**
-     * @description Создаем врагов в рандомных координатах и с заданными направлениями первоначального движения
+     * Создаем врагов в рандомных координатах и с заданными направлениями первоначального движения
      * @param {object} enemy - объект содержащий координаты
      */
     constructor(enemy) {
@@ -436,7 +436,7 @@ window.onload = () => {
   /** Класс пуля*/
   class Bullet {
     /**
-     * @description Создаем пули в заданных координатах и с направлением героя
+     * Создаем пули в заданных координатах и с направлением героя
      * @param {object} bullet - объект содержащий координаты
      */
     constructor(bullet) {
@@ -495,7 +495,7 @@ window.onload = () => {
   /** Класс монета*/
   class Coin {
     /**
-     * @description Создаем монеты в рандомных координатах
+     * Создаем монеты в рандомных координатах
      * @param {object} coin - объект содержащий координаты
      */
     constructor(coin) {
@@ -537,7 +537,7 @@ window.onload = () => {
 
 
   /**
-   * @description Функция для определения столкновений
+   * Функция для определения столкновений
    * @param {object} obj1 Первый объект
    * @param {object} obj2 Второй объект
    * @returns {boolean} isCollision Состояние столкновения.
@@ -554,7 +554,7 @@ window.onload = () => {
 
 
   /**
-   * @description Функция для сохраниения результатов игры
+   * Функция для сохраниения результатов игры
    * @returns {boolean} Состояние сохранения.
    */
   let saveResult = () => {
@@ -569,7 +569,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция, завершающая игру
+   * Функция, завершающая игру
    * @return {boolean} Результат
    */
   function endGame() {
@@ -585,7 +585,7 @@ window.onload = () => {
   //  ***************   VIEW   ***************
 
   /**
-   * @description Функция для перерисовки канвас
+   * Функция для перерисовки канвас
    * @return {boolean} Результат перерисовки
    */
   function drawCanvas() {
@@ -606,7 +606,7 @@ window.onload = () => {
   //  ***************   CONTROLLER   ***************
 
   /**
-   * @description Функции обработки touch down event
+   * Функции обработки touch down event
    * @param e - event - событие
    */
   let upDown = (e) => {
@@ -648,7 +648,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функции обработки touch up event
+   * Функции обработки touch up event
    * @param e - event - событие
    */
   let downUp = (e) => {
@@ -684,7 +684,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция обработки key down event
+   * Функция обработки key down event
    * @param e - event - событие
    */
   let keyDown = (e) => {
@@ -694,7 +694,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция обработки key up event
+   * Функция обработки key up event
    * @param e - event - событие
    */
   let keyUp = (e) => {
@@ -704,7 +704,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Назначение обработчиков событий - касания(touch event) и нажатия клавиш (key down & key up)
+   * Назначение обработчиков событий - касания(touch event) и нажатия клавиш (key down & key up)
    * @type {Element | null}
    */
   let up = document.querySelector('#up');
@@ -729,7 +729,7 @@ window.onload = () => {
 
 
   /**
-   * @description Кроссбраузерность для ReqestAnimationFrame
+   * Кроссбраузерность для ReqestAnimationFrame
    */
   let requestAnimationFrame =
       window.requestAnimationFrame ||
@@ -742,7 +742,7 @@ window.onload = () => {
       };
 
   /**
-   * @description Функци для обновления состояния игры в каждом RequestAnimationFrame
+   * Функци для обновления состояния игры в каждом RequestAnimationFrame
    */
   let game = () => {
     player.update();
@@ -766,30 +766,30 @@ window.onload = () => {
   // ***************   AJAX   ***************
 
   /**
-   * @description Массив, в который будем соханять результаты из БД
+   * Массив, в который будем соханять результаты из БД
    * @type {Array}
    */
   let resultArray = [];
 
   /**
-   * @description Бэкенд для работы с AJAX
+   * БД для работы с AJAX
    * @type {string}
    */
   let AjaxHandlerScript = 'https://fe.it-academy.by/AjaxStringStorage2.php';
 
   /**
-   * @description Название нашего хранилища в БД
+   * Название нашего хранилища в БД
    * @type {string}
    */
   let storageAddress = 'TEST_GAME_DB';
 
   /**
-   * @description Пароль для блокировки хранилища при обновлении
+   * Пароль для блокировки хранилища при обновлении
    */
   let updatePassword;
 
   /**
-   * @description Функция для обновления рекордов игры
+   * Функция для обновления рекордов игры
    */
   let refreshRecords = () => {
     $.ajax(
@@ -805,7 +805,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция, валидирующая полученые с помощью AJAX данные и сохраняющая их в массив для работы с ними
+   * Функция, валидирующая полученые с помощью AJAX данные и сохраняющая их в массив для работы с ними
    * @param {JSON} resultData Получаемые данные
    */
   let readReady = (resultData) => {
@@ -823,7 +823,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция для блокирования хранилища при обновлении результатов игры
+   * Функция для блокирования хранилища при обновлении результатов игры
    */
   let sendResult = () => {
     updatePassword = Math.random();
@@ -843,7 +843,7 @@ window.onload = () => {
   };
 
   /**
-   * @description Функция для оправки данных
+   * Функция для оправки данных
    */
   let lockGetReady = (resultData) => {
     if (resultData.error !== undefined) {

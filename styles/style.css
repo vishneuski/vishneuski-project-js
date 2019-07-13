@@ -32,7 +32,6 @@ body {
 .menu-list {
   margin: 0;
   padding: 0;
-  height: 100%;
   display: flex;
   justify-content: center;
   list-style-type: none;
@@ -78,8 +77,7 @@ body {
 }
 
 .buttons-canvas {
-  left: 0;
-  bottom: 2em;
+  left: 0.5em;
   position: absolute;
   box-sizing: border-box;
   padding: 0.5em 1em;
@@ -94,7 +92,10 @@ body {
   transition: 0.5s;
 }
 
-.buttons-canvas-2 {
+.buttons-canvas-menu {
+  top: 5em;
+
+}.buttons-canvas-game {
   bottom: 5em;
 }
 
