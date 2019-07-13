@@ -80,7 +80,7 @@ window.onload = () => {
    * @return {string} Таймер и музыка запущены
    */
   let timer = () => {
-    $('#timer').html(`Time:${time}`);
+    document.getElementById('timer').innerHTML = `Time:${time}`;
     time = setTimeout(timer, 1000);
     audio.play();
     return 'Start the game!';
@@ -143,9 +143,9 @@ window.onload = () => {
    * Путь до изображений
    * @type {string}
    */
-  hero.src = 'images/hero.gif';
+  hero.src = 'images/hero.png';
   fireball.src = 'images/fireball.png';
-  allien.src = 'images/allien.gif';
+  allien.src = 'images/allien.png';
   prise.src = 'images/coin.png';
 
 
@@ -249,7 +249,7 @@ window.onload = () => {
         let isColl = collision(this, enemies[i]);
         collision(this, enemies[i]);
         if (isColl === true) {
-          this.health -= 25;
+          endGame();
         }
       }
     }
@@ -572,7 +572,8 @@ window.onload = () => {
    * Функция, завершающая игру
    * @return {boolean} Результат
    */
-  function endGame() {
+  let endGame = () => {
+    clearTimeout(time);
     audio.pause();
     let hideCanvas = document.getElementById('canvas');
     hideCanvas.style.display = 'none';
@@ -580,10 +581,9 @@ window.onload = () => {
     enemies = null;
     bullets = null;
     return true;
-  }
+  };
 
   //  ***************   VIEW   ***************
-
   /**
    * Функция для перерисовки канвас
    * @return {boolean} Результат перерисовки
@@ -604,7 +604,6 @@ window.onload = () => {
   }
 
   //  ***************   CONTROLLER   ***************
-
   /**
    * Функции обработки touch down event
    * @param e - event - событие
@@ -617,13 +616,13 @@ window.onload = () => {
     player.shift();
   };
 
-  function downDown(e) {
+  let downDown = (e) => {
     let event = e || window.event;
     let key = 40;
     event.preventDefault();
     player.keyStorage[key] = true;
     player.shift();
-  }
+  };
 
   let leftDown = (e) => {
     let event = e || window.event;

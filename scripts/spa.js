@@ -38,7 +38,7 @@ let renderNewState = () => {
       break;
 
     case 'game':
-      page += `<audio src='audio/lesnik.mp3'></audio>
+      page += `<audio src='audio/gamesound.mp3'></audio>
                <div class="container container-canvas">
                  <input type="button"
                         class="buttons-canvas buttons-canvas-menu"
