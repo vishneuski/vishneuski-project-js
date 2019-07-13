@@ -805,7 +805,7 @@ window.onload = () => {
 
   /**
    * @description Функция, валидирующая полученые с помощью AJAX данные и сохраняющая их в массив для работы с ними
-   * @param resultData {JSON} Получаемые данные
+   * @param {JSON} resultData Получаемые данные
    */
   let readReady = (resultData) => {
     if (resultData.error !== undefined) {

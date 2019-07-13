@@ -151,9 +151,6 @@ body {
   text-align: center;
 }
 
-@media (max-width: 900px) {
-  #canvas {
-    width: 100vw;
-    height: 50vh;
-  }
+th {
+  border-bottom: 1px solid lightblue;
 }

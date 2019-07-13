@@ -120,16 +120,13 @@ let renderNewState = () => {
                    </tr>`;
       for (let i = 0; i < resultArray.length; i++) {
         page += `<tr class="table-cell">
-                   <td class="table-cell"
-                       id="igrok">${resultArray[i].name}</td>
-                   <td class="table-cell"
-                       id="itog">${resultArray[i].time}</td>
+                   <td class="table-cell">${resultArray[i].name}</td>
+                   <td class="table-cell">${resultArray[i].time}</td>
                  </tr>`;
       }
       page += `</table></div>`;
       break;
   }
-
   document.getElementById('page').innerHTML = page;
 };
 
