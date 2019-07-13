@@ -50,16 +50,32 @@ let renderNewState = () => {
                         onclick="gameStart()">
                  <div id="score">Score:</div>
                  <div id="timer">Time:</div>
-                 <table class="controll-container">
+                  <table class="controll-container1">
                    <tr>
-                     <td></td>
                      <td>
                        <input id='up'
                               class='touchButton'
                               type=button
                               value='&uarr;'>
                      </td>
-                     <td></td>
+                   </tr>  
+                   <tr>
+                     <td>
+                       <input id='down'
+                              class='touchButton'
+                              type=button
+                              value='&darr;'>
+                     </td>
+                   </tr>
+                 </table>
+                 <table class="controll-container2">
+                   <tr>
+                     <td>
+                       <input id='shot'
+                              class='touchButton'
+                              type=button
+                              value='&bull;'>
+                     </td>
                    </tr>
                    <tr>
                      <td>
@@ -68,28 +84,14 @@ let renderNewState = () => {
                               type=button
                               value='&larr;'>
                      </td>
-                     <td>
-                       <input id='shot'
-                              class='touchButton'
-                              type="button"
-                              value='&bull;'>
-                     </td>
+                   </tr>  
+                   <tr>
                      <td>
                        <input id='right'
                               class='touchButton'
                               type=button
                               value='&rarr;'>
                      </td>
-                   </tr>
-                   <tr>
-                     <td></td>
-                     <td>
-                       <input id='down'
-                              class='touchButton'
-                              type=button
-                              value='&darr;'>
-                     </td>
-                     <td></td>
                    </tr>
                  </table>
                  <canvas id="canvas"></canvas>

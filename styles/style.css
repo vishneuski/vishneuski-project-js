@@ -78,7 +78,7 @@ body {
 
 .buttons-canvas {
   left: 0;
-  top: 20em;
+  bottom: 2em;
   position: absolute;
   box-sizing: border-box;
   padding: 0.5em 1em;
@@ -94,45 +94,53 @@ body {
 }
 
 .buttons-canvas-2 {
-  top: 15em;
+  bottom: 5em;
 }
 
 .controll-container {
   position: absolute;
-  left: calc(50% - 0.75em);
-  bottom: 10%;
+  left: 0;
+  bottom: 30%;
+}
+
+.controll-container2 {
+  position: absolute;
+  right: 0;
+  bottom: 30%;
 }
 
 .touchButton {
   box-sizing: border-box;
   padding: 0;
-  width: 1.5em;
-  height: 1.5em;
-  font-size: 1.5em;
+  width: 2.5em;
+  height: 2.5em;
+  font-size: 2.5em;
   text-align: center;
   color: black;
-  line-height: 1.5em;
+  line-height: 2.5em;
   border-radius: 25%;
   background: #fff;
   opacity: 0.5;
 }
 
 #score {
-  width: 10em;
-  height: 2em;
+  width: 5em;
+  height: 1.5em;
   position: absolute;
   top: 0;
-  left: 16em;
+  left: calc(50% - 10em);
   background: lightcyan;
+  opacity: 0.8;
 }
 
 #timer {
-  width: 10em;
-  height: 2em;
+  width: 5em;
+  height: 1.5em;
   position: absolute;
   top: 0;
-  left: 5em;
+  left: calc(50% + 1em);
   background: lightcyan;
+  opacity: 0.75;
 }
 
 .container-canvas {

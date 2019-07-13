@@ -79,7 +79,7 @@ window.onload = () => {
    * @return {string} Таймер и музыка запущены
    */
   let timer = () => {
-    document.querySelector('#timer').innerHTML = time;
+    document.querySelector('#timer').innerHTML = `Time:${time}`;
     time = setTimeout(timer, 1000);
     audio.play();
     return 'Start the game!';
