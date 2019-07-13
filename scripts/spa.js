@@ -136,7 +136,7 @@ let renderNewState = () => {
 window.onhashchange = renderNewState;
 
 let resultArray = [];
-let AjaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
+let AjaxHandlerScript = 'https://fe.it-academy.by/AjaxStringStorage2.php';
 let storageAddress = 'TEST_GAME_DB';
 
 

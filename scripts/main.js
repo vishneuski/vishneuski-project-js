@@ -1,5 +1,4 @@
 window.onload = () => {
-
   /**
    * Размер канвас - ширина
    * @const
@@ -775,7 +774,7 @@ window.onload = () => {
    * @description Бэкенд для работы с AJAX
    * @type {string}
    */
-  let AjaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
+  let AjaxHandlerScript = 'https://fe.it-academy.by/AjaxStringStorage2.php';
 
   /**
    * @description Название нашего хранилища в БД
