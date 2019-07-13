@@ -42,11 +42,11 @@ let renderNewState = () => {
                <div class="container container-canvas">
                  <input type="button"
                         class="buttons-canvas"
-                        value="back to main menu"
+                        value="BACK TO MENU"
                         onclick="switchToStart()">
                  <input type="button"
                         class=" buttons-canvas buttons-canvas-2"
-                        value="Start the game!!!"
+                        value="START THE GAME"
                         onclick="gameStart()">
                  <div id="score">Score:</div>
                  <div id="timer">Time:</div>
@@ -102,7 +102,7 @@ let renderNewState = () => {
       page += `<div class="container">
                  <input type="button"
                         class="buttons"
-                        value="back to main menu"
+                        value="BACK TO MENU"
                         onclick="switchToStart()">
                  <div class="rules">Перед Вами игра Bugs Killer. Цель игры - собрать все монеты, не попадя в лапы коварных врагов. Они те еще упыри! Но и Вы, уверен, не промах! Дерзайте!!! Управляйте игроком с помощью клавиш ВВЕРХ &#8593;, ВНИЗ &#8595;, ВПРАВО &#8594; и ВЛЕВО &#8592;. Выстрел производится с помощью клавиши пробел.Избегайте прикосновений врагов. Победите всех недругов и будет Вам счастье!)
                  </div>
@@ -113,7 +113,7 @@ let renderNewState = () => {
       page += `<div class="container">
                  <input type="button"
                         class="buttons"
-                        value="back to main menu"
+                        value="BACK TO MENU"
                         onclick="switchToStart()">
                  <table class="tableRecords">
                    <tr class="table-cell">
@@ -141,10 +141,10 @@ let storageAddress = 'TEST_GAME_DB';
 
 let readReady = (resultData) => {
   if (resultData.error !== undefined) {
-    console.dir(resultData.error);
+    console.error(resultData.error);
   } else {
     resultArray = [];
-    if (resultData.result !== "") {
+    if (resultData.result !== '') {
       resultArray = JSON.parse(resultData.result);
       if (!resultArray.length) {
         resultArray = [];
@@ -154,7 +154,7 @@ let readReady = (resultData) => {
 };
 
 let errorHandler = (jqXHR, StatusStr, ErrorStr) => {
-  console.log(StatusStr + ' ' + ErrorStr);
+  console.error(StatusStr + ' ' + ErrorStr);
 };
 (function refreshRecords() {
   $.ajax(

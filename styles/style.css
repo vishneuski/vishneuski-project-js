@@ -9,7 +9,7 @@ body {
 
 .container {
   width: 100vw;
-  max-width: 86em;
+  max-width: 84em;
   background: lightgray;
   margin: 0 auto;
   height: 100vh;
@@ -31,6 +31,7 @@ body {
 
 .menu-list {
   margin: 0;
+  padding: 0;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -59,7 +60,7 @@ body {
 
 .rules {
   width: 100%;
-  max-width: 86em;
+  max-width: 84em;
   height: 80vh;
   color: lightgray;
   text-align: left;
@@ -97,7 +98,7 @@ body {
   bottom: 5em;
 }
 
-.controll-container {
+.controll-container1 {
   position: absolute;
   left: 0;
   bottom: 30%;
