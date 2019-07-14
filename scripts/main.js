@@ -226,7 +226,7 @@ window.onload = () => {
       this.coinCounter = 0;
       this.bulletNumber = 0;
       this.bulletActive = false;
-      this.health = 100;
+      this.die = false;
     }
 
     draw() {
@@ -249,7 +249,7 @@ window.onload = () => {
         let isColl = collision(this, enemies[i]);
         collision(this, enemies[i]);
         if (isColl === true) {
-          endGame();
+          this.die = true;
         }
       }
     }
@@ -294,8 +294,7 @@ window.onload = () => {
       this.coinCollision();
       this.enemyCollision();
 
-      if (this.health === 0) {
-        audio.pause();
+      if (this.die === true) {
         endGame();
       }
     }
@@ -575,11 +574,7 @@ window.onload = () => {
   let endGame = () => {
     clearTimeout(time);
     audio.pause();
-    let hideCanvas = document.getElementById('canvas');
-    hideCanvas.style.display = 'none';
-    coins = null;
-    enemies = null;
-    bullets = null;
+    $('#canvas').removeAttr('style').hide();
     return true;
   };
 
@@ -589,6 +584,7 @@ window.onload = () => {
    * @return {boolean} Результат перерисовки
    */
   function drawCanvas() {
+    ctx.imageSmoothingEnabled = true;
     drawMap();
     player.draw();
     bullets.forEach(bullet => {

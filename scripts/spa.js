@@ -48,7 +48,7 @@ let renderNewState = () => {
                         class=" buttons-canvas buttons-canvas-game"
                         value="START THE GAME"
                         onclick="gameStart()">
-                 <div id="score">Score:</div>
+                 <div id="score">Score:0</div>
                  <div id="timer">Time:</div>
                   <table class="controll-container1">
                    <tr>
@@ -104,6 +104,11 @@ let renderNewState = () => {
                         class="buttons"
                         value="BACK TO MENU"
                         onclick="switchToStart()">
+                 <input type='button'
+                        id='hideRules'
+                        class="buttons"
+                        value="SCALE THE RULES"
+                        onclick="scaleRules()">
                  <div class="rules">Перед Вами игра Bugs Killer. Цель игры - собрать все монеты, не попадя в лапы коварных врагов. Они те еще упыри! Но и Вы, уверен, не промах! Дерзайте!!! Управляйте игроком с помощью клавиш ВВЕРХ &#8593;, ВНИЗ &#8595;, ВПРАВО &#8594; и ВЛЕВО &#8592;. Выстрел производится с помощью клавиши пробел.Избегайте прикосновений врагов. Победите всех недругов и будет Вам счастье!)
                  </div>
                </div>`;
@@ -129,7 +134,7 @@ let renderNewState = () => {
       page += `</table></div>`;
       break;
   }
-  document.getElementById('page').innerHTML = page;
+  $('#page').html(page);
 };
 
 window.onhashchange = renderNewState;
@@ -191,6 +196,13 @@ let switchToRecords = () => {
 
 let gameStart = () => {
   document.location.reload(true);
+};
+
+let scaleRules = () => {
+  $('.rules').animate({
+    opacity: '1',
+    fontSize: '1.5em',
+  }, 'slow');
 };
 
 renderNewState();
