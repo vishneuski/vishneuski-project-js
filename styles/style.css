@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', Helvetica sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  max-width: 84em;
+  height: 100vh;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0;
+  background: lightgray no-repeat center bottom/cover url('./../images/background.jpg');
+}
+
+.game-name {
+  height: 5em;
+  width: 100%;
+  line-height: 5em;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 3em;
+  color: darkgray;
+}
+
+.menu-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  box-sizing: border-box;
+}
+
+.menu-item {
+  padding-left: 1em;
+  margin: 0;
+}
+
+.buttons {
+  position: relative;
+  left: 1em;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.25em;
+  color: black;
+  background-color: lightcyan;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.rules {
+  width: 80%;
+  max-width: 84em;
+  height: 80vh;
+  margin: 0 auto;
+  padding-top: 5em;
+  box-sizing: border-box;
+  color: lightgray;
+  text-align: left;
+  line-height: 2em;
+  opacity: 0.5;
+}
+
+.about, .about-second {
+  width: 80%;
+  max-width: 84em;
+  height: 40vh;
+  margin: 0 auto;
+  padding-top: 5em;
+  display: none;
+  box-sizing: border-box;
+  color: lightgray;
+  text-align: left;
+  line-height: 2em;
+}
+
+.about-second {
+  padding: 0;
+  color: orangered;
+  font-size: 3em;
+  text-align: center;
+}
+
+#about {
+  position: absolute;
+  top: calc(50% - 2em);
+  left: calc(50% - 2em);
+}
+
+#hideRules {
+  position: absolute;
+  bottom: 2em;
+  left: 1em;
+}
+
+.container-canvas {
+  display: flex;
+}
+
+#canvas {
+  width: 55vw;
+  height: 90vh;
+  padding: 0;
+  margin: auto auto;
+  background: no-repeat center/cover url('../images/canvas-background.jpg');
+}
+
+#gameOver {
+  position: absolute;
+  display: none;
+  width: 20em;
+  height: 20em;
+  top: calc(50% - 10em);
+  left: calc(50% - 10em);
+
+}
+
+.buttons-canvas {
+  position: absolute;
+  left: 0.5em;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.25em;
+  color: black;
+  background-color: lightcyan;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.buttons-canvas-menu {
+  top: 1em;
+}
+
+.buttons-canvas-game {
+  top: 4em;
+}
+
+.buttons-canvas-hide {
+  bottom: 1em;
+  z-index: 1;
+}
+
+.buttons-canvas-show {
+  bottom: 1em;
+}
+
+.controll-container-first {
+  position: absolute;
+  left: 0;
+  bottom: 30%;
+}
+
+.controll-container-second {
+  position: absolute;
+  right: 0;
+  bottom: 30%;
+}
+
+.touch-button {
+  width: 2.5em;
+  height: 2.5em;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 25%;
+  font-size: 2.5em;
+  text-align: center;
+  color: black;
+  background: #fff;
+  line-height: 2.5em;
+  opacity: 0.5;
+}
+
+#score {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 10em);
+  width: 5em;
+  height: 1.5em;
+  background: lightcyan;
+  opacity: 0.8;
+}
+
+#timer {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 1em);
+  height: 1.5em;
+  width: 5em;
+  background: lightcyan;
+  opacity: 0.75;
+}
+
+.table-records {
+  width: 60%;
+  margin: 0 auto;
+  border: 1px solid lightblue;
+  font-size: 1.5em;
+}
+
+.table-cell {
+  color: white;
+  text-align: center;
+}
+
+th {
+  border-bottom: 1px solid lightblue;
+}

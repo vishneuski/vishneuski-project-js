@@ -1,0 +1,17 @@
+{
+  "short_name" : "Game",
+  "name" : "Cool game!!!",
+  "description" : "JavaScript Game",
+  "background_color" : "#FFFFFF",
+  "theme_color" : "#292929",
+  "start_url" : "/index.html",
+  "display" : "fullscreen",
+  "orientation" : "landscape",
+  "icons" : [
+    {
+      "src": "images/manifest-icons/manifest24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    }
+  ]
+}
