@@ -49,6 +49,7 @@ let renderNewState = () => {
     case 'game':
       page += `<audio src='audio/gamesound.mp3'></audio>
                <div class="container container-canvas">
+               <img src='./images/game-over.jpg' alt="game over" id="gameOver">
                  <input type="button"
                         class="buttons-canvas buttons-canvas-menu"
                         value="BACK TO MENU"

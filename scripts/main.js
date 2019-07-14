@@ -579,7 +579,8 @@ window.onload = () => {
   let endGame = () => {
     clearTimeout(time);
     audio.pause();
-    $('#canvas').removeAttr('style').hide();
+    $('#canvas').hide();
+    $('#gameOver').show();
     return true;
   };
 

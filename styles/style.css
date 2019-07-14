@@ -115,6 +115,16 @@ body {
   background: no-repeat center/cover url('../images/canvas-background.jpg');
 }
 
+#gameOver {
+  position: absolute;
+  display: none;
+  width: 20em;
+  height: 20em;
+  top: calc(50% - 10em);
+  left: calc(50% - 10em);
+
+}
+
 .buttons-canvas {
   position: absolute;
   left: 0.5em;
