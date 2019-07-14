@@ -300,6 +300,7 @@ window.onload = () => {
 
       if (this.die === true) {
         window.navigator.vibrate(1000);
+        $('#gameOver').show();
         endGame();
       }
     }
@@ -580,7 +581,7 @@ window.onload = () => {
     clearTimeout(time);
     audio.pause();
     $('#canvas').hide();
-    $('#gameOver').show();
+    enemies = null;
     return true;
   };
 
