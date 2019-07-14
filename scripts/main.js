@@ -238,6 +238,7 @@ window.onload = () => {
         collision(this, coins[i]);
         let isColl = collision(this, coins[i]);
         if (isColl === true) {
+          window.navigator.vibrate(1000);
           this.coinCounter += 1;
           document.querySelector('#score').innerHTML = 'Score: ' + this.coinCounter;
         }
@@ -559,7 +560,7 @@ window.onload = () => {
   let saveResult = () => {
     clearTimeout(time);
     let askName = prompt('Введите ваше имя: ', 'player');
-    document.querySelector('#timer').innerHTML = time;
+    $('#timer').html(time);
     player.playerInfo.name = askName || 'player';
     player.playerInfo.time = time;
     sendResult();

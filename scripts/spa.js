@@ -13,7 +13,7 @@ let renderNewState = () => {
   switch (state.page) {
     case 'main':
       page += `<div class='container'>
-                 <div class='gameName'>Bugs killer</div>
+                 <div class='game-name'>Bugs killer</div>
                  <ul class='menu-list'>
                    <li class='menu-item'>
                      <input type='button'
@@ -48,13 +48,21 @@ let renderNewState = () => {
                         class=" buttons-canvas buttons-canvas-game"
                         value="START THE GAME"
                         onclick="gameStart()">
+                 <input type="button"
+                        class=" buttons-canvas buttons-canvas-hide"
+                        value="HIDE BUTTONS"
+                        onclick="hideTouchButtons()">
+                 <input type="button"
+                        class=" buttons-canvas buttons-canvas-show"
+                        value="SHOW BUTTONS"
+                        onclick="showTouchButtons()">
                  <div id="score">Score:0</div>
-                 <div id="timer">Time:</div>
-                  <table class="controll-container1">
+                 <div id="timer">Time:0</div>
+                  <table class="controll-container-first">
                    <tr>
                      <td>
                        <input id='up'
-                              class='touchButton'
+                              class='touch-button'
                               type=button
                               value='&uarr;'>
                      </td>
@@ -62,17 +70,17 @@ let renderNewState = () => {
                    <tr>
                      <td>
                        <input id='down'
-                              class='touchButton'
+                              class='touch-button'
                               type=button
                               value='&darr;'>
                      </td>
                    </tr>
                  </table>
-                 <table class="controll-container2">
+                 <table class="controll-container-second">
                    <tr>
                      <td>
                        <input id='shot'
-                              class='touchButton'
+                              class='touch-button'
                               type=button
                               value='&bull;'>
                      </td>
@@ -80,7 +88,7 @@ let renderNewState = () => {
                    <tr>
                      <td>
                        <input id='left'
-                              class='touchButton'
+                              class='touch-button'
                               type=button
                               value='&larr;'>
                      </td>
@@ -88,7 +96,7 @@ let renderNewState = () => {
                    <tr>
                      <td>
                        <input id='right'
-                              class='touchButton'
+                              class='touch-button'
                               type=button
                               value='&rarr;'>
                      </td>
@@ -120,7 +128,7 @@ let renderNewState = () => {
                         class="buttons"
                         value="BACK TO MENU"
                         onclick="switchToStart()">
-                 <table class="tableRecords">
+                 <table class="table-records">
                    <tr class="table-cell">
                      <th class="table-cell">Игрок</th>
                      <th class="table-cell">Время</th>
@@ -201,8 +209,18 @@ let gameStart = () => {
 let scaleRules = () => {
   $('.rules').animate({
     opacity: '1',
-    fontSize: '1.5em',
+    fontSize: '1.5em'
   }, 'slow');
+};
+
+let hideTouchButtons = () => {
+  $('.touch-button').fadeOut(3000);
+  $('.buttons-canvas-hide').fadeOut(0);
+};
+
+let showTouchButtons = () => {
+  $('.touch-button').fadeIn(3000);
+  $('.buttons-canvas-hide').fadeIn(0);
 };
 
 renderNewState();
