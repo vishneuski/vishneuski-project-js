@@ -196,6 +196,12 @@ let readReady = (resultData) => {
   }
 };
 
+/**
+ * Функция вызываемая при получении ошибок при выполнении AJAX запроса
+ * @param jqXHR
+ * @param StatusStr {string}
+ * @param ErrorStr {string}
+ */
 let errorHandler = (jqXHR, StatusStr, ErrorStr) => {
   console.error(StatusStr + ' ' + ErrorStr);
 };
@@ -216,6 +222,9 @@ function switchToState(state) {
   location.hash = encodeURIComponent(JSON.stringify(state));
 }
 
+/**
+ * Функции переключения на различные состояния объекта state
+ */
 let switchToStart = () => {
   switchToState({page: 'main'});
 };
@@ -236,17 +245,25 @@ let switchToAbout = () => {
   switchToState({page: 'about'});
 };
 
+/**
+ * Функция перезагрузки браузера для отображения canvas
+ */
 let gameStart = () => {
   document.location.reload(true);
 };
 
+/**
+ * jQuery-анимация страницы правила
+ */
 let scaleRules = () => {
   $('.rules').animate({
     opacity: '1',
     fontSize: '1.5em'
   }, 'slow');
 };
-
+/**
+ * Функции для скрытия и показа кнопок для touch event(игры на смартфонах)
+ */
 let hideTouchButtons = () => {
   $('.touch-button').fadeOut(3000);
   $('.buttons-canvas-hide').fadeOut(0);
@@ -257,6 +274,9 @@ let showTouchButtons = () => {
   $('.buttons-canvas-hide').fadeIn(0);
 };
 
+/**
+ * использование jQuery на странице 'О проекте'
+ */
 let showAbout = () => {
   $('#about').fadeOut(1000);
   $('.about').slideDown(2000);

@@ -8,15 +8,14 @@ body {
 }
 
 .container {
+  position: relative;
   width: 100vw;
   max-width: 84em;
-  background: lightgray;
-  margin: 0 auto;
   height: 100vh;
-  padding: 0;
+  margin: 0 auto;
   box-sizing: border-box;
-  background: no-repeat center bottom/cover url('./../images/background.jpg');
-  position: relative;
+  padding: 0;
+  background: lightgray no-repeat center bottom/cover url('./../images/background.jpg');
 }
 
 .game-name {
@@ -61,28 +60,28 @@ body {
 
 .rules {
   width: 80%;
-  margin: 0 auto;
   max-width: 84em;
   height: 80vh;
+  margin: 0 auto;
+  padding-top: 5em;
+  box-sizing: border-box;
   color: lightgray;
   text-align: left;
-  box-sizing: border-box;
-  padding-top: 5em;
   line-height: 2em;
   opacity: 0.5;
 }
 
 .about, .about-second {
   width: 80%;
-  margin: 0 auto;
   max-width: 84em;
   height: 40vh;
+  margin: 0 auto;
+  padding-top: 5em;
+  display: none;
+  box-sizing: border-box;
   color: lightgray;
   text-align: left;
-  box-sizing: border-box;
-  padding-top: 5em;
   line-height: 2em;
-  display: none;
 }
 
 .about-second {
@@ -109,20 +108,20 @@ body {
 }
 
 #canvas {
-  padding: 0;
-  margin: auto auto;
   width: 55vw;
   height: 90vh;
+  padding: 0;
+  margin: auto auto;
   background: no-repeat center/cover url('../images/canvas-background.jpg');
 }
 
 .buttons-canvas {
-  left: 0.5em;
   position: absolute;
+  left: 0.5em;
   box-sizing: border-box;
   padding: 0.5em 1em;
   border: none;
-  border-radius: 0.25em ;
+  border-radius: 0.25em;
   color: black;
   background-color: lightcyan;
   text-align: center;
@@ -134,7 +133,6 @@ body {
 
 .buttons-canvas-menu {
   top: 1em;
-
 }
 
 .buttons-canvas-game {
@@ -163,40 +161,38 @@ body {
 }
 
 .touch-button {
-  box-sizing: border-box;
-  padding: 0;
   width: 2.5em;
   height: 2.5em;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 25%;
   font-size: 2.5em;
   text-align: center;
   color: black;
-  line-height: 2.5em;
-  border-radius: 25%;
   background: #fff;
+  line-height: 2.5em;
   opacity: 0.5;
 }
 
 #score {
-  width: 5em;
-  height: 1.5em;
   position: absolute;
   top: 0;
   left: calc(50% - 10em);
+  width: 5em;
+  height: 1.5em;
   background: lightcyan;
   opacity: 0.8;
 }
 
 #timer {
-  width: 5em;
-  height: 1.5em;
   position: absolute;
   top: 0;
   left: calc(50% + 1em);
+  height: 1.5em;
+  width: 5em;
   background: lightcyan;
   opacity: 0.75;
 }
-
-
 
 .table-records {
   width: 60%;

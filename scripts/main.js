@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * Ждем загрузки всех ресурсов
+ */
 window.onload = () => {
   /**
    * Размер канвас - ширина
@@ -882,6 +885,12 @@ window.onload = () => {
     }
   };
 
+  /**
+   * Функция вызываемая при получении ошибок при выполнении AJAX запроса
+   * @param jqXHR
+   * @param StatusStr {string}
+   * @param ErrorStr {string}
+   */
   let errorHandler = (jqXHR, StatusStr, ErrorStr) => {
     console.log(StatusStr + ' ' + ErrorStr);
   };
