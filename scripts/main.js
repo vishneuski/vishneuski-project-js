@@ -238,7 +238,7 @@ window.onload = () => {
         collision(this, coins[i]);
         let isColl = collision(this, coins[i]);
         if (isColl === true) {
-          window.navigator.vibrate(1000);
+          window.navigator.vibrate(300);
           this.coinCounter += 1;
           document.querySelector('#score').innerHTML = 'Score: ' + this.coinCounter;
         }
@@ -296,6 +296,7 @@ window.onload = () => {
       this.enemyCollision();
 
       if (this.die === true) {
+        window.navigator.vibrate(1000);
         endGame();
       }
     }
@@ -722,7 +723,6 @@ window.onload = () => {
 
   window.addEventListener('keydown', keyDown, false);
   window.addEventListener('keyup', keyUp, false);
-
 
   /**
    * Кроссбраузерность для ReqestAnimationFrame

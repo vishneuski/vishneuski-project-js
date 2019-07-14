@@ -1,3 +1,6 @@
+/**
+ * Реализация SPA в игре
+ */
 let renderNewState = () => {
   let hash = window.location.hash;
   let state = decodeURIComponent(hash.substr(1));
@@ -32,6 +35,12 @@ let renderNewState = () => {
                        class='buttons'
                        value='records'
                        onclick='switchToRecords()'>
+                    </li>
+                    <li class='menu-item'>
+                      <input type='button'
+                             class='buttons'
+                             value='about'
+                             onclick='switchToAbout()'>
                     </li>
                  </ul>
                </div>`;
@@ -141,6 +150,24 @@ let renderNewState = () => {
       }
       page += `</table></div>`;
       break;
+
+    case 'about':
+      page += `<div class="container">
+                 <input type="button"
+                        class="buttons"
+                        value="BACK TO MENU"
+                        onclick="switchToStart()">
+                 <input type='button'
+                        id='about'
+                        class="buttons"
+                        value="SHOW ABOUT"
+                        onclick="showAbout()">
+                 <div class="about">Данная игра - выпускной проект курса 'Разработка веб-приложений на JavaScript by Instinctools'. В проекте автор постарался показать изученные в процессе обучения на курсе технологии. AJAX, SPA, jQuery и конечно же, всю мощь великого и могучего  ECMAScript - а именно, ES-5 и ES-6 его версий.  
+                 </div>
+                 <div class="about-second">ENJOY!!!  
+                 </div>
+               </div>`;
+      break;
   }
   $('#page').html(page);
 };
@@ -151,7 +178,10 @@ let resultArray = [];
 let AjaxHandlerScript = 'https://fe.it-academy.by/AjaxStringStorage2.php';
 let storageAddress = 'TEST_GAME_DB';
 
-
+/**
+ * Функции для обновления результатов игры
+ * @param {JSON} resultData JSON с рекордами
+ */
 let readReady = (resultData) => {
   if (resultData.error !== undefined) {
     console.error(resultData.error);
@@ -202,6 +232,10 @@ let switchToRecords = () => {
   switchToState({page: 'records'});
 };
 
+let switchToAbout = () => {
+  switchToState({page: 'about'});
+};
+
 let gameStart = () => {
   document.location.reload(true);
 };
@@ -221,6 +255,12 @@ let hideTouchButtons = () => {
 let showTouchButtons = () => {
   $('.touch-button').fadeIn(3000);
   $('.buttons-canvas-hide').fadeIn(0);
+};
+
+let showAbout = () => {
+  $('#about').fadeOut(1000);
+  $('.about').slideDown(2000);
+  $('.about-second').slideDown(4000);
 };
 
 renderNewState();
